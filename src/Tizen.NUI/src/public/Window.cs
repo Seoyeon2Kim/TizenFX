@@ -57,97 +57,6 @@ namespace Tizen.NUI
             return (obj == null) ? new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero) : obj.swigCPtr;
         }
 
-        /// <summary>
-        /// To make the window instance be disposed.
-        /// </summary>
-        /// Please DO NOT use! This will be deprecated!
-        /// Dispose() method in Singletone classes (ex: FocusManager, StyleManager, VisualFactory, IMFManager, TtsPlayer, Window) is not required.
-        /// Because it is Sigletone, so it is alive for one thread until the NUI is terminated, so it never be disposed.
-        /// <since_tizen> 3 </since_tizen>
-        [Obsolete("Please do not use! This will be deprecated!")]
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected override void Dispose(DisposeTypes type)
-        {
-            if (disposed)
-            {
-                return;
-            }
-
-            if (type == DisposeTypes.Explicit)
-            {
-                //Called by User
-                //Release your own managed resources here.
-                //You should release all of your own disposable objects here.
-            }
-
-            //Release your own unmanaged resources here.
-            //You should not access any managed member here except static instance.
-            //because the execution order of Finalizes is non-deterministic.
-
-            if (_windowFocusChangedEventCallback != null)
-            {
-                WindowFocusChangedSignal().Disconnect(_windowFocusChangedEventCallback);
-            }
-
-            if (_stageTouchCallbackDelegate != null)
-            {
-                TouchSignal().Disconnect(_stageTouchCallbackDelegate);
-            }
-
-            if (_stageWheelCallbackDelegate != null)
-            {
-                WheelEventSignal().Disconnect(_stageWheelCallbackDelegate);
-            }
-
-            if (_stageKeyCallbackDelegate != null)
-            {
-                KeyEventSignal().Disconnect(_stageKeyCallbackDelegate);
-            }
-
-            if (_stageEventProcessingFinishedEventCallbackDelegate != null)
-            {
-                EventProcessingFinishedSignal().Disconnect(_stageEventProcessingFinishedEventCallbackDelegate);
-            }
-
-            if (_stageContextLostEventCallbackDelegate != null)
-            {
-                ContextLostSignal().Disconnect(_stageContextLostEventCallbackDelegate);
-            }
-
-            if (_stageContextRegainedEventCallbackDelegate != null)
-            {
-                this.ContextRegainedSignal().Disconnect(_stageContextRegainedEventCallbackDelegate);
-            }
-
-            if (_stageSceneCreatedEventCallbackDelegate != null)
-            {
-                SceneCreatedSignal().Disconnect(_stageSceneCreatedEventCallbackDelegate);
-            }
-
-            if (_windowResizedEventCallback != null)
-            {
-                ResizedSignal().Disconnect(_windowResizedEventCallback);
-            }
-
-            if (_windowFocusChangedEventCallback2 != null)
-            {
-                WindowFocusChangedSignal().Disconnect(_windowFocusChangedEventCallback2);
-            }
-
-            if (swigCPtr.Handle != global::System.IntPtr.Zero)
-            {
-                if (swigCMemOwn)
-                {
-                    swigCMemOwn = false;
-                    NDalicPINVOKE.delete_Window(swigCPtr);
-                    NDalicPINVOKE.delete_Stage(stageCPtr);
-                }
-                swigCPtr = new global::System.Runtime.InteropServices.HandleRef(null, global::System.IntPtr.Zero);
-            }
-
-            base.Dispose(type);
-        }
-
         internal static Window GetCurrent()
         {
             Window ret = new Window(NDalicPINVOKE.Stage_GetCurrent(), true);
@@ -366,9 +275,14 @@ namespace Tizen.NUI
         }
 
         /// <summary>
-        /// Sets a transparent window's visual state to opaque.
+        /// Sets a transparent window's visual state to opaque. <br />
+        /// If a visual state of a transparent window is opaque, <br />
+        /// then the window manager could handle it as an opaque window when calculating visibility.
         /// </summary>
         /// <param name="opaque">Whether the window's visual state is opaque.</param>
+        /// <remarks>This will have no effect on an opaque window. <br />
+        /// It doesn't change transparent window to opaque window but lets the window manager know the visual state of the window.
+        /// </remarks>
         /// <since_tizen> 3 </since_tizen>
         public void SetOpaqueState(bool opaque)
         {
@@ -380,6 +294,7 @@ namespace Tizen.NUI
         /// Returns whether a transparent window's visual state is opaque or not.
         /// </summary>
         /// <returns>True if the window's visual state is opaque, false otherwise.</returns>
+        /// <remarks> The return value has no meaning on an opaque window. </remarks>
         /// <since_tizen> 3 </since_tizen>
         public bool IsOpaqueState()
         {
@@ -820,6 +735,16 @@ namespace Tizen.NUI
             return ret;
         }
 
+
+        private WheelSignal StageWheelEventSignal()
+        {
+            WheelSignal ret = new WheelSignal(NDalicPINVOKE.Actor_WheelEventSignal(Layer.getCPtr(this.GetRootLayer())), false);
+            if (NDalicPINVOKE.SWIGPendingException.Pending)
+                throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+            return ret;
+        }
+
+
         internal VoidSignal ContextLostSignal()
         {
             VoidSignal ret = new VoidSignal(NDalicPINVOKE.Stage_ContextLostSignal(stageCPtr), false);
@@ -1125,7 +1050,10 @@ namespace Tizen.NUI
         }
 
         private event EventHandler<WheelEventArgs> _stageWheelHandler;
-        private EventCallbackDelegateType1 _stageWheelCallbackDelegate;
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        private delegate bool WheelEventCallbackType(IntPtr view, IntPtr wheelEvent);
+        private WheelEventCallbackType _wheelEventCallback;
 
         /// <summary>
         /// This event is emitted when the wheel event is received.
@@ -1137,34 +1065,38 @@ namespace Tizen.NUI
             {
                 if (_stageWheelHandler == null)
                 {
-                    _stageWheelCallbackDelegate = OnStageWheel;
-                    WheelEventSignal().Connect(_stageWheelCallbackDelegate);
+                    _wheelEventCallback = OnStageWheel;
+                    this.StageWheelEventSignal().Connect(_wheelEventCallback);
                 }
                 _stageWheelHandler += value;
             }
             remove
             {
                 _stageWheelHandler -= value;
-                if (_stageWheelHandler == null && WheelEventSignal().Empty() == false)
+                if (_stageWheelHandler == null && StageWheelEventSignal().Empty() == false)
                 {
-                    WheelEventSignal().Disconnect(_stageWheelCallbackDelegate);
+                    this.StageWheelEventSignal().Disconnect(_wheelEventCallback);
                 }
             }
         }
 
-        private void OnStageWheel(IntPtr data)
+        private bool OnStageWheel(IntPtr rootLayer, IntPtr wheelEvent)
         {
+            if (wheelEvent == global::System.IntPtr.Zero)
+        {
+                NUILog.Error("wheelEvent should not be null!");
+                return true;
+            }
+
             WheelEventArgs e = new WheelEventArgs();
 
-            if (data != null)
-            {
-                e.Wheel = Tizen.NUI.Wheel.GetWheelFromPtr(data);
-            }
+            e.Wheel = Tizen.NUI.Wheel.GetWheelFromPtr(wheelEvent);
 
             if (_stageWheelHandler != null)
             {
                 _stageWheelHandler(this, e);
             }
+            return true;
         }
 
         /// <summary>
@@ -1693,7 +1625,7 @@ namespace Tizen.NUI
         /// <param name="keyEvent">The key event to feed.</param>
         /// <since_tizen> 4 </since_tizen>
         [Obsolete("Please do not use! This will be deprecated! Please use FeedKey(Key keyEvent) instead!")]
-        public void FeedKeyEvent(Key keyEvent)
+        public static void FeedKeyEvent(Key keyEvent)
         {
             NDalicManualPINVOKE.Window_FeedKeyEvent(Key.getCPtr(keyEvent));
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();

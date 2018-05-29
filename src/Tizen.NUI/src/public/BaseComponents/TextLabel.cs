@@ -44,6 +44,27 @@ namespace Tizen.NUI.BaseComponents
         }
 
         /// <summary>
+        /// Downcasts a handle to textLabel handle
+        /// </summary>
+        /// <param name="handle"></param>
+        /// <returns></returns>
+        /// <since_tizen> 3 </since_tizen>
+        /// Please do not use! this will be deprecated!
+        /// Instead please use as keyword.
+        [Obsolete("Please do not use! This will be deprecated! Please use as keyword instead! " +
+            "Like: " +
+            "BaseHandle handle = new TextLabel(\"Hello World!\"); " +
+            "TextLabel label = handle as TextLabel")]
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static TextLabel DownCast(BaseHandle handle)
+        {
+            TextLabel ret = Registry.GetManagedBaseHandleFromNativePtr(handle) as TextLabel;
+
+            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+            return ret;
+        }
+
+        /// <summary>
         /// Dispose.
         /// </summary>
         /// <since_tizen> 3 </since_tizen>
@@ -111,6 +132,7 @@ namespace Tizen.NUI.BaseComponents
             internal static readonly int LINE_COUNT = NDalicManualPINVOKE.TextLabel_Property_LINE_COUNT_get();
             internal static readonly int LINE_WRAP_MODE = NDalicManualPINVOKE.TextLabel_Property_LINE_WRAP_MODE_get();
             internal static readonly int TEXT_DIRECTION = NDalicManualPINVOKE.TextLabel_Property_TEXT_DIRECTION_get();
+            internal static readonly int VERTICAL_LINE_ALIGNMENT = NDalicManualPINVOKE.TextLabel_Property_VERTICAL_LINE_ALIGNMENT_get();
         }
 
         /// <summary>
@@ -822,7 +844,6 @@ namespace Tizen.NUI.BaseComponents
         /// The text direction.
         /// </summary>
         /// <since_tizen> 5 </since_tizen>
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public TextDirection TextDirection
         {
             get
@@ -832,5 +853,24 @@ namespace Tizen.NUI.BaseComponents
                 return (TextDirection)temp;
             }
         }
+
+        /// <summary>
+        /// The text vertical line alignment.
+        /// </summary>
+        /// <since_tizen> 5 </since_tizen>
+        public VerticalLineAlignment VerticalLineAlignment
+        {
+            get
+            {
+                int temp = 0;
+                GetProperty(TextLabel.Property.VERTICAL_LINE_ALIGNMENT).Get(out temp);
+                return (VerticalLineAlignment)temp;
+            }
+            set
+            {
+                SetProperty(TextLabel.Property.VERTICAL_LINE_ALIGNMENT, new Tizen.NUI.PropertyValue((int)value));
+            }
+        }
+
     }
 }

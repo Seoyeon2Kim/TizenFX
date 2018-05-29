@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2017 Samsung Electronics Co., Ltd.
+ * Copyright(c) 2018 Samsung Electronics Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,7 +68,7 @@ namespace Tizen.NUI.BaseComponents
             //You should not access any managed member here except static instance.
             //because the execution order of Finalizes is non-deterministic.
 
-            if (_textEditorTextChangedCallbackDelegate != null)
+            if (this != null && _textEditorTextChangedCallbackDelegate != null)
             {
                 TextChangedSignal().Disconnect(_textEditorTextChangedCallbackDelegate);
             }
@@ -297,11 +297,12 @@ namespace Tizen.NUI.BaseComponents
             internal static readonly int SCROLL_BAR_FADE_DURATION = NDalicManualPINVOKE.TextEditor_Property_SCROLL_BAR_FADE_DURATION_get();
             internal static readonly int PIXEL_SIZE = NDalicManualPINVOKE.TextEditor_Property_PIXEL_SIZE_get();
             internal static readonly int LINE_COUNT = NDalicManualPINVOKE.TextEditor_Property_LINE_COUNT_get();
-            internal static readonly int PLACEHOLDER_TEXT = NDalicManualPINVOKE.TextEditor_Property_PLACEHOLDER_TEXT_get();
-            internal static readonly int PLACEHOLDER_TEXT_COLOR = NDalicManualPINVOKE.TextEditor_Property_PLACEHOLDER_TEXT_COLOR_get();
             internal static readonly int ENABLE_SELECTION = NDalicManualPINVOKE.TextEditor_Property_ENABLE_SELECTION_get();
             internal static readonly int PLACEHOLDER = NDalicManualPINVOKE.TextEditor_Property_PLACEHOLDER_get();
             internal static readonly int LINE_WRAP_MODE = NDalicManualPINVOKE.TextEditor_Property_LINE_WRAP_MODE_get();
+            internal static readonly int PLACEHOLDER_TEXT = NDalicManualPINVOKE.TextEditor_Property_PLACEHOLDER_TEXT_get();
+            internal static readonly int PLACEHOLDER_TEXT_COLOR = NDalicManualPINVOKE.TextEditor_Property_PLACEHOLDER_TEXT_COLOR_get();
+            internal static readonly int ENABLE_SHIFT_SELECTION = NDalicManualPINVOKE.TextEditor_Property_ENABLE_SHIFT_SELECTION_get();
         }
 
         internal class InputStyle
@@ -333,6 +334,16 @@ namespace Tizen.NUI.BaseComponents
         internal TextEditor(TextEditor handle) : this(NDalicPINVOKE.new_TextEditor__SWIG_1(TextEditor.getCPtr(handle)), true)
         {
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+        }
+
+        /// <summary>
+        /// Get the InputMethodContext instance.
+        /// </summary>
+        /// <returns>The InputMethodContext instance.</returns>
+        public InputMethodContext GetInputMethodContext() {
+            InputMethodContext ret = new InputMethodContext(NDalicPINVOKE.TextEditor_GetInputMethodContext(swigCPtr), true);
+            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+            return ret;
         }
 
         internal TextEditorSignal TextChangedSignal()
@@ -1411,6 +1422,25 @@ namespace Tizen.NUI.BaseComponents
             }
         }
 
-    }
+        /// <summary>
+        /// Enables Text selection using Shift key.
+        /// </summary>
+        /// <since_tizen> 5 </since_tizen>
+        public bool EnableShiftSelection
+        {
+            get
+            {
+                // mShiftSelectionFlag( true )
+                bool temp = true;
+                GetProperty(TextEditor.Property.ENABLE_SHIFT_SELECTION).Get(out temp);
+                return temp;
+            }
+            set
+            {
+                SetProperty(TextEditor.Property.ENABLE_SHIFT_SELECTION, new Tizen.NUI.PropertyValue(value));
+            }
+        }
 
+
+    }
 }

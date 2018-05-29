@@ -62,20 +62,22 @@ namespace Tizen.NUI.UIComponents
             //Release your own unmanaged resources here.
             //You should not access any managed member here except static instance.
             //because the execution order of Finalizes is non-deterministic.
-
-            if (_sliderValueChangedCallbackDelegate != null)
+            if (this != null)
             {
-                ValueChangedSignal().Disconnect(_sliderValueChangedCallbackDelegate);
-            }
+                if (_sliderValueChangedCallbackDelegate != null)
+                {
+                    ValueChangedSignal().Disconnect(_sliderValueChangedCallbackDelegate);
+                }
 
-            if (_sliderSlidingFinishedCallbackDelegate != null)
-            {
-                SlidingFinishedSignal().Disconnect(_sliderSlidingFinishedCallbackDelegate);
-            }
+                if (_sliderSlidingFinishedCallbackDelegate != null)
+                {
+                    SlidingFinishedSignal().Disconnect(_sliderSlidingFinishedCallbackDelegate);
+                }
 
-            if (_sliderMarkReachedCallbackDelegate != null)
-            {
-                MarkReachedSignal().Disconnect(_sliderMarkReachedCallbackDelegate);
+                if (_sliderMarkReachedCallbackDelegate != null)
+                {
+                    MarkReachedSignal().Disconnect(_sliderMarkReachedCallbackDelegate);
+                }
             }
 
             if (swigCPtr.Handle != global::System.IntPtr.Zero)
@@ -505,7 +507,7 @@ namespace Tizen.NUI.UIComponents
         /// <param name="handle">The handle to an object.</param>
         /// <returns>The handle to a slider or an uninitialized handle.</returns>
         /// <since_tizen> 3 </since_tizen>
-        public new static Slider DownCast(BaseHandle handle)
+        public static Slider DownCast(BaseHandle handle)
         {
             Slider ret =  Registry.GetManagedBaseHandleFromNativePtr(handle) as Slider;
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();

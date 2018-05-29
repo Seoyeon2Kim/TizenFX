@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Samsung Electronics Co., Ltd.
+ * Copyright (c) 2018 Samsung Electronics Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -305,177 +305,187 @@ namespace Tizen.NUI
         [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint = "CSharp_Dali_GetNativeWindowHandler")]
         public static extern System.IntPtr GetNativeWindowHandler(System.IntPtr Window);
 
-        //////////////////////ImfManager
+        //////////////////////InputMethodContext
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_SWIGUpcast")]
-        public static extern global::System.IntPtr ImfManager_SWIGUpcast(global::System.IntPtr jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_SWIGUpcast")]
+        public static extern global::System.IntPtr InputMethodContext_SWIGUpcast(global::System.IntPtr jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_ImfManager_ImfEventData__SWIG_0")]
-        public static extern global::System.IntPtr new_ImfManager_ImfEventData__SWIG_0();
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_InputMethodContext_EventData__SWIG_0")]
+        public static extern global::System.IntPtr new_InputMethodContext_EventData__SWIG_0();
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_ImfManager_ImfEventData__SWIG_1")]
-        public static extern global::System.IntPtr new_ImfManager_ImfEventData__SWIG_1(int jarg1, string jarg2, int jarg3, int jarg4);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_InputMethodContext_EventData__SWIG_1")]
+        public static extern global::System.IntPtr new_InputMethodContext_EventData__SWIG_1(int jarg1, string jarg2, int jarg3, int jarg4);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ImfEventData_predictiveString_set")]
-        public static extern void ImfManager_ImfEventData_predictiveString_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_EventData_predictiveString_set")]
+        public static extern void InputMethodContext_EventData_predictiveString_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ImfEventData_predictiveString_get")]
-        public static extern string ImfManager_ImfEventData_predictiveString_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_EventData_predictiveString_get")]
+        public static extern string InputMethodContext_EventData_predictiveString_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ImfEventData_eventName_set")]
-        public static extern void ImfManager_ImfEventData_eventName_set(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_EventData_eventName_set")]
+        public static extern void InputMethodContext_EventData_eventName_set(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ImfEventData_eventName_get")]
-        public static extern int ImfManager_ImfEventData_eventName_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_EventData_eventName_get")]
+        public static extern int InputMethodContext_EventData_eventName_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ImfEventData_cursorOffset_set")]
-        public static extern void ImfManager_ImfEventData_cursorOffset_set(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_EventData_cursorOffset_set")]
+        public static extern void InputMethodContext_EventData_cursorOffset_set(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ImfEventData_cursorOffset_get")]
-        public static extern int ImfManager_ImfEventData_cursorOffset_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_EventData_cursorOffset_get")]
+        public static extern int InputMethodContext_EventData_cursorOffset_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ImfEventData_numberOfChars_set")]
-        public static extern void ImfManager_ImfEventData_numberOfChars_set(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_EventData_numberOfChars_set")]
+        public static extern void InputMethodContext_EventData_numberOfChars_set(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ImfEventData_numberOfChars_get")]
-        public static extern int ImfManager_ImfEventData_numberOfChars_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_EventData_numberOfChars_get")]
+        public static extern int InputMethodContext_EventData_numberOfChars_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_ImfManager_ImfEventData")]
-        public static extern void delete_ImfManager_ImfEventData(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_InputMethodContext_EventData")]
+        public static extern void delete_InputMethodContext_EventData(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_ImfManager_ImfCallbackData__SWIG_0")]
-        public static extern global::System.IntPtr new_ImfManager_ImfCallbackData__SWIG_0();
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_InputMethodContext_CallbackData__SWIG_0")]
+        public static extern global::System.IntPtr new_InputMethodContext_CallbackData__SWIG_0();
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_ImfManager_ImfCallbackData__SWIG_1")]
-        public static extern global::System.IntPtr new_ImfManager_ImfCallbackData__SWIG_1(bool jarg1, int jarg2, string jarg3, bool jarg4);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_InputMethodContext_CallbackData__SWIG_1")]
+        public static extern global::System.IntPtr new_InputMethodContext_CallbackData__SWIG_1(bool jarg1, int jarg2, string jarg3, bool jarg4);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ImfCallbackData_currentText_set")]
-        public static extern void ImfManager_ImfCallbackData_currentText_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_CallbackData_currentText_set")]
+        public static extern void InputMethodContext_CallbackData_currentText_set(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ImfCallbackData_currentText_get")]
-        public static extern string ImfManager_ImfCallbackData_currentText_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_CallbackData_currentText_get")]
+        public static extern string InputMethodContext_CallbackData_currentText_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ImfCallbackData_cursorPosition_set")]
-        public static extern void ImfManager_ImfCallbackData_cursorPosition_set(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_CallbackData_cursorPosition_set")]
+        public static extern void InputMethodContext_CallbackData_cursorPosition_set(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ImfCallbackData_cursorPosition_get")]
-        public static extern int ImfManager_ImfCallbackData_cursorPosition_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_CallbackData_cursorPosition_get")]
+        public static extern int InputMethodContext_CallbackData_cursorPosition_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ImfCallbackData_update_set")]
-        public static extern void ImfManager_ImfCallbackData_update_set(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_CallbackData_update_set")]
+        public static extern void InputMethodContext_CallbackData_update_set(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ImfCallbackData_update_get")]
-        public static extern bool ImfManager_ImfCallbackData_update_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_CallbackData_update_get")]
+        public static extern bool InputMethodContext_CallbackData_update_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ImfCallbackData_preeditResetRequired_set")]
-        public static extern void ImfManager_ImfCallbackData_preeditResetRequired_set(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_CallbackData_preeditResetRequired_set")]
+        public static extern void InputMethodContext_CallbackData_preeditResetRequired_set(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ImfCallbackData_preeditResetRequired_get")]
-        public static extern bool ImfManager_ImfCallbackData_preeditResetRequired_get(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_CallbackData_preeditResetRequired_get")]
+        public static extern bool InputMethodContext_CallbackData_preeditResetRequired_get(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_ImfManager_ImfCallbackData")]
-        public static extern void delete_ImfManager_ImfCallbackData(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_InputMethodContext_CallbackData")]
+        public static extern void delete_InputMethodContext_CallbackData(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_Finalize")]
-        public static extern void ImfManager_Finalize(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_Finalize")]
+        public static extern void InputMethodContext_Finalize(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_Get")]
-        public static extern global::System.IntPtr ImfManager_Get();
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_InputMethodContext__SWIG_0")]
+        public static extern global::System.IntPtr new_InputMethodContext__SWIG_0();
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_Activate")]
-        public static extern void ImfManager_Activate(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_InputMethodContext")]
+        public static extern void delete_InputMethodContext(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_Deactivate")]
-        public static extern void ImfManager_Deactivate(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_New")]
+        public static extern global::System.IntPtr InputMethodContext_New();
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_RestoreAfterFocusLost")]
-        public static extern bool ImfManager_RestoreAfterFocusLost(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_InputMethodContext__SWIG_1")]
+        public static extern global::System.IntPtr new_InputMethodContext__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_SetRestoreAfterFocusLost")]
-        public static extern void ImfManager_SetRestoreAfterFocusLost(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_Assign")]
+        public static extern global::System.IntPtr InputMethodContext_Assign(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_Reset")]
-        public static extern void ImfManager_Reset(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_DownCast")]
+        public static extern global::System.IntPtr InputMethodContext_DownCast(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_NotifyCursorPosition")]
-        public static extern void ImfManager_NotifyCursorPosition(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_Activate")]
+        public static extern void InputMethodContext_Activate(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_SetCursorPosition")]
-        public static extern void ImfManager_SetCursorPosition(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_Deactivate")]
+        public static extern void InputMethodContext_Deactivate(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_GetCursorPosition")]
-        public static extern uint ImfManager_GetCursorPosition(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_RestoreAfterFocusLost")]
+        public static extern bool InputMethodContext_RestoreAfterFocusLost(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_SetSurroundingText")]
-        public static extern void ImfManager_SetSurroundingText(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_SetRestoreAfterFocusLost")]
+        public static extern void InputMethodContext_SetRestoreAfterFocusLost(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_GetSurroundingText")]
-        public static extern string ImfManager_GetSurroundingText(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_Reset")]
+        public static extern void InputMethodContext_Reset(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_NotifyTextInputMultiLine")]
-        public static extern void ImfManager_NotifyTextInputMultiLine(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_NotifyCursorPosition")]
+        public static extern void InputMethodContext_NotifyCursorPosition(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_GetTextDirection")]
-        public static extern int ImfManager_GetTextDirection(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_SetCursorPosition")]
+        public static extern void InputMethodContext_SetCursorPosition(global::System.Runtime.InteropServices.HandleRef jarg1, uint jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_GetInputMethodArea")]
-        public static extern global::System.IntPtr ImfManager_GetInputMethodArea(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_GetCursorPosition")]
+        public static extern uint InputMethodContext_GetCursorPosition(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ApplyOptions")]
-        public static extern void ImfManager_ApplyOptions(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_SetSurroundingText")]
+        public static extern void InputMethodContext_SetSurroundingText(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_SetInputPanelUserData")]
-        public static extern void ImfManager_SetInputPanelUserData(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_GetSurroundingText")]
+        public static extern string InputMethodContext_GetSurroundingText(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_GetInputPanelUserData")]
-        public static extern void ImfManager_GetInputPanelUserData(global::System.Runtime.InteropServices.HandleRef jarg1, out string jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_NotifyTextInputMultiLine")]
+        public static extern void InputMethodContext_NotifyTextInputMultiLine(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_GetInputPanelState")]
-        public static extern int ImfManager_GetInputPanelState(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_GetTextDirection")]
+        public static extern int InputMethodContext_GetTextDirection(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_SetReturnKeyState")]
-        public static extern void ImfManager_SetReturnKeyState(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_GetInputMethodArea")]
+        public static extern global::System.IntPtr InputMethodContext_GetInputMethodArea(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_AutoEnableInputPanel")]
-        public static extern void ImfManager_AutoEnableInputPanel(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_ApplyOptions")]
+        public static extern void InputMethodContext_ApplyOptions(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ShowInputPanel")]
-        public static extern void ImfManager_ShowInputPanel(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_SetInputPanelUserData")]
+        public static extern void InputMethodContext_SetInputPanelUserData(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_HideInputPanel")]
-        public static extern void ImfManager_HideInputPanel(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_GetInputPanelUserData")]
+        public static extern void InputMethodContext_GetInputPanelUserData(global::System.Runtime.InteropServices.HandleRef jarg1, out string jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_GetKeyboardType")]
-        public static extern int ImfManager_GetKeyboardType(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_GetInputPanelState")]
+        public static extern int InputMethodContext_GetInputPanelState(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_GetInputPanelLocale")]
-        public static extern string ImfManager_GetInputPanelLocale(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_SetReturnKeyState")]
+        public static extern void InputMethodContext_SetReturnKeyState(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ActivatedSignal")]
-        public static extern global::System.IntPtr ImfManager_ActivatedSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_AutoEnableInputPanel")]
+        public static extern void InputMethodContext_AutoEnableInputPanel(global::System.Runtime.InteropServices.HandleRef jarg1, bool jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_EventReceivedSignal")]
-        public static extern global::System.IntPtr ImfManager_EventReceivedSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_ShowInputPanel")]
+        public static extern void InputMethodContext_ShowInputPanel(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_StatusChangedSignal")]
-        public static extern global::System.IntPtr ImfManager_StatusChangedSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_HideInputPanel")]
+        public static extern void InputMethodContext_HideInputPanel(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_ResizedSignal")]
-        public static extern global::System.IntPtr ImfManager_ResizedSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_GetKeyboardType")]
+        public static extern int InputMethodContext_GetKeyboardType(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_LanguageChangedSignal")]
-        public static extern global::System.IntPtr ImfManager_LanguageChangedSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_GetInputPanelLocale")]
+        public static extern string InputMethodContext_GetInputPanelLocale(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfManager_KeyboardTypeChangedSignal")]
-        public static extern global::System.IntPtr ImfManager_KeyboardTypeChangedSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_ActivatedSignal")]
+        public static extern global::System.IntPtr InputMethodContext_ActivatedSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_ImfManager")]
-        public static extern global::System.IntPtr new_ImfManager();
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_EventReceivedSignal")]
+        public static extern global::System.IntPtr InputMethodContext_EventReceivedSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_ImfManager")]
-        public static extern void delete_ImfManager(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_StatusChangedSignal")]
+        public static extern global::System.IntPtr InputMethodContext_StatusChangedSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        ////////////////////// ImfManager signals
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_ResizedSignal")]
+        public static extern global::System.IntPtr InputMethodContext_ResizedSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_LanguageChangedSignal")]
+        public static extern global::System.IntPtr InputMethodContext_LanguageChangedSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_InputMethodContext_KeyboardTypeChangedSignal")]
+        public static extern global::System.IntPtr InputMethodContext_KeyboardTypeChangedSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+
+        ////////////////////// InputMethodContext signals
         [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ActivatedSignalType_Empty")]
         public static extern bool ActivatedSignalType_Empty(global::System.Runtime.InteropServices.HandleRef jarg1);
 
@@ -497,50 +507,50 @@ namespace Tizen.NUI
         [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_ActivatedSignalType")]
         public static extern void delete_ActivatedSignalType(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfEventSignalType_Empty")]
-        public static extern bool ImfEventSignalType_Empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_KeyboardEventSignalType_Empty")]
+        public static extern bool KeyboardEventSignalType_Empty(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfEventSignalType_GetConnectionCount")]
-        public static extern uint ImfEventSignalType_GetConnectionCount(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_KeyboardEventSignalType_GetConnectionCount")]
+        public static extern uint KeyboardEventSignalType_GetConnectionCount(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfEventSignalType_Connect")]
-        public static extern void ImfEventSignalType_Connect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_KeyboardEventSignalType_Connect")]
+        public static extern void KeyboardEventSignalType_Connect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfEventSignalType_Disconnect")]
-        public static extern void ImfEventSignalType_Disconnect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_KeyboardEventSignalType_Disconnect")]
+        public static extern void KeyboardEventSignalType_Disconnect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfEventSignalType_Emit")]
-        public static extern global::System.IntPtr ImfEventSignalType_Emit(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_KeyboardEventSignalType_Emit")]
+        public static extern global::System.IntPtr KeyboardEventSignalType_Emit(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_ImfEventSignalType")]
-        public static extern global::System.IntPtr new_ImfEventSignalType();
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_KeyboardEventSignalType")]
+        public static extern global::System.IntPtr new_KeyboardEventSignalType();
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_ImfEventSignalType")]
-        public static extern void delete_ImfEventSignalType(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_KeyboardEventSignalType")]
+        public static extern void delete_KeyboardEventSignalType(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_ImfVoidSignalType")]
-        public static extern global::System.IntPtr new_ImfVoidSignalType();
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_VoidSignalType")]
+        public static extern global::System.IntPtr new_VoidSignalType();
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_ImfVoidSignalType")]
-        public static extern void delete_ImfVoidSignalType(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_VoidSignalType")]
+        public static extern void delete_VoidSignalType(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfVoidSignalType_Empty")]
-        public static extern bool ImfVoidSignalType_Empty(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_VoidSignalType_Empty")]
+        public static extern bool VoidSignalType_Empty(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfVoidSignalType_GetConnectionCount")]
-        public static extern uint ImfVoidSignalType_GetConnectionCount(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_VoidSignalType_GetConnectionCount")]
+        public static extern uint VoidSignalType_GetConnectionCount(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfVoidSignalType_Connect__SWIG_0")]
-        public static extern void ImfVoidSignalType_Connect__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_VoidSignalType_Connect__SWIG_0")]
+        public static extern void VoidSignalType_Connect__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfVoidSignalType_Disconnect")]
-        public static extern void ImfVoidSignalType_Disconnect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_VoidSignalType_Disconnect")]
+        public static extern void VoidSignalType_Disconnect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfVoidSignalType_Connect__SWIG_4")]
-        public static extern void ImfVoidSignalType_Connect__SWIG_4(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_VoidSignalType_Connect__SWIG_4")]
+        public static extern void VoidSignalType_Connect__SWIG_4(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_ImfVoidSignalType_Emit")]
-        public static extern void ImfVoidSignalType_Emit(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_VoidSignalType_Emit")]
+        public static extern void VoidSignalType_Emit(global::System.Runtime.InteropServices.HandleRef jarg1);
 
         [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_StatusSignalType_Empty")]
         public static extern bool StatusSignalType_Empty(global::System.Runtime.InteropServices.HandleRef jarg1);
@@ -719,6 +729,9 @@ namespace Tizen.NUI
 
         [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_TextLabel_Property_TEXT_DIRECTION_get")]
         public static extern int TextLabel_Property_TEXT_DIRECTION_get();
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_TextLabel_Property_VERTICAL_LINE_ALIGNMENT_get")]
+        public static extern int TextLabel_Property_VERTICAL_LINE_ALIGNMENT_get();
 
         [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint = "CSharp_HIDDENINPUT_PROPERTY_MODE_get")]
         public static extern int HIDDENINPUT_PROPERTY_MODE_get();
@@ -1122,17 +1135,18 @@ namespace Tizen.NUI
         [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_Widget_SWIGUpcast")]
         public static extern global::System.IntPtr Widget_SWIGUpcast(global::System.IntPtr jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_SWIGUpcast")]
-        public static extern global::System.IntPtr WidgetApplication_SWIGUpcast(global::System.IntPtr jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_SWIGUpcast")]
+        public static extern global::System.IntPtr WidgetImpl_SWIGUpcast(global::System.IntPtr jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_Widget_New")]
-        public static extern global::System.IntPtr Widget_New(string jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_Widget_New__SWIG_0")]
+        public static extern global::System.IntPtr Widget_New__SWIG_0();
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_Widget__SWIG_0")]
-        public static extern global::System.IntPtr new_Widget__SWIG_0();
+		[global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_Widget_New__SWIG_1")]
+	    public static extern global::System.IntPtr Widget_New__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_Widget__SWIG_1")]
-        public static extern global::System.IntPtr new_Widget__SWIG_1(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_Widget")]
+        public static extern global::System.IntPtr new_Widget();
 
         [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_Widget_Assign")]
         public static extern global::System.IntPtr Widget_Assign(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
@@ -1140,23 +1154,68 @@ namespace Tizen.NUI
         [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_Widget")]
         public static extern void delete_Widget(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_Widget_CreateSignal")]
-        public static extern global::System.IntPtr Widget_CreateSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_New")]
+        public static extern global::System.IntPtr WidgetImpl_New();
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_Widget_TerminateSignal")]
-        public static extern global::System.IntPtr Widget_TerminateSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_OnCreate")]
+        public static extern void WidgetImpl_OnCreate(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_Widget_PauseSignal")]
-        public static extern global::System.IntPtr Widget_PauseSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_OnCreateSwigExplicitWidgetImpl")]
+        public static extern void WidgetImpl_OnCreateSwigExplicitWidgetImpl(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_Widget_ResumeSignal")]
-        public static extern global::System.IntPtr Widget_ResumeSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_OnTerminate")]
+        public static extern void WidgetImpl_OnTerminate(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, int jarg3);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_Widget_ResizeSignal")]
-        public static extern global::System.IntPtr Widget_ResizeSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_OnTerminateSwigExplicitWidgetImpl")]
+        public static extern void WidgetImpl_OnTerminateSwigExplicitWidgetImpl(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, int jarg3);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_Widget_UpdateSignal")]
-        public static extern global::System.IntPtr Widget_UpdateSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_OnPause")]
+        public static extern void WidgetImpl_OnPause(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_OnPauseSwigExplicitWidgetImpl")]
+        public static extern void WidgetImpl_OnPauseSwigExplicitWidgetImpl(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_OnResume")]
+        public static extern void WidgetImpl_OnResume(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_OnResumeSwigExplicitWidgetImpl")]
+        public static extern void WidgetImpl_OnResumeSwigExplicitWidgetImpl(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_OnResize")]
+        public static extern void WidgetImpl_OnResize(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_OnResizeSwigExplicitWidgetImpl")]
+        public static extern void WidgetImpl_OnResizeSwigExplicitWidgetImpl(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_OnUpdate")]
+        public static extern void WidgetImpl_OnUpdate(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, int jarg3);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_OnUpdateSwigExplicitWidgetImpl")]
+        public static extern void WidgetImpl_OnUpdateSwigExplicitWidgetImpl(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, int jarg3);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_SignalConnected")]
+        public static extern void WidgetImpl_SignalConnected(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_SignalConnectedSwigExplicitWidgetImpl")]
+        public static extern void WidgetImpl_SignalConnectedSwigExplicitWidgetImpl(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_SignalDisconnected")]
+        public static extern void WidgetImpl_SignalDisconnected(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_SignalDisconnectedSwigExplicitWidgetImpl")]
+        public static extern void WidgetImpl_SignalDisconnectedSwigExplicitWidgetImpl(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_SetContentInfo")]
+        public static extern void WidgetImpl_SetContentInfo(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_SetImpl")]
+        public static extern void WidgetImpl_SetImpl(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetImpl_director_connect")]
+        public static extern void WidgetImpl_director_connect(global::System.Runtime.InteropServices.HandleRef jarg1, WidgetImpl.SwigDelegateWidgetImpl_0 delegate0, WidgetImpl.SwigDelegateWidgetImpl_1 delegate1, WidgetImpl.SwigDelegateWidgetImpl_2 delegate2, WidgetImpl.SwigDelegateWidgetImpl_3 delegate3, WidgetImpl.SwigDelegateWidgetImpl_4 delegate4, WidgetImpl.SwigDelegateWidgetImpl_5 delegate5, WidgetImpl.SwigDelegateWidgetImpl_6 delegate6, WidgetImpl.SwigDelegateWidgetImpl_7 delegate7);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_Widget_GetImplementation__SWIG_0")]
+        public static extern global::System.IntPtr Widget_GetImplementation__SWIG_0(global::System.Runtime.InteropServices.HandleRef jarg1);
 
         [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_New")]
         public static extern global::System.IntPtr WidgetApplication_New(int jarg1, string jarg2, string jarg3);
@@ -1173,230 +1232,9 @@ namespace Tizen.NUI
         [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_WidgetApplication")]
         public static extern void delete_WidgetApplication(global::System.Runtime.InteropServices.HandleRef jarg1);
 
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_MainLoop")]
-        public static extern void WidgetApplication_MainLoop(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_Quit")]
-        public static extern void WidgetApplication_Quit(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_GetResourcePath")]
-        public static extern string WidgetApplication_GetResourcePath();
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_GetRegion")]
-        public static extern string WidgetApplication_GetRegion(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_GetLanguage")]
-        public static extern string WidgetApplication_GetLanguage(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_InitSignal")]
-        public static extern global::System.IntPtr WidgetApplication_InitSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_TerminateSignal")]
-        public static extern global::System.IntPtr WidgetApplication_TerminateSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_LanguageChangedSignal")]
-        public static extern global::System.IntPtr WidgetApplication_LanguageChangedSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_RegionChangedSignal")]
-        public static extern global::System.IntPtr WidgetApplication_RegionChangedSignal(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_LowBatterySignal")]
-        public static extern global::System.IntPtr WidgetApplication_LowBatterySignal(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_LowMemorySignal")]
-        public static extern global::System.IntPtr WidgetApplication_LowMemorySignal(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetCreateSignalType_Empty")]
-        public static extern bool WidgetCreateSignalType_Empty(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetCreateSignalType_GetConnectionCount")]
-        public static extern uint WidgetCreateSignalType_GetConnectionCount(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetCreateSignalType_Connect")]
-        public static extern void WidgetCreateSignalType_Connect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetCreateSignalType_Disconnect")]
-        public static extern void WidgetCreateSignalType_Disconnect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetCreateSignalType_Emit")]
-        public static extern void WidgetCreateSignalType_Emit(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3, global::System.Runtime.InteropServices.HandleRef jarg4);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_WidgetCreateSignalType")]
-        public static extern global::System.IntPtr new_WidgetCreateSignalType();
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_WidgetCreateSignalType")]
-        public static extern void delete_WidgetCreateSignalType(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetTerminateSignalType_Empty")]
-        public static extern bool WidgetTerminateSignalType_Empty(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetTerminateSignalType_GetConnectionCount")]
-        public static extern uint WidgetTerminateSignalType_GetConnectionCount(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetTerminateSignalType_Connect")]
-        public static extern void WidgetTerminateSignalType_Connect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetTerminateSignalType_Disconnect")]
-        public static extern void WidgetTerminateSignalType_Disconnect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetTerminateSignalType_Emit")]
-        public static extern void WidgetTerminateSignalType_Emit(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3, int jarg4);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_WidgetTerminateSignalType")]
-        public static extern global::System.IntPtr new_WidgetTerminateSignalType();
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_WidgetTerminateSignalType")]
-        public static extern void delete_WidgetTerminateSignalType(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetPauseSignalType_Empty")]
-        public static extern bool WidgetPauseSignalType_Empty(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetPauseSignalType_GetConnectionCount")]
-        public static extern uint WidgetPauseSignalType_GetConnectionCount(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetPauseSignalType_Connect")]
-        public static extern void WidgetPauseSignalType_Connect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetPauseSignalType_Disconnect")]
-        public static extern void WidgetPauseSignalType_Disconnect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetPauseSignalType_Emit")]
-        public static extern void WidgetPauseSignalType_Emit(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_WidgetPauseSignalType")]
-        public static extern global::System.IntPtr new_WidgetPauseSignalType();
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_WidgetPauseSignalType")]
-        public static extern void delete_WidgetPauseSignalType(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetResumeSignalType_Empty")]
-        public static extern bool WidgetResumeSignalType_Empty(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetResumeSignalType_GetConnectionCount")]
-        public static extern uint WidgetResumeSignalType_GetConnectionCount(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetResumeSignalType_Connect")]
-        public static extern void WidgetResumeSignalType_Connect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetResumeSignalType_Disconnect")]
-        public static extern void WidgetResumeSignalType_Disconnect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetResumeSignalType_Emit")]
-        public static extern void WidgetResumeSignalType_Emit(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_WidgetResumeSignalType")]
-        public static extern global::System.IntPtr new_WidgetResumeSignalType();
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_WidgetResumeSignalType")]
-        public static extern void delete_WidgetResumeSignalType(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetResizeSignalType_Empty")]
-        public static extern bool WidgetResizeSignalType_Empty(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetResizeSignalType_GetConnectionCount")]
-        public static extern uint WidgetResizeSignalType_GetConnectionCount(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetResizeSignalType_Connect")]
-        public static extern void WidgetResizeSignalType_Connect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetResizeSignalType_Disconnect")]
-        public static extern void WidgetResizeSignalType_Disconnect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetResizeSignalType_Emit")]
-        public static extern void WidgetResizeSignalType_Emit(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_WidgetResizeSignalType")]
-        public static extern global::System.IntPtr new_WidgetResizeSignalType();
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_WidgetResizeSignalType")]
-        public static extern void delete_WidgetResizeSignalType(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetUpdateSignalType_Empty")]
-        public static extern bool WidgetUpdateSignalType_Empty(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetUpdateSignalType_GetConnectionCount")]
-        public static extern uint WidgetUpdateSignalType_GetConnectionCount(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetUpdateSignalType_Connect")]
-        public static extern void WidgetUpdateSignalType_Connect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetUpdateSignalType_Disconnect")]
-        public static extern void WidgetUpdateSignalType_Disconnect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetUpdateSignalType_Emit")]
-        public static extern void WidgetUpdateSignalType_Emit(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3, int jarg4);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_WidgetUpdateSignalType")]
-        public static extern global::System.IntPtr new_WidgetUpdateSignalType();
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_WidgetUpdateSignalType")]
-        public static extern void delete_WidgetUpdateSignalType(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_AppSignalType_Empty")]
-        public static extern bool AppSignalType_Empty(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_AppSignalType_GetConnectionCount")]
-        public static extern uint AppSignalType_GetConnectionCount(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_AppSignalType_Connect")]
-        public static extern void AppSignalType_Connect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_AppSignalType_Disconnect")]
-        public static extern void AppSignalType_Disconnect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_AppSignalType_Emit")]
-        public static extern void AppSignalType_Emit(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_new_AppSignalType")]
-        public static extern global::System.IntPtr new_AppSignalType();
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_delete_AppSignalType")]
-        public static extern void delete_AppSignalType(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_LowBatterySignalType_Empty")]
-        public static extern bool WidgetApplication_LowBatterySignalType_Empty(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_LowBatterySignalType_GetConnectionCount")]
-        public static extern uint WidgetApplication_LowBatterySignalType_GetConnectionCount(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_LowBatterySignalType_Connect")]
-        public static extern void WidgetApplication_LowBatterySignalType_Connect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_LowBatterySignalType_Disconnect")]
-        public static extern void WidgetApplication_LowBatterySignalType_Disconnect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_LowBatterySignalType_Emit")]
-        public static extern void WidgetApplication_LowBatterySignalType_Emit(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_new_LowBatterySignalType")]
-        public static extern global::System.IntPtr WidgetApplication_new_LowBatterySignalType();
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_delete_LowBatterySignalType")]
-        public static extern void WidgetApplication_delete_LowBatterySignalType(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_LowMemorySignalType_Empty")]
-        public static extern bool WidgetApplication_LowMemorySignalType_Empty(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_LowMemorySignalType_GetConnectionCount")]
-        public static extern uint WidgetApplication_LowMemorySignalType_GetConnectionCount(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_LowMemorySignalType_Connect")]
-        public static extern void WidgetApplication_LowMemorySignalType_Connect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_LowMemorySignalType_Disconnect")]
-        public static extern void WidgetApplication_LowMemorySignalType_Disconnect(global::System.Runtime.InteropServices.HandleRef jarg1, global::System.Runtime.InteropServices.HandleRef jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_LowMemorySignalType_Emit")]
-        public static extern void WidgetApplication_LowMemorySignalType_Emit(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_new_LowMemorySignalType")]
-        public static extern global::System.IntPtr WidgetApplication_new_LowMemorySignalType();
-
-        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_delete_LowMemorySignalType")]
-        public static extern void WidgetApplication_delete_LowMemorySignalType(global::System.Runtime.InteropServices.HandleRef jarg1);
-
-
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_WidgetApplication_RegisterWidgetCreatingFunction")]
+        public static extern void WidgetApplication_RegisterWidgetCreatingFunction(global::System.Runtime.InteropServices.HandleRef jarg1, ref string jarg2, global::System.Runtime.InteropServices.HandleRef jarg3);
+        // End widget
 
         [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Actor_Property_INHERIT_LAYOUT_DIRECTION_get")]
         public static extern int Actor_Property_INHERIT_LAYOUT_DIRECTION_get();
@@ -1895,5 +1733,27 @@ namespace Tizen.NUI
 
         [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint="CSharp_Dali_FontClient_AddCustomFontDirectory")]
         public static extern bool FontClient_AddCustomFontDirectory(global::System.Runtime.InteropServices.HandleRef jarg1, string jarg2);
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint = "CSharp_TextField_Property_ENABLE_SHIFT_SELECTION_get")]
+        public static extern int TextField_Property_ENABLE_SHIFT_SELECTION_get();
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint = "CSharp_TextEditor_Property_ENABLE_SHIFT_SELECTION_get")]
+        public static extern int TextEditor_Property_ENABLE_SHIFT_SELECTION_get();
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint = "CSharp_ImageView_IMAGE_VISUAL_ACTION_RELOAD_get")]
+        public static extern int ImageView_IMAGE_VISUAL_ACTION_RELOAD_get();
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint = "CSharp_ImageView_IMAGE_VISUAL_ACTION_PLAY_get")]
+        public static extern int ImageView_IMAGE_VISUAL_ACTION_PLAY_get();
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint = "CSharp_ImageView_IMAGE_VISUAL_ACTION_PAUSE_get")]
+        public static extern int ImageView_IMAGE_VISUAL_ACTION_PAUSE_get();
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint = "CSharp_ImageView_IMAGE_VISUAL_ACTION_STOP_get")]
+        public static extern int ImageView_IMAGE_VISUAL_ACTION_STOP_get();
+
+        [global::System.Runtime.InteropServices.DllImport("libdali-csharp-binder.so", EntryPoint = "CSharp_NUI_InternalAPIVersionCheck")]
+        public static extern bool InternalAPIVersionCheck(ref int ver1, ref int ver2, ref int ver3);
+
     }
 }
