@@ -36,6 +36,8 @@ namespace Tizen.Network.WiFi
         private WiFiSecurity _security;
         private bool _disposed = false;
 
+        private static TaskCompletionSource<WiFiAP> wpsWithoutSsidTask = null;
+        private static Dictionary<IntPtr, TaskCompletionSource<bool>> _wpsTaskMap = new Dictionary<IntPtr, TaskCompletionSource<bool>>();
         private TizenSynchronizationContext context = new TizenSynchronizationContext();
         private static TizenSynchronizationContext s_context = new TizenSynchronizationContext();
 
@@ -156,7 +158,6 @@ namespace Tizen.Network.WiFi
             {
                 ret = Interop.WiFi.AP.CreateHiddenAP(WiFiManagerImpl.Instance.GetSafeHandle(), id, out _apHandle);
             }
-
             else
             {
                 ret = Interop.WiFi.AP.Create(WiFiManagerImpl.Instance.GetSafeHandle(), id, out _apHandle);
@@ -299,7 +300,10 @@ namespace Tizen.Network.WiFi
             {
                 throw new ObjectDisposedException("Invalid AP instance (Object may have been disposed or released)");
             }
-            TaskCompletionSource<bool> task = new TaskCompletionSource<bool>();
+
+            TaskCompletionSource<bool> wpsTask = new TaskCompletionSource<bool>();
+            _wpsTaskMap[_apHandle] = wpsTask;
+
             IntPtr id;
             lock (_callback_map)
             {
@@ -310,11 +314,15 @@ namespace Tizen.Network.WiFi
                     if (error != (int)WiFiError.None)
                     {
                         Log.Error(Globals.LogTag, "Error occurs during WiFi connecting, " + (WiFiError)error);
-                        task.SetException(new InvalidOperationException("Error occurs during WiFi connecting, " + (WiFiError)error));
+                        wpsTask.SetException(new InvalidOperationException("Error occurs during WiFi connecting, " + (WiFiError)error));
+                        Log.Info(Globals.LogTag, "Remove task for ConnectWpsAsync");
+                        _wpsTaskMap.Remove(_apHandle);
                     }
                     else
                     {
-                        task.SetResult(true);
+                        wpsTask.SetResult(true);
+                        Log.Info(Globals.LogTag, "Remove task for ConnectWpsAsync");
+                        _wpsTaskMap.Remove(_apHandle);
                     }
                     lock (_callback_map)
                     {
@@ -359,11 +367,13 @@ namespace Tizen.Network.WiFi
                 catch (Exception e)
                 {
                     Log.Error(Globals.LogTag, "Exception on ConnectWpsAsync\n" + e.ToString());
-                    task.SetException(e);
+                    wpsTask.SetException(e);
+                    Log.Info(Globals.LogTag, "Remove task for ConnectWpsAsync");
+                    _wpsTaskMap.Remove(_apHandle);
                 }
             }, null);
 
-            return task.Task;
+            return wpsTask.Task;
         }
 
         /// <summary>
@@ -390,7 +400,7 @@ namespace Tizen.Network.WiFi
         public static Task<WiFiAP> ConnectWpsWithoutSsidAsync(WpsInfo info)
         {
             Log.Info(Globals.LogTag, "ConnectWpsWithoutSsidAsync");
-            TaskCompletionSource<WiFiAP> task = new TaskCompletionSource<WiFiAP>();
+            wpsWithoutSsidTask = new TaskCompletionSource<WiFiAP>();
             IntPtr id;
             lock (s_callbackMap)
             {
@@ -401,12 +411,16 @@ namespace Tizen.Network.WiFi
                     if (error != (int)WiFiError.None)
                     {
                         Log.Error(Globals.LogTag, "Error occurs during WiFi connecting, " + (WiFiError)error);
-                        task.SetException(new InvalidOperationException("Error occurs during WiFi connecting, " + (WiFiError)error));
+                        wpsWithoutSsidTask.SetException(new InvalidOperationException("Error occurs during WiFi connecting, " + (WiFiError)error));
+                        wpsWithoutSsidTask = null;
+                        Log.Info(Globals.LogTag, "task is null");
                     }
                     else
                     {
                         WiFiAP ap = WiFiManagerImpl.Instance.GetConnectedAP();
-                        task.SetResult(ap);
+                        wpsWithoutSsidTask.SetResult(ap);
+                        wpsWithoutSsidTask = null;
+                        Log.Info(Globals.LogTag, "task is null");
                     }
                     lock (s_callbackMap)
                     {
@@ -451,12 +465,51 @@ namespace Tizen.Network.WiFi
                 catch (Exception e)
                 {
                     Log.Error(Globals.LogTag, "Exception on ConnectWpsWithoutSsidAsync\n" + e.ToString());
-                    task.SetException(e);
+                    wpsWithoutSsidTask.SetException(e);
+                    wpsWithoutSsidTask = null;
+                    Log.Info(Globals.LogTag, "task is null");
                 }
             }, null);
 
-            return task.Task;
+            return wpsWithoutSsidTask.Task;
         }
+
+        /// <summary>
+        /// Stops ongoing WPS provisioning
+        /// </summary>
+        /// <since_tizen> 5 </since_tizen>
+        /// <feature>http://tizen.org/feature/network.wifi</feature>
+        /// <privilege>http://tizen.org/privilege/network.set</privilege>
+        /// <privilege>http://tizen.org/privilege/network.get</privilege>
+        /// <exception cref="NotSupportedException">Thrown when the Wi-Fi is not supported.</exception>
+        /// <exception cref="UnauthorizedAccessException">Thrown when permission is denied.</exception>
+        /// <exception cref="OutOfMemoryException">Thrown when the system is out of memory.</exception>
+        /// <exception cref="InvalidOperationException">Thrown when the method failed due to an invalid operation.</exception>
+        public static void CancelWps()
+        {
+            Log.Debug(Globals.LogTag, "CancelWps");
+            int ret = Interop.WiFi.CancelWps(WiFiManagerImpl.Instance.GetSafeHandle());
+            if (ret != (int)WiFiError.None)
+            {
+                Log.Error(Globals.LogTag, "Failed to cancel Wps, Error - " + (WiFiError)ret);
+                WiFiErrorFactory.ThrowWiFiException(ret, WiFiManagerImpl.Instance.GetSafeHandle().DangerousGetHandle());
+            }
+
+            // Cancel awaiting tasks
+            if (wpsWithoutSsidTask != null)
+            {
+                Log.Info(Globals.LogTag, "Cancel ConnectWpsWithoutSsidAsync()");
+                wpsWithoutSsidTask.SetCanceled();
+            }
+            foreach (var item in _wpsTaskMap)
+            {
+                Log.Info(Globals.LogTag, "Cancel ConnectWpsAsync() by " + item.Key.GetHashCode());
+                item.Value.SetCanceled();
+            }
+            _wpsTaskMap.Clear();
+
+        }
+
 
         /// <summary>
         /// Disconnects the access point asynchronously.

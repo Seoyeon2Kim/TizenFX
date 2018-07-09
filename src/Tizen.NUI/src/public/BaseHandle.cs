@@ -16,8 +16,9 @@
  */
 using System;
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Tizen.NUI.Binding;
-using Tizen.NUI.Internals;
+using Tizen.NUI.Binding.Internals;
 
 namespace Tizen.NUI
 {
@@ -28,12 +29,24 @@ namespace Tizen.NUI
     /// <since_tizen> 3 </since_tizen>
     public class BaseHandle : Element, global::System.IDisposable
     {
+        /// <summary>
+        /// Event which is occurred when a property is set
+        /// </summary>
+        /// <since_tizen> 5 </since_tizen>
+        /// This will be public opened in tizen_5.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public event PropertyChangedEventHandler PropertySet;
+
+        internal void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            PropertySet?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         internal static readonly BindablePropertyKey NavigationPropertyKey = BindableProperty.CreateReadOnly("Navigation", typeof(INavigation), typeof(/*VisualElement*/BaseHandle), default(INavigation));
         /// <summary>
         /// Backing store for the Navigation property.
         /// </summary>
-        public static readonly BindableProperty NavigationProperty = NavigationPropertyKey.BindableProperty;
+        internal static readonly BindableProperty NavigationProperty = NavigationPropertyKey.BindableProperty;
 
         private global::System.Runtime.InteropServices.HandleRef swigCPtr;
         /// <summary>
@@ -383,9 +396,9 @@ namespace Tizen.NUI
         /// <param name="info">The type information.</param>
         /// <returns>True If get the type info.</returns>
         /// <since_tizen> 3 </since_tizen>
-        public bool GetTypeInfo(TypeInfo info)
+        public bool GetTypeInfo(Tizen.NUI.TypeInfo info)
         {
-            bool ret = NDalicPINVOKE.BaseHandle_GetTypeInfo(swigCPtr, TypeInfo.getCPtr(info));
+            bool ret = NDalicPINVOKE.BaseHandle_GetTypeInfo(swigCPtr, Tizen.NUI.TypeInfo.getCPtr(info));
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
             return ret;
         }
@@ -481,7 +494,7 @@ namespace Tizen.NUI
         /// For internal use.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public NavigationProxy NavigationProxy
+        internal NavigationProxy NavigationProxy
         {
             get { return Navigation as NavigationProxy; }
         }
@@ -489,10 +502,10 @@ namespace Tizen.NUI
         /// <summary>
         /// Gets the navigation.
         /// </summary>
-        public INavigation Navigation
+        internal INavigation Navigation
         {
             get { return (INavigation)GetValue(NavigationProperty); }
-            internal set { SetValue(NavigationPropertyKey, value); }
+            set { SetValue(NavigationPropertyKey, value); }
         }
 
         /// <summary>
