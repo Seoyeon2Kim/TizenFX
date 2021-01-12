@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright(c) 2019 Samsung Electronics Co., Ltd.
+ * Copyright(c) 2021 Samsung Electronics Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,7 +66,9 @@ namespace Tizen.NUI.Components
     /// <since_tizen> 6 </since_tizen>
     public partial class Slider : Control
     {
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        #region Fields
+
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static readonly BindableProperty IndicatorTypeProperty = BindableProperty.Create("IndicatorType", typeof(IndicatorType), typeof(Slider), IndicatorType.None, propertyChanged: (bindable, oldValue, newValue) =>
         {
@@ -81,7 +83,7 @@ namespace Tizen.NUI.Components
             var instance = (Slider)bindable;
             return instance.privateIndicatorType;
         });
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static readonly BindableProperty SpaceBetweenTrackAndIndicatorProperty = BindableProperty.Create(nameof(SpaceBetweenTrackAndIndicator), typeof(uint), typeof(Slider), (uint)0, propertyChanged: (bindable, oldValue, newValue) =>
         {
@@ -96,7 +98,7 @@ namespace Tizen.NUI.Components
             var instance = (Slider)bindable;
             return instance.privateSpaceBetweenTrackAndIndicator;
         });
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static readonly BindableProperty TrackThicknessProperty = BindableProperty.Create(nameof(TrackThickness), typeof(uint), typeof(Slider), (uint)0, propertyChanged: (bindable, oldValue, newValue) =>
         {
@@ -111,6 +113,46 @@ namespace Tizen.NUI.Components
             var instance = (Slider)bindable;
             return instance.privateTrackThickness;
         });
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static readonly BindableProperty IsValueShownProperty = BindableProperty.Create(nameof(IsValueShown), typeof(bool), typeof(Slider), true, propertyChanged: (bindable, oldValue, newValue) =>
+        {
+            var instance = (Slider)bindable;
+            if (newValue != null)
+            {
+                bool newValueShown = (bool)newValue;
+                if (instance.isValueShown != newValueShown)
+                {
+                    instance.isValueShown = newValueShown;
+                }
+            }
+        },
+        defaultValueCreator: (bindable) =>
+        {
+            var instance = (Slider)bindable;
+            return instance.isValueShown;
+        });
+
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static readonly BindableProperty ValueIndicatorTextProperty = BindableProperty.Create(nameof(ValueIndicatorText), typeof(string), typeof(Slider), string.Empty, propertyChanged: (bindable, oldValue, newValue) =>
+        {
+            var instance = (Slider)bindable;
+            if (newValue != null)
+            {
+                instance.valueIndicatorText.Text = (string)newValue;
+            }
+        },
+        defaultValueCreator: (bindable) =>
+        {
+            var instance = (Slider)bindable;
+            return instance.valueIndicatorText.Text;
+        });
+
+        #endregion Fields
+
+
+        #region Constructors
 
         static Slider() { }
 
@@ -142,6 +184,11 @@ namespace Tizen.NUI.Components
         {
             Initialize();
         }
+
+        #endregion Constructors
+
+
+        #region Events
 
         /// <summary>
         /// The value changed event handler.
@@ -242,6 +289,11 @@ namespace Tizen.NUI.Components
             }
         }
 
+        #endregion Events
+
+
+        #region Enums
+
         /// <summary>
         /// The direction type of slider.
         /// </summary>
@@ -279,6 +331,11 @@ namespace Tizen.NUI.Components
             /// <since_tizen> 6 </since_tizen>
             Text
         }
+
+        #endregion Enums
+
+
+        #region Properties
 
         /// <summary>
         /// Return a copied Style instance of Slider
@@ -671,6 +728,76 @@ namespace Tizen.NUI.Components
             }
         }
 
+        /// <summary>
+        /// Flag to decide whether the value indicator is shown
+        /// </summary>
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool IsValueShown
+        {
+            get
+            {
+                return (bool)GetValue(IsValueShownProperty);
+            }
+            set
+            {
+                SetValue(IsValueShownProperty, value);
+            }
+        }
+
+// TODO : Connect Style (ApplyStyle) and Check Dispose like highIndicatorText
+        /// <summary>
+        /// Gets or sets the text of value indicator.
+        /// </summary>
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public string ValueIndicatorText
+        {
+            get
+            {
+                return (string)GetValue(ValueIndicatorTextProperty);
+                //return valueIndicatorText?.Text;
+            }
+            set
+            {
+                /*if (null != valueIndicatorText)
+                {
+                    valueIndicatorText.Text = value;
+                    sliderStyle.ValueIndicator.Text = value;*/
+                    SetValue(ValueIndicatorTextProperty, value);
+                //}
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the image of value indicator.
+        /// </summary>
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public ImageView ValueIndicatorImage
+        {
+            get
+            {
+                if (valueIndicatorImage == null)
+                {
+                    valueIndicatorImage = new ImageView()
+                    {
+                        PositionUsesPivotPoint = true,
+                        ParentOrigin = Tizen.NUI.ParentOrigin.Center,
+                        PivotPoint = Tizen.NUI.PivotPoint.Center,
+                        WidthResizePolicy = ResizePolicyType.Fixed,
+                        HeightResizePolicy = ResizePolicyType.Fixed
+                    };
+                    Add(valueIndicatorImage);
+                }
+                return valueIndicatorImage;
+            }
+            set
+            {
+                valueIndicatorImage = value;
+            }
+        }
+
         private Extents spaceBetweenTrackAndIndicator
         {
             get
@@ -770,6 +897,10 @@ namespace Tizen.NUI.Components
                 UpdateValue();
             }
         }
+
+        #endregion Properties
+
+        #region Methods
 
         /// <summary>
         /// Focus gained callback.
@@ -891,7 +1022,7 @@ namespace Tizen.NUI.Components
         /// Update Slider by style.
         /// </summary>
         /// <since_tizen> 6 </since_tizen>
-        /// This will be public opened in tizen_5.5 after ACR done. Before ACR, need to be hidden as inhouse API.
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override void OnUpdate()
         {
@@ -944,6 +1075,11 @@ namespace Tizen.NUI.Components
             PointStateType state = e.Touch.GetState(0);
             if (state == PointStateType.Down)
             {
+                if (isValueShown)
+                {
+                    valueIndicatorImage.Show();
+                }
+
                 Vector2 pos = e.Touch.GetLocalPosition(0);
                 CalculateCurrentValueByTouch(pos);
                 UpdateValue();
@@ -959,6 +1095,13 @@ namespace Tizen.NUI.Components
                     SliderSlidingFinishedEventArgs args = new SliderSlidingFinishedEventArgs();
                     args.CurrentValue = curValue;
                     sliderSlidingFinishedHandler(this, args);
+                }
+            }
+            else if (state == PointStateType.Up)
+            {
+                if (isValueShown)
+                {
+                    valueIndicatorImage.Hide();
                 }
             }
             return false;
@@ -1117,6 +1260,11 @@ namespace Tizen.NUI.Components
             }
         }
 
+        #endregion Methods
+
+        // TODO : Will be removed in API10.
+        #region Classes
+
         /// <summary>
         /// Value Changed event data.
         /// </summary>
@@ -1170,5 +1318,7 @@ namespace Tizen.NUI.Components
             [Obsolete("Deprecated in API8; Will be removed in API10")]
             public ControlStates CurrentState;
         }
+
+        #endregion Classes
     }
 }

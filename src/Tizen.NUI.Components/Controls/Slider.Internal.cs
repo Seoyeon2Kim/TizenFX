@@ -39,6 +39,9 @@ namespace Tizen.NUI.Components
         private uint? trackThickness = null;
         // the value of the space between track and indicator object
         private Extents _spaceBetweenTrackAndIndicator = null;
+        private bool isValueShown = false;
+        private TextLabel valueIndicatorText = null;
+        private ImageView valueIndicatorImage = null;
 
         private PanGestureDetector panGestureDetector = null;
         private float currentSlidedOffset;
@@ -58,11 +61,37 @@ namespace Tizen.NUI.Components
             isFocused = false;
             isPressed = false;
             LayoutDirectionChanged += OnLayoutDirectionChanged;
+
+            CreateValueIndicator();
         }
 
         private void OnLayoutDirectionChanged(object sender, LayoutDirectionChangedEventArgs e)
         {
             RelayoutRequest();
+        }
+        
+        private void CreateValueIndicator()
+        {
+            valueIndicatorText = new TextLabel()
+            {
+                WidthResizePolicy = ResizePolicyType.Fixed,
+                HeightResizePolicy = ResizePolicyType.Fixed
+            };
+
+            if (valueIndicatorImage == null)
+            {
+                valueIndicatorImage = new ImageView()
+                {
+                    PositionUsesPivotPoint = true,
+                    ParentOrigin = Tizen.NUI.ParentOrigin.Center,
+                    PivotPoint = Tizen.NUI.PivotPoint.Center,
+                    WidthResizePolicy = ResizePolicyType.Fixed,
+                    HeightResizePolicy = ResizePolicyType.Fixed
+                };
+                // TODO : not sure who could be Parent -> slidedTrack or Slider Control itself
+                Add(valueIndicatorImage);
+            }
+            valueIndicatorImage.Add(valueIndicatorText);
         }
 
         private ImageView CreateSlidedTrack()
@@ -182,6 +211,12 @@ namespace Tizen.NUI.Components
                 {
                     currentSlidedOffset = slidedTrackImage.SizeHeight;
                 }
+
+                if (isValueShown)
+                {
+                    valueIndicatorImage.Show();
+                }
+
                 if (null != sliderSlidingStartedHandler)
                 {
                     SliderSlidingStartedEventArgs args = new SliderSlidingStartedEventArgs();
@@ -206,6 +241,11 @@ namespace Tizen.NUI.Components
 
             if (e.PanGesture.State == Gesture.StateType.Finished)
             {
+                if (isValueShown)
+                {
+                    valueIndicatorImage.Hide();
+                }
+
                 if (null != slidingFinishedHandler)
                 {
                     SlidingFinishedArgs args = new SlidingFinishedArgs();
@@ -502,6 +542,8 @@ namespace Tizen.NUI.Components
                 float slidedTrackLength = (float)BgTrackLength() * ratio;
                 slidedTrackImage.Size2D = new Size2D((int)(curTrackThickness + round), (int)slidedTrackLength); //Add const round to reach Math.Round function.
             }
+
+            // TODO : Update valueIndicator if its parent is Slider itself
         }
 
         private uint CurrentTrackThickness()
