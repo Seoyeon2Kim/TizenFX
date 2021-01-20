@@ -465,7 +465,7 @@ namespace Tizen.NUI.BaseComponents
             string temp;
             if (Tizen.NUI.Object.GetProperty((System.Runtime.InteropServices.HandleRef)view.SwigCPtr, TableView.ChildProperty.CellHorizontalAlignment).Get(out temp) == false)
             {
-                NUILog.Error("CellHorizontalAlignment get error!");
+                //NUILog.Error("CellHorizontalAlignment get error!");
             }
 
             return temp.GetValueByDescription<HorizontalAlignmentType>();
@@ -492,7 +492,7 @@ namespace Tizen.NUI.BaseComponents
             string temp;
             Tizen.NUI.Object.GetProperty((System.Runtime.InteropServices.HandleRef)view.SwigCPtr, TableView.ChildProperty.CellVerticalAlignment).Get(out temp);
             {
-                NUILog.Error("CellVerticalAlignment get error!");
+                //NUILog.Error("CellVerticalAlignment get error!");
             }
 
             return temp.GetValueByDescription<VerticalAlignmentType>();

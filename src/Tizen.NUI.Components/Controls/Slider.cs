@@ -140,7 +140,12 @@ namespace Tizen.NUI.Components
             var instance = (Slider)bindable;
             if (newValue != null)
             {
-                instance.valueIndicatorText.Text = (string)newValue;
+                string newText = (string)newValue;
+                instance.valueIndicatorText.Text = newText;
+                if (instance.sliderStyle != null)
+                {
+                    instance.sliderStyle.ValueIndicatorText.Text = newText;
+                }
             }
         },
         defaultValueCreator: (bindable) =>
@@ -150,7 +155,6 @@ namespace Tizen.NUI.Components
         });
 
         #endregion Fields
-
 
         #region Constructors
 
@@ -186,7 +190,6 @@ namespace Tizen.NUI.Components
         }
 
         #endregion Constructors
-
 
         #region Events
 
@@ -291,7 +294,6 @@ namespace Tizen.NUI.Components
 
         #endregion Events
 
-
         #region Enums
 
         /// <summary>
@@ -334,7 +336,6 @@ namespace Tizen.NUI.Components
 
         #endregion Enums
 
-
         #region Properties
 
         /// <summary>
@@ -358,6 +359,8 @@ namespace Tizen.NUI.Components
                 result.HighIndicatorImage.CopyPropertiesFromView(highIndicatorImage);
                 result.LowIndicator.CopyPropertiesFromView(lowIndicatorText);
                 result.HighIndicator.CopyPropertiesFromView(highIndicatorText);
+                result.ValueIndicatorText.CopyPropertiesFromView(valueIndicatorText);
+                result.ValueIndicatorImage.CopyPropertiesFromView(valueIndicatorImage);
                 return result;
             }
         }
@@ -387,6 +390,7 @@ namespace Tizen.NUI.Components
                 RelayoutBaseComponent(false);
                 UpdateBgTrackSize();
                 UpdateBgTrackPosition();
+                UpdateWarningTrackSize();
                 UpdateValue();
             }
         }
@@ -473,6 +477,7 @@ namespace Tizen.NUI.Components
                 if (null != thumbImage)
                 {
                     thumbImage.Size = value;
+                    thumbSize = value;
                     sliderStyle.Thumb.Size = value;
                 }
             }
@@ -493,6 +498,7 @@ namespace Tizen.NUI.Components
                 if (null != thumbImage)
                 {
                     thumbImage.ResourceUrl = value;
+                    thumbImageUrl = value;
                     sliderStyle.Thumb.ResourceUrl = value;
                 }
             }
@@ -516,6 +522,7 @@ namespace Tizen.NUI.Components
                 else
                 {
                     thumbImage.SetValue(ImageView.ResourceUrlSelectorProperty, value);
+                    thumbImageUrlSelector = value;
                 }
             }
         }
@@ -535,6 +542,7 @@ namespace Tizen.NUI.Components
                 if (null != thumbImage)
                 {
                     thumbImage.Color = value;
+                    thumbColor = value;
                     sliderStyle.Thumb.Color = value;
                 }
             }
@@ -593,6 +601,123 @@ namespace Tizen.NUI.Components
             set
             {
                 SetValue(TrackThicknessProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the warning start value between minimum value and maximum value of slider.
+        /// </summary>
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public float WarningStartValue
+        {
+            get
+            {
+                return warningStartValue;
+            }
+            set
+            {
+                warningStartValue = value;
+                UpdateValue(); // Seoyeon : Maybe should update..
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the color of the warning track image object.
+        /// </summary>
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public Color WarningTrackColor
+        {
+            get
+            {
+                return warningTrackImage?.BackgroundColor;
+            }
+            set
+            {
+                if (null != warningTrackImage)
+                {
+                    warningTrackImage.BackgroundColor = value;
+                    sliderStyle.WarningTrack.BackgroundColor = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the color of the warning slided track image object.
+        /// </summary>
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public Color WarningSlidedTrackColor
+        {
+            get
+            {
+                return warningSlidedTrackImage?.BackgroundColor;
+            }
+            set
+            {
+                if (null != warningSlidedTrackImage)
+                {
+                    warningSlidedTrackImage.BackgroundColor = value;
+                    sliderStyle.WarningProgress.BackgroundColor = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the resource url of the warning thumb image object.
+        /// </summary>
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public string WarningThumbImageUrl
+        {
+            get
+            {
+                return warningThumbImageUrl;
+            }
+            set
+            {
+                warningThumbImageUrl = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the resource url selector of the warning thumb image object.
+        /// Getter returns copied selector value if exist, null otherwise.
+        /// </summary>
+        /// <exception cref="NullReferenceException">Thrown when setting null value.</exception>
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public StringSelector WarningThumbImageUrlSelector
+        {
+            get => warningThumbImageUrlSelector == null ? null : new StringSelector((Selector<string>)warningThumbImageUrlSelector);
+            set
+            {
+                if (value == null)
+                {
+                    throw new NullReferenceException("Slider.WarningThumbImageUrlSelector is null");
+                }
+                else
+                {
+                    warningThumbImageUrlSelector = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the color of the warning thumb image object.
+        /// </summary>
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public Color WarningThumbColor
+        {
+            get
+            {
+                return warningThumbColor;
+            }
+            set
+            {
+                warningThumbColor = value;
             }
         }
 
@@ -745,7 +870,6 @@ namespace Tizen.NUI.Components
             }
         }
 
-// TODO : Connect Style (ApplyStyle) and Check Dispose like highIndicatorText
         /// <summary>
         /// Gets or sets the text of value indicator.
         /// </summary>
@@ -756,45 +880,52 @@ namespace Tizen.NUI.Components
             get
             {
                 return (string)GetValue(ValueIndicatorTextProperty);
-                //return valueIndicatorText?.Text;
             }
             set
             {
-                /*if (null != valueIndicatorText)
-                {
-                    valueIndicatorText.Text = value;
-                    sliderStyle.ValueIndicator.Text = value;*/
-                    SetValue(ValueIndicatorTextProperty, value);
-                //}
+                SetValue(ValueIndicatorTextProperty, value);
             }
         }
 
         /// <summary>
-        /// Gets or sets the image of value indicator.
+        /// Gets or sets the size of the value indicator image object.
         /// </summary>
         /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public ImageView ValueIndicatorImage
+        public Size ValueIndicatorSize
         {
             get
             {
-                if (valueIndicatorImage == null)
-                {
-                    valueIndicatorImage = new ImageView()
-                    {
-                        PositionUsesPivotPoint = true,
-                        ParentOrigin = Tizen.NUI.ParentOrigin.Center,
-                        PivotPoint = Tizen.NUI.PivotPoint.Center,
-                        WidthResizePolicy = ResizePolicyType.Fixed,
-                        HeightResizePolicy = ResizePolicyType.Fixed
-                    };
-                    Add(valueIndicatorImage);
-                }
-                return valueIndicatorImage;
+                return valueIndicatorImage?.Size;
             }
             set
             {
-                valueIndicatorImage = value;
+                if (null != valueIndicatorImage)
+                {
+                    valueIndicatorImage.Size = value;
+                    sliderStyle.ValueIndicatorImage.Size = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the resource url of the value indicator image object.
+        /// </summary>
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public string ValueIndicatorUrl
+        {
+            get
+            {
+                return valueIndicatorImage?.ResourceUrl;
+            }
+            set
+            {
+                if (null != valueIndicatorImage)
+                {
+                    valueIndicatorImage.ResourceUrl = value;
+                    sliderStyle.ValueIndicatorImage.ResourceUrl = value;
+                }
             }
         }
 
@@ -864,6 +995,28 @@ namespace Tizen.NUI.Components
                     else if (direction == DirectionType.Vertical)
                     {
                         slidedTrackImage.SizeWidth = (float)trackThickness.Value;
+                    }
+                }
+                if (warningTrackImage != null)
+                {
+                    if (direction == DirectionType.Horizontal)
+                    {
+                        warningTrackImage.SizeHeight = (float)trackThickness.Value;
+                    }
+                    else if (direction == DirectionType.Vertical)
+                    {
+                        warningTrackImage.SizeWidth = (float)trackThickness.Value;
+                    }
+                }
+                if (warningSlidedTrackImage != null)
+                {
+                    if (direction == DirectionType.Horizontal)
+                    {
+                        warningSlidedTrackImage.SizeHeight = (float)trackThickness.Value;
+                    }
+                    else if (direction == DirectionType.Vertical)
+                    {
+                        warningSlidedTrackImage.SizeWidth = (float)trackThickness.Value;
                     }
                 }
             }
@@ -960,6 +1113,26 @@ namespace Tizen.NUI.Components
                 CreateThumb().ApplyStyle(sliderStyle.Thumb);
             }
 
+            if (null != sliderStyle?.ValueIndicatorText)
+            {
+                CreateValueIndicatorText().ApplyStyle(sliderStyle.ValueIndicatorText);
+            }
+
+            if (null != sliderStyle?.ValueIndicatorImage)
+            {
+                CreateValueIndicator().ApplyStyle(sliderStyle.ValueIndicatorImage);
+            }
+
+            if (null != sliderStyle?.WarningTrack)
+            {
+                CreateWarningTrack().ApplyStyle(sliderStyle.WarningTrack);
+            }
+
+            if (null != sliderStyle?.WarningProgress)
+            {
+                CreateWarningSlidedTrack().ApplyStyle(sliderStyle.WarningProgress);
+            }
+
             EnableControlStatePropagation = true;
         }
 
@@ -989,10 +1162,7 @@ namespace Tizen.NUI.Components
             {
                 if (null != panGestureDetector)
                 {
-                    if (null != thumbImage)
-                    {
-                        panGestureDetector.Detach(thumbImage);
-                    }
+                    panGestureDetector.Detach(this);
                     panGestureDetector.Detected -= OnPanGestureDetected;
                     panGestureDetector.Dispose();
                     panGestureDetector = null;
@@ -1003,6 +1173,8 @@ namespace Tizen.NUI.Components
                     thumbImage.TouchEvent -= OnTouchEventForThumb;
                     Utility.Dispose(thumbImage);
                 }
+                Utility.Dispose(warningSlidedTrackImage);
+                Utility.Dispose(warningTrackImage);
                 Utility.Dispose(slidedTrackImage);
                 if (null != bgTrackImage)
                 {
@@ -1013,6 +1185,8 @@ namespace Tizen.NUI.Components
                 Utility.Dispose(highIndicatorImage);
                 Utility.Dispose(lowIndicatorText);
                 Utility.Dispose(highIndicatorText);
+                Utility.Dispose(valueIndicatorImage);
+                Utility.Dispose(valueIndicatorText);
             }
 
             base.Dispose(type);
@@ -1031,6 +1205,7 @@ namespace Tizen.NUI.Components
             UpdateComponentByIndicatorTypeChanged();
             UpdateBgTrackSize();
             UpdateBgTrackPosition();
+            UpdateWarningTrackSize();
             UpdateLowIndicatorSize();
             UpdateValue();
         }
@@ -1099,6 +1274,7 @@ namespace Tizen.NUI.Components
             }
             else if (state == PointStateType.Up)
             {
+                //Tizen.Log.Error("Seoyeon","Seoyeon @@@@@ PointStateType.Up -1 \n");
                 if (isValueShown)
                 {
                     valueIndicatorImage.Hide();
@@ -1132,6 +1308,7 @@ namespace Tizen.NUI.Components
             {
                 currentSlidedOffset = bgTrackLength - pos.Y;
             }
+            //Tizen.Log.Error("Seoyeon","Seoyeon ##### 2. bgTrackLength: "+bgTrackLength+", slidedOffset: "+currentSlidedOffset+",pos X:"+pos.X+",Y:+"+pos.Y+ "\n");
             if (bgTrackLength != 0)
             {
                 curValue = ((currentSlidedOffset / (float)bgTrackLength) * (maxValue - minValue)) + minValue;
@@ -1149,6 +1326,7 @@ namespace Tizen.NUI.Components
                     sliderValueChangedHandler(this, args);
                 }
             }
+            //Tizen.Log.Error("Seoyeon","Seoyeon ##### 3. curValue: "+curValue+"\n");
         }
 
         private void UpdateState(bool isFocusedNew, bool isPressedNew)

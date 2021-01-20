@@ -22,20 +22,23 @@ namespace Tizen.NUI.Samples
                 Size = new Size(720, 1280),
                 BackgroundColor = new Color(0.7f, 0.9f, 0.8f, 1.0f),
             };
-            root.Layout = new LinearLayout() { LinearOrientation = LinearLayout.Orientation.Vertical };
+            //root.Layout = new LinearLayout() { LinearOrientation = LinearLayout.Orientation.Vertical };
             window.Add(root);
 
 
 
             Slider test = new Slider();
-            test.TrackThickness = 4;
-            test.ThumbSize = new Size(60, 60);
+            test.Position = new Position(100,100);
+            test.TrackThickness = 10;
+            test.ThumbSize = new Size(30, 30);
             test.BgTrackColor = new Color(0, 0, 0, 0.1f);
             test.SlidedTrackColor = new Color(0.05f, 0.63f, 0.9f, 1);
             test.Direction = Slider.DirectionType.Horizontal;
             test.Focusable = true;
             test.MinValue = MIN_VALUE;
             test.MaxValue = MAX_VALUE;
+            test.ThumbImageURL = "/home/seoyeon/mywork/myGithub/TizenFX/test/Tizen.NUI.Samples/Tizen.NUI.Samples/res/images/FH3/9. Controller/controller_switch_bg_on.png";
+            //test.ThumbColor = Color.Black;
             test.StateChangedEvent += OnStateChanged;
             test.ValueChanged += OnValueChanged;
             test.SlidingStarted += OnSlidingStarted;
@@ -46,13 +49,41 @@ namespace Tizen.NUI.Samples
             // new properties
             test.IsValueShown = true;
             test.ValueIndicatorText = "Hello";
-            test.ValueIndicatorImage = new ImageView(CommonResource.GetFHResourcePath() + "9. Controller/controller_switch_bg_on.png")
-            {
-                Size = new Size(100, 50),
-                
-            };
+            test.ValueIndicatorSize = new Size(100,50);
+            test.ValueIndicatorUrl = "/home/seoyeon/mywork/myGithub/TizenFX/test/Tizen.NUI.Samples/Tizen.NUI.Samples/res/images/FH3/9. Controller/controller_slider_value_indicator.png";
 
+            test.WarningStartValue = 80;
+            test.WarningTrackColor = Color.Red;
+            test.WarningSlidedTrackColor = Color.Blue;
+            test.WarningThumbColor = Color.Yellow;
             root.Add(test);
+
+            Slider test1 = new Slider();
+            test1.Position = new Position(200,300);
+            test1.TrackThickness = 10;
+            test1.ThumbSize = new Size(30, 30);
+            test1.BgTrackColor = new Color(0, 0, 0, 0.1f);
+            test1.SlidedTrackColor = new Color(0.05f, 0.63f, 0.9f, 1);
+            test1.Direction = Slider.DirectionType.Vertical;
+            test1.Focusable = true;
+            test1.MinValue = MIN_VALUE;
+            test1.MaxValue = MAX_VALUE;
+            //test.ThumbImageURL = "/home/seoyeon/mywork/TizenFX/test/Tizen.NUI.Samples/Tizen.NUI.Samples/res/images/FH3/9. Controller/controller_switch_bg_on.png";
+            //test.ThumbColor = Color.Black;
+            test1.Size = new Size(50, 200);
+            test1.CurrentValue = 20;
+
+            // new properties
+            test1.IsValueShown = true;
+            test1.ValueIndicatorText = "Hello";
+            test1.ValueIndicatorSize = new Size(100,50);
+            test1.ValueIndicatorUrl = "/home/seoyeon/mywork/myGithub/TizenFX/test/Tizen.NUI.Samples/Tizen.NUI.Samples/res/images/FH3/9. Controller/controller_slider_value_indicator.png";
+
+            test1.WarningStartValue = 80;
+            test1.WarningTrackColor = Color.Red;
+            test1.WarningSlidedTrackColor = Color.Blue;
+
+            root.Add(test1);
         }
 
         private void InitSliders()
@@ -185,7 +216,7 @@ namespace Tizen.NUI.Samples
             if (source != null)
             {
                 {
-                    Tizen.Log.Error("Seoyeon","Value Changed : currentValue = " + args.CurrentValue + "\n");
+                    //Tizen.Log.Error("Seoyeon","Value Changed : currentValue = " + args.CurrentValue + "\n");
                 }
             }
         }
@@ -196,7 +227,7 @@ namespace Tizen.NUI.Samples
             if (source != null)
             {
                 {
-                    Tizen.Log.Error("Seoyeon","Started currentValue = " + args.CurrentValue + "\n");
+                    //Tizen.Log.Error("Seoyeon","Started currentValue = " + args.CurrentValue + "\n");
                 }
             }
         }
@@ -207,7 +238,7 @@ namespace Tizen.NUI.Samples
             if (source != null)
             {
                 {
-                    Tizen.Log.Error("Seoyeon","Finished currentValue = " + args.CurrentValue + "\n");
+                   // Tizen.Log.Error("Seoyeon","Finished currentValue = " + args.CurrentValue + "\n");
                 }
             }
         }
@@ -220,7 +251,7 @@ namespace Tizen.NUI.Samples
                 if (slider != null)
                 {
                     // Do something
-                    Tizen.Log.Error("Seoyeon","OnStateChanged .\n");
+                    //Tizen.Log.Error("Seoyeon","OnStateChanged .\n");
                 }
             }
         }

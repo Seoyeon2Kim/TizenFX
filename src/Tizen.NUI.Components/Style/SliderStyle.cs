@@ -127,6 +127,20 @@ namespace Tizen.NUI.Components
         public ImageViewStyle Thumb { get; set; } = new ImageViewStyle();
 
         /// <summary>
+        /// Get or set background warning track.
+        /// </summary>
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public ImageViewStyle WarningTrack { get; set; } = new ImageViewStyle();
+
+        /// <summary>
+        /// Get or set slided warning track.
+        /// </summary>
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public ImageViewStyle WarningProgress { get; set; } = new ImageViewStyle();
+
+        /// <summary>
         /// Get or set low indicator image.
         /// </summary>
         /// <since_tizen> 8 </since_tizen>
@@ -149,6 +163,20 @@ namespace Tizen.NUI.Components
         /// </summary>
         /// <since_tizen> 8 </since_tizen>
         public TextLabelStyle HighIndicator { get; set; } = new TextLabelStyle();
+
+        /// <summary>
+        /// Get or set the value indicator text.
+        /// </summary>
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public TextLabelStyle ValueIndicatorText { get; set; } = new TextLabelStyle();
+
+        /// <summary>
+        /// Get or set the value indicator image.
+        /// </summary>
+        /// This will be public opened later after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public ImageViewStyle ValueIndicatorImage { get; set; } = new ImageViewStyle();
 
         /// <summary>
         /// Get or set Indicator type
@@ -204,10 +232,14 @@ namespace Tizen.NUI.Components
                 Track.CopyFrom(sliderStyle.Track);
                 Progress.CopyFrom(sliderStyle.Progress);
                 Thumb.CopyFrom(sliderStyle.Thumb);
+                WarningTrack.CopyFrom(sliderStyle.WarningTrack);
+                WarningProgress.CopyFrom(sliderStyle.WarningProgress);
                 LowIndicatorImage.CopyFrom(sliderStyle.LowIndicatorImage);
                 HighIndicatorImage.CopyFrom(sliderStyle.HighIndicatorImage);
                 LowIndicator.CopyFrom(sliderStyle.LowIndicator);
                 HighIndicator.CopyFrom(sliderStyle.HighIndicator);
+                ValueIndicatorText.CopyFrom(sliderStyle.ValueIndicatorText);
+                ValueIndicatorImage.CopyFrom(sliderStyle.ValueIndicatorImage);
             }
         }
 
