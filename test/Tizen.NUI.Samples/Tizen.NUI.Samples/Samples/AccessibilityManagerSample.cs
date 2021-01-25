@@ -2,6 +2,7 @@
 using System;
 using Tizen.NUI.BaseComponents;
 using Tizen.NUI.Accessibility;
+using Tizen.NUI.Components;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
 ///                      How to turn on and test Accessibility                              ///
@@ -17,11 +18,11 @@ namespace Tizen.NUI.Samples
 {
     public class AccessibilityManagerSample : IExample
     {
-        const string tag = "NUITEST";
+        Button textButton;
+        Button iconButton;
 
-        const int mRow = 3;
-        const int mColumn = 3;
-        const int mContents = mRow * mColumn;
+        Button iconTextButton;
+        ImageView highlight;
 
         Size2D windowSize;
 
@@ -31,80 +32,82 @@ namespace Tizen.NUI.Samples
             window.BackgroundColor = Color.White;
             windowSize = window.Size;
 
-            // Create Table
-            TableView table = new TableView(mRow, mColumn)
-            {
-                PositionUsesPivotPoint = true,
-                PivotPoint = PivotPoint.Center,
-                ParentOrigin = ParentOrigin.Center,
-                Size = new Size((float)(windowSize.Width * 0.8), (float)(windowSize.Height * 0.8)),
-                BackgroundColor = new Color(0.2f, 0.5f, 0.5f, 1.0f),
-                CellPadding = new Vector2(10, 10),
+            window.KeyEvent += Window_KeyEvent;
+
+            // Only show a text button.
+            textButton = new Button();
+            textButton.BackgroundImage = "/home/seoyeon/mywork/github/TizenFX/test/Tizen.NUI.Samples/Tizen.NUI.Samples/res/images/FH3/9. Controller/controller_switch_bg_on.png";
+            textButton.BackgroundImageBorder = new Rectangle(4, 4, 5, 5);
+            textButton.Position = new Position(20, 20);
+            textButton.Size = new Size(90, 90);
+            textButton.TextLabel.Text = "Button";
+            textButton.Icon.ResourceUrl = "/home/seoyeon/mywork/github/TizenFX/test/Tizen.NUI.Samples/Tizen.NUI.Samples/res/images/FH3/10. Drop Down/dropdown_checkbox_on.png";
+            window.Add(textButton);
+
+            highlight = new ImageView();
+            highlight.ResourceUrl = "/home/seoyeon/mywork/github/TizenFX/test/Tizen.NUI.Samples/Tizen.NUI.Samples/res/images/FH3/9. Controller/picker_date_scheduling_bg_01.png";
+            highlight.WidthResizePolicy = ResizePolicyType.FillToParent;
+            highlight.HeightResizePolicy = ResizePolicyType.FillToParent;
+            highlight.ParentOrigin = ParentOrigin.Center;
+            highlight.PivotPoint = PivotPoint.Center;
+            highlight.PositionUsesPivotPoint = true;
+            highlight.Position = new Position(0, 0);
+            textButton.Add(highlight);
+
+            Tizen.Log.Error("Seoyeon","### highlight size : "+highlight.Size.Width+", Height : "+highlight.Size.Height+"\n");
+
+            //Only show an icon button.
+           /* iconButton = new Button();
+            iconButton.Text = "";
+            iconButton.Name = "IconButton";
+            iconButton.BackgroundImage = CommonResource.GetTVResourcePath() + "component/c_buttonbasic/c_basic_button_white_bg_normal_9patch.png";
+            iconButton.BackgroundImageBorder = new Rectangle(4, 4, 5, 5);
+            iconButton.Size = new Size(80, 80);
+            iconButton.Icon.ResourceUrl = CommonResource.GetTVResourcePath() + "component/c_radiobutton/c_radiobutton_white_check.png";
+            //window.Add(iconButton);
+            iconButton.Clicked += (ojb, e) => {
+                var btn = iconButton.Icon.GetParent() as Button;
+                string name = btn.Name;
             };
-            window.GetDefaultLayer().Add(table);
 
-            uint exampleCount = 0;
+            //Show a button with icon and text.
+            iconTextButton = new Button();
+            iconTextButton.Text = "IconTextButton";
+            iconTextButton.BackgroundImage = CommonResource.GetTVResourcePath() + "component/c_buttonbasic/c_basic_button_white_bg_normal_9patch.png";
+            iconTextButton.BackgroundImageBorder = new Rectangle(4, 4, 5, 5);
+            iconTextButton.IconRelativeOrientation = Button.IconOrientation.Left;
+            iconTextButton.Icon.ResourceUrl = CommonResource.GetTVResourcePath() + "component/c_radiobutton/c_radiobutton_white_check.png";
+            iconTextButton.IconPadding = new Extents(20, 20, 20, 20);
+            iconTextButton.TextPadding = new Extents(20, 50, 20, 20);
+            iconTextButton.Size = new Size(500, 300);
+           // window.Add(iconTextButton);*/
+        }
 
-            // Fill the contents in TableView
-            for (uint row = 0; row < mRow; row++)
+        private void Window_KeyEvent(object sender, Window.KeyEventArgs e)
+        {
+            if(e.Key.State == Key.StateType.Up)
             {
-                for (uint column = 0; column < mColumn; column++)
+                switch(e.Key.KeyPressedName)
                 {
-                    TextLabel content = CreateText();
-                    content.Name = "TextLabel" + exampleCount;
-                    content.Text = "R" + row + " - C" + column;
+                    case "1":
+                        //iconTextButton.IconRelativeOrientation = Button.IconOrientation.Right;
+                        Tizen.Log.Error("Seoyeon","@@@ highlight size : "+highlight.Size.Width+", Height : "+highlight.Size.Height+"\n");
+                        break;
+                    case "2":
+                       // iconTextButton.IconRelativeOrientation = Button.IconOrientation.Top;
+                        break;
 
-                    ///////////////////////////////////////////////////////////////////////////////////////////////
-                    ///                 How to set Accessibility attribute to components                        ///
-                    /// 1. Create AccessibilityManager.                                                         ///
-                    /// 2. Set the focus order of each view and the index of order should start 1 (one).        ///
-                    /// 3. Set the information of each view's accessibility attribute.                          ///
-                    ///    There are four attributes, which will be read by screen reader.                      ///
-                    ///    And the order of reading is : Label -> Trait -> Value (Optional) -> Hint (Optional)  ///
-                    ///////////////////////////////////////////////////////////////////////////////////////////////
-
-                    AccessibilityManager manager = AccessibilityManager.Instance;
-                    manager.SetFocusOrder(content, ++exampleCount);
-                    manager.SetAccessibilityAttribute(content,
-                                                    AccessibilityManager.AccessibilityAttribute.Label, content.Name);
-                    manager.SetAccessibilityAttribute(content,
-                                                    AccessibilityManager.AccessibilityAttribute.Trait, "Tile");
-                    manager.SetAccessibilityAttribute(content,
-                                                    AccessibilityManager.AccessibilityAttribute.Hint, "You can run this example");
-
-                    table.AddChild(content, new TableView.CellPosition(row, column));
                 }
-            }
-
-            // You can connect with various Accessibility action signals.
-            // AccessibilityManager provides functionality of setting the focus and moving forward and backward.
-            // All touch interactions for screen will work with one more finger and tap.
-
-            AccessibilityManager.Instance.FocusedViewActivated += OnFocusedView;
-        }
-
-        TextLabel CreateText()
-        {
-            TextLabel label = new TextLabel();
-            label.MultiLine = true;
-            label.HorizontalAlignment = HorizontalAlignment.Center;
-            label.VerticalAlignment = VerticalAlignment.Center;
-            label.Focusable = true;
-            return label;
-        }
-
-        // Do something with activated View, for example, launching another application.
-        private void OnFocusedView(object source, AccessibilityManager.FocusedViewActivatedEventArgs args)
-        {
-            if (args.View)
-            {
-                // Here, in the sample, if one finger double tap, the following log will shows in terminal.
-                Tizen.Log.Error(tag, "The current focused view is "+ args.View.Name +"\n");
             }
         }
 
         public void Deactivate()
         {
+            textButton.Dispose();
+            textButton = null;
+
+            iconTextButton.Dispose();
+            iconTextButton = null;
         }
     }
 }
