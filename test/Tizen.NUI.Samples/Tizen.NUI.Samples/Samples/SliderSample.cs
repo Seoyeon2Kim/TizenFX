@@ -1,5 +1,6 @@
 ﻿using Tizen.NUI.BaseComponents;
 using Tizen.NUI.Components;
+using System;
 
 namespace Tizen.NUI.Samples
 {
@@ -37,8 +38,14 @@ namespace Tizen.NUI.Samples
             test.Focusable = true;
             test.MinValue = MIN_VALUE;
             test.MaxValue = MAX_VALUE;
-            test.ThumbImageURL = "/home/seoyeon/mywork/myGithub/TizenFX/test/Tizen.NUI.Samples/Tizen.NUI.Samples/res/images/FH3/9. Controller/controller_switch_bg_on.png";
+            //test.ThumbImageURL = "/home/seoyeon/mywork/myGithub/TizenFX/test/Tizen.NUI.Samples/Tizen.NUI.Samples/res/images/FH3/9. Controller/controller_switch_bg_on.png";
             //test.ThumbColor = Color.Black;
+/*            test.ThumbImageUri = new Selector<Uri>
+            {
+                Normal = new Uri("/home/seoyeon/mywork/myGithub/TizenFX/test/Tizen.NUI.Samples/Tizen.NUI.Samples/res/images/FH3/9. Controller/controller_switch_bg_on.png"),
+                Pressed = new Uri("/home/seoyeon/mywork/myGithub/TizenFX/test/Tizen.NUI.Samples/Tizen.NUI.Samples/res/images/FH3/9. Controller/controller_switch_bg_on_dim.png")
+            };*/
+            test.ThumbImageUri = new Uri("/home/seoyeon/mywork/myGithub/TizenFX/test/Tizen.NUI.Samples/Tizen.NUI.Samples/res/images/FH3/9. Controller/controller_switch_bg_on.png");
             test.StateChangedEvent += OnStateChanged;
             test.ValueChanged += OnValueChanged;
             test.SlidingStarted += OnSlidingStarted;

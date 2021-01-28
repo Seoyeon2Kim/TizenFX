@@ -57,13 +57,13 @@ namespace Tizen.NUI.Components
         // To store the thumb image url of normal state
         private string thumbImageUrl = null;
         // To store the thumb image url selector of normal state
-        private StringSelector thumbImageUrlSelector = null;
+        private Selector<string> thumbImageUrlSelector = null;
         // To store the thumb color of normal state
         private Color thumbColor = Color.White;
         // To store the thumb image url of warning state
         private string warningThumbImageUrl = null;
         // To store the thumb image url selector of warning state
-        private StringSelector warningThumbImageUrlSelector = null;
+        private Selector<string> warningThumbImageUrlSelector = null;
         // To store the thumb color of warning state
         private Color warningThumbColor = null;
 
@@ -266,6 +266,7 @@ namespace Tizen.NUI.Components
                 {
                     valueIndicatorImage.Add(valueIndicatorText);
                 }
+                // TODO : ValueIndicator can be a child of Thumb
                 this.Add(valueIndicatorImage);
             }
 
@@ -685,34 +686,6 @@ namespace Tizen.NUI.Components
                 {
                     valueIndicatorImage.Position = new Position(slidedTrackImage.Size2D.Width, 0);
                 }
-
-                if (curValue >= warningStartValue)
-                {
-                    float warningTrackLength = ((curValue - warningStartValue) / 100) * this.Size2D.Width;
-                    warningSlidedTrackImage.Size2D = new Size2D((int)(warningTrackLength), (int)curTrackThickness);
-
-                    if (warningThumbColor != null && thumbImage.Color.NotEqualTo(warningThumbColor))
-                    {
-                        thumbImage.Color = warningThumbColor;
-                    }
-                    if (warningThumbImageUrl != null && !thumbImage.ResourceUrl.Equals(warningThumbImageUrl))
-                    {
-                        thumbImage.ResourceUrl = warningThumbImageUrl;
-                    }
-                    // TODO : How to compare and set string selector
-                }
-                else
-                {
-                    warningSlidedTrackImage.Size2D = new Size2D(0, 0);
-                    if (warningThumbColor != null && thumbImage.Color.EqualTo(warningThumbColor))
-                    {
-                        thumbImage.Color = thumbColor;
-                    }
-                    if (warningThumbImageUrl != null && thumbImage.ResourceUrl.Equals(warningThumbImageUrl))
-                    {
-                        thumbImage.ResourceUrl = thumbImageUrl;
-                    }
-                }
             }
             else if (direction == DirectionType.Vertical)
             {
@@ -725,32 +698,39 @@ namespace Tizen.NUI.Components
                 {
                     valueIndicatorImage.Position = new Position(0, -(slidedTrackImage.Size2D.Height + thumbImage.Size.Height / 2));
                 }
+            }
 
-                if (curValue >= warningStartValue)
+            // Update the track and thumb when the value is over warning value.
+            if (curValue >= warningStartValue)
+            {
+                if (direction == DirectionType.Horizontal)
                 {
-                    float warningTrackLength = ((curValue - warningStartValue) / 100) * this.Size2D.Height;
-                    warningSlidedTrackImage.Size2D = new Size2D((int)curTrackThickness, (int)(warningTrackLength + round));
-
-                    if (warningThumbColor != null && thumbImage.Color.NotEqualTo(warningThumbColor))
-                    {
-                        thumbImage.Color = warningThumbColor;
-                    }
-                    if (warningThumbImageUrl != null && !thumbImage.ResourceUrl.Equals(warningThumbImageUrl))
-                    {
-                        thumbImage.ResourceUrl = warningThumbImageUrl;
-                    }
+                    warningSlidedTrackImage.Size2D = new Size2D((int)(((curValue - warningStartValue) / 100) * this.Size2D.Width), (int)curTrackThickness);
                 }
-                else
+                else if (direction == DirectionType.Vertical)
                 {
-                    warningSlidedTrackImage.Size2D = new Size2D(0, 0);
-                    if (warningThumbColor != null && thumbImage.Color.EqualTo(warningThumbColor))
-                    {
-                        thumbImage.Color = thumbColor;
-                    }
-                    if (warningThumbImageUrl != null && thumbImage.ResourceUrl.Equals(warningThumbImageUrl))
-                    {
-                        thumbImage.ResourceUrl = thumbImageUrl;
-                    }
+                    warningSlidedTrackImage.Size2D = new Size2D((int)curTrackThickness, (int)(((curValue - warningStartValue) / 100) * this.Size2D.Height));
+                }
+
+                if (warningThumbColor != null && thumbImage.Color.NotEqualTo(warningThumbColor))
+                {
+                    thumbImage.Color = warningThumbColor;
+                }
+                if (warningThumbImageUrl != null && !thumbImage.ResourceUrl.Equals(warningThumbImageUrl))
+                {
+                    thumbImage.ResourceUrl = warningThumbImageUrl;
+                }
+            }
+            else
+            {
+                warningSlidedTrackImage.Size2D = new Size2D(0, 0);
+                if (warningThumbColor != null && thumbImage.Color.EqualTo(warningThumbColor))
+                {
+                    thumbImage.Color = thumbColor;
+                }
+                if (warningThumbImageUrl != null && thumbImage.ResourceUrl.Equals(warningThumbImageUrl))
+                {
+                    thumbImage.ResourceUrl = thumbImageUrl;
                 }
             }
         }
@@ -795,6 +775,7 @@ namespace Tizen.NUI.Components
             {
                 return;
             }
+
             int curTrackThickness = (int)CurrentTrackThickness();
             float warningTrackLength = maxValue - warningStartValue;
             if (direction == DirectionType.Horizontal)
