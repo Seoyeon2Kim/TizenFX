@@ -131,6 +131,26 @@ namespace Tizen.NUI.Components
             return instance.state;
         });
 
+        /// <summary>
+        /// IsEnabledProperty
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static readonly BindableProperty IsEnabledProperty = BindableProperty.Create(nameof(IsEnabled), typeof(bool), typeof(Progress), true, propertyChanged: (bindable, oldValue, newValue) =>
+        {
+            var instance = (Progress)bindable;
+            if (newValue != null)
+            {
+                bool newEnabled = (bool)newValue;
+                if (instance.isEnabled != newEnabled)
+                {
+                    instance.isEnabled = newEnabled;
+                    instance.Sensitive = newEnabled;
+                    instance.UpdateStates();
+                }
+            }
+        },
+        defaultValueCreator: (bindable) => ((Progress)bindable).isEnabled);
+
         /// This needs to be considered more if public-open is necessary.
         private ProgressStatusType state = ProgressStatusType.Determinate;
 
@@ -145,6 +165,7 @@ namespace Tizen.NUI.Components
         private float currentValue = 0;
         private float bufferValue = 0;
         private Animation indeterminateAnimation = null;
+        bool isEnabled = true;
 
         static Progress() { }
         /// <summary>
@@ -174,48 +195,6 @@ namespace Tizen.NUI.Components
         public Progress(ProgressStyle progressStyle) : base(progressStyle)
         {
             Initialize();
-        }
-
-        /// <summary>
-        /// Prevents from showing child widgets in AT-SPI tree.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected override bool AccessibilityShouldReportZeroChildren()
-        {
-            return true;
-        }
-
-        /// <summary>
-        /// Minimum value.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected override double AccessibilityGetMinimum()
-        {
-            if (this.ProgressState == Components.Progress.ProgressStatusType.Determinate)
-                return (double)MinValue;
-            else return 0.0;
-        }
-
-        /// <summary>
-        /// Current value.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected override double AccessibilityGetCurrent()
-        {
-            if (this.ProgressState == Components.Progress.ProgressStatusType.Determinate)
-                return (double)CurrentValue;
-            else return 0.0;
-        }
-
-        /// <summary>
-        /// Maximum value.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        protected override double AccessibilityGetMaximum()
-        {
-            if (this.ProgressState == Components.Progress.ProgressStatusType.Determinate)
-                return (double)MaxValue;
-            else return 0.0;
         }
 
         /// <summary>
@@ -427,6 +406,22 @@ namespace Tizen.NUI.Components
             }
         }
 
+        /// <summary>
+        /// Flag to decide enable or disable in Progress.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool IsEnabled
+        {
+            get
+            {
+                return (bool)GetValue(IsEnabledProperty);
+            }
+            set
+            {
+                SetValue(IsEnabledProperty, value);
+            }
+        }
+
         /// <inheritdoc/>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public override void OnInitialize()
@@ -464,6 +459,48 @@ namespace Tizen.NUI.Components
                     indeterminateImage.URL = progressStyle.IndeterminateImageUrl;
                 }
             }
+        }
+
+        /// <summary>
+        /// Prevents from showing child widgets in AT-SPI tree.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override bool AccessibilityShouldReportZeroChildren()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Minimum value.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override double AccessibilityGetMinimum()
+        {
+            if (this.ProgressState == Components.Progress.ProgressStatusType.Determinate)
+                return (double)MinValue;
+            else return 0.0;
+        }
+
+        /// <summary>
+        /// Current value.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override double AccessibilityGetCurrent()
+        {
+            if (this.ProgressState == Components.Progress.ProgressStatusType.Determinate)
+                return (double)CurrentValue;
+            else return 0.0;
+        }
+
+        /// <summary>
+        /// Maximum value.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        protected override double AccessibilityGetMaximum()
+        {
+            if (this.ProgressState == Components.Progress.ProgressStatusType.Determinate)
+                return (double)MaxValue;
+            else return 0.0;
         }
 
         /// <summary>

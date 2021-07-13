@@ -95,10 +95,25 @@ namespace Tizen.NUI.Components
             return instance.trackPadding;
         });
 
+        /// <summary>
+        /// IsEnabledProperty
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static readonly BindableProperty IsEnabledProperty = BindableProperty.Create(nameof(IsEnabled), typeof(bool?), typeof(SliderStyle), null, propertyChanged: (bindable, oldValue, newValue) =>
+        {
+            ((SliderStyle)bindable).isEnabled = (bool?)newValue;
+        },
+        defaultValueCreator: (bindable) =>
+        {
+            var instance = (SliderStyle)bindable;
+            return instance.isEnabled;
+        });
+
         private IndicatorType? privateIndicatorType = Slider.IndicatorType.None;
         private uint? privateTrackThickness;
         private uint? privateSpaceBetweenTrackAndIndicator;
         private Extents trackPadding;
+        private bool? isEnabled;
 
         static SliderStyle() { }
 
@@ -225,6 +240,16 @@ namespace Tizen.NUI.Components
         {
             get => ((Extents)GetValue(TrackPaddingProperty)) ?? (trackPadding = new Extents(0, 0, 0, 0));
             set => SetValue(TrackPaddingProperty, value);
+        }
+
+        /// <summary>
+        /// Flag to decide slider can be selected or not.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool? IsEnabled
+        {
+            get => (bool?)GetValue(IsEnabledProperty);
+            set => SetValue(IsEnabledProperty, value);
         }
 
         /// <inheritdoc/>
