@@ -1,0 +1,66 @@
+// emul
+
+08-10 16:59:14.787+0900 E/EFL      (P 3697, T 3697): ecore_wl2<3697> ../src/lib/ecore_wl2/ecore_wl2_input.c:693 _ecore_wl2_input_mouse_down_send() [press] window = 0x8087ab60, time=100123 button=0
+08-10 16:59:14.800+0900 W/FEEDBACK (P 3697, T 3697): feedback.c: check_pattern(142) > pattern is : FEEDBACK_TYPE_SOUND FEEDBACK_PATTERN_TAP(0) by feedback_is_supported_pattern
+08-10 16:59:14.801+0900 W/FEEDBACK (P 3697, T 3697): feedback.c: check_pattern(142) > pattern is : FEEDBACK_TYPE_SOUND FEEDBACK_PATTERN_TAP(0) by feedback_play_type
+08-10 16:59:14.803+0900 D/MM_SOUND (P 3697, T 3697): mm_sound_keysound.c: __convert_volume_type_to_role(80) > volume_type(0)
+08-10 16:59:14.803+0900 D/MM_SOUND (P 3697, T 3697): mm_sound_keysound.c: __convert_volume_gain_type_to_string(102) > volume_gain_type(0x200)
+08-10 16:59:14.803+0900 I/MM_SOUND (P 3697, T 3697): mm_sound_keysound.c: __mm_sound_simple_pipe(230) > filepath=[/usr/share/feedback/sound/touch/touch.wav], role=[system], volume_gain_type=[touch], method=[SimplePlay]
+08-10 16:59:14.804+0900 D/FEEDBACK (P 3697, T 3697): sound.c: sound_play(244) > Play success! FEEDBACK_PATTERN_TAP(/usr/share/feedback/sound/touch/touch.wav)
+08-10 16:59:14.907+0900 E/EFL      (P 3697, T 3697): ecore_wl2<3697> ../src/lib/ecore_wl2/ecore_wl2_input.c:772 _ecore_wl2_input_mouse_up_send() [release] time=100242 button=0
+08-10 16:59:14.913+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+08-10 16:59:14.934+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+08-10 16:59:14.939+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+08-10 16:59:14.951+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+08-10 16:59:14.967+0900 E/VCONF    (P 3697, T 3697): vconf.c: _vconf_get(1091) > get value: key 'memory/multiscreen/info' errno 2
+08-10 16:59:14.967+0900 E/VCONF    (P 3697, T 3697): vconf.c: vconf_get_bool(1161) > err no 2(BUXTON_ERROR_NOT_EXIST)
+08-10 16:59:14.968+0900 E/VCONF    (P 3697, T 3697): vconf.c: _vconf_notify_key_changed(817) > vconf_notify_key_changed: key 'memory/multiscreen/info' add notify error 2
+08-10 16:59:14.968+0900 E/VCONF    (P 3697, T 3697): vconf.c: _vconf_notify_key_changed(832) > err no 2(BUXTON_ERROR_NOT_EXIST)
+08-10 16:59:14.968+0900 W/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_initialize(3017) > Failed to register callback function for multiview mode.
+08-10 16:59:14.969+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+08-10 16:59:14.977+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+08-10 16:59:14.984+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+08-10 16:59:14.989+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+08-10 16:59:14.989+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+08-10 16:59:14.993+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+08-10 16:59:14.994+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+08-10 16:59:14.997+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+08-10 16:59:14.997+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+08-10 16:59:15.001+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+08-10 16:59:15.002+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+08-10 16:59:15.005+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+08-10 16:59:15.006+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+08-10 16:59:15.009+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+08-10 16:59:15.023+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+08-10 16:59:15.028+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+08-10 16:59:15.028+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+08-10 16:59:15.032+0900 I/SYSTEM-SETTINGS (P 3697, T 3697): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_module.c: im_module_create(139) > text_input_manager = 0x809fbb30
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_new(4222) > new context created
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_add(3062) > ctx : 0x809fbb60
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_add(3083) > text_input_manager : 0x809fbb30
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_add(3092) > app id : org.tizen.example.TdaoSample
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_client_window_set(3432) > client window set (Ecore_Window: 0x1)
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_client_window_set(3439) > client Ecore_Wl2_Window : 0x8087ab60
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_new(4222) > new context created
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_add(3062) > ctx : 0x809fc170
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_add(3083) > text_input_manager : 0x809fbb30
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_add(3092) > app id : org.tizen.example.TdaoSample
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_client_window_set(3432) > client window set (Ecore_Window: 0x1)
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_client_window_set(3439) > client Ecore_Wl2_Window : 0x8087ab60
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_new(4222) > new context created
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_add(3062) > ctx : 0x80a19d90
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_add(3083) > text_input_manager : 0x809fbb30
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_add(3092) > app id : org.tizen.example.TdaoSample
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_client_window_set(3432) > client window set (Ecore_Window: 0x1)
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_client_window_set(3439) > client Ecore_Wl2_Window : 0x8087ab60
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_new(4222) > new context created
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_add(3062) > ctx : 0x80a02420
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_add(3083) > text_input_manager : 0x809fbb30
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_add(3092) > app id : org.tizen.example.TdaoSample
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_client_window_set(3432) > client window set (Ecore_Window: 0x1)
+08-10 16:59:15.040+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_client_window_set(3439) > client Ecore_Wl2_Window : 0x8087ab60
+08-10 16:59:15.047+0900 D/IMMODULE (P 3697, T 3697): wayland_imcontext.c: wayland_im_context_reset(3203) > ctx : 0x809fbb60
+
+
+

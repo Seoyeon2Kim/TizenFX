@@ -1,0 +1,73 @@
+// target
+
+01-01 09:00:58.686+0900 E/EFL      (P 1184, T 1184): ecore_wl2<1184> ../src/lib/ecore_wl2/ecore_wl2_input.c:693 _ecore_wl2_input_mouse_down_send() [press] window = 0xf83f18, time=58685 button=0
+01-01 09:00:58.691+0900 W/FEEDBACK (P 1184, T 1184): feedback.c: check_pattern(142) > pattern is : FEEDBACK_TYPE_SOUND FEEDBACK_PATTERN_TAP(0) by feedback_is_supported_pattern
+01-01 09:00:58.697+0900 W/FEEDBACK (P 1184, T 1184): feedback.c: check_pattern(142) > pattern is : FEEDBACK_TYPE_SOUND FEEDBACK_PATTERN_TAP(0) by feedback_play_type
+01-01 09:00:58.698+0900 D/MM_SOUND (P 1184, T 1184): mm_sound_keysound.c: __convert_volume_type_to_role(80) > volume_type(0)
+01-01 09:00:58.698+0900 D/MM_SOUND (P 1184, T 1184): mm_sound_keysound.c: __convert_volume_gain_type_to_string(102) > volume_gain_type(0x200)
+01-01 09:00:58.698+0900 I/MM_SOUND (P 1184, T 1184): mm_sound_keysound.c: __mm_sound_simple_pipe(230) > filepath=[/usr/share/feedback/sound/touch/touch.wav], role=[system], volume_gain_type=[touch], method=[SimplePlay]
+01-01 09:00:58.698+0900 D/FEEDBACK (P 1184, T 1184): sound.c: sound_play(244) > Play success! FEEDBACK_PATTERN_TAP(/usr/share/feedback/sound/touch/touch.wav)
+01-01 09:00:58.784+0900 E/EFL      (P 1184, T 1184): ecore_wl2<1184> ../src/lib/ecore_wl2/ecore_wl2_input.c:772 _ecore_wl2_input_mouse_up_send() [release] time=58781 button=0
+01-01 09:00:58.798+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+01-01 09:00:58.832+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+01-01 09:00:58.838+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+01-01 09:00:58.868+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+01-01 09:00:58.889+0900 E/VCONF    (P 1184, T 1184): vconf.c: _vconf_get(1091) > get value: key 'memory/multiscreen/info' errno 2
+01-01 09:00:58.889+0900 E/VCONF    (P 1184, T 1184): vconf.c: vconf_get_bool(1161) > err no 2(BUXTON_ERROR_NOT_EXIST)
+01-01 09:00:58.893+0900 E/VCONF    (P 1184, T 1184): vconf.c: _vconf_notify_key_changed(817) > vconf_notify_key_changed: key 'memory/multiscreen/info' add notify error 2
+01-01 09:00:58.893+0900 E/VCONF    (P 1184, T 1184): vconf.c: _vconf_notify_key_changed(832) > err no 2(BUXTON_ERROR_NOT_EXIST)
+01-01 09:00:58.893+0900 W/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_initialize(3017) > Failed to register callback function for multiview mode.
+01-01 09:00:58.895+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+01-01 09:00:58.923+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+01-01 09:00:58.934+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+01-01 09:00:58.957+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+01-01 09:00:58.959+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+01-01 09:00:58.979+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+01-01 09:00:58.984+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+01-01 09:00:59.002+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+01-01 09:00:59.004+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+01-01 09:00:59.021+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+01-01 09:00:59.024+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+01-01 09:00:59.051+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+01-01 09:00:59.053+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+01-01 09:00:59.071+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+01-01 09:00:59.084+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+01-01 09:00:59.102+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+01-01 09:00:59.103+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 4, type = 0
+01-01 09:00:59.121+0900 I/SYSTEM-SETTINGS (P 1184, T 1184): sst_interface.c: sst_get_interface(354) > key = 3, type = 1
+01-01 09:00:59.126+0900 D/IMMODULE (P 1184, T 1184): wayland_module.c: im_module_create(139) > text_input_manager = 0x10b20f8
+01-01 09:00:59.126+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_new(4222) > new context created
+01-01 09:00:59.126+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_add(3062) > ctx : 0x10b2128
+01-01 09:00:59.126+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_add(3083) > text_input_manager : 0x10b20f8
+01-01 09:00:59.126+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_add(3092) > app id : org.tizen.example.TdaoSample
+01-01 09:00:59.127+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_client_window_set(3432) > client window set (Ecore_Window: 0x1)
+01-01 09:00:59.127+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_client_window_set(3439) > client Ecore_Wl2_Window : 0xf83f18
+01-01 09:00:59.127+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_new(4222) > new context created
+01-01 09:00:59.128+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_add(3062) > ctx : 0x10d8690
+01-01 09:00:59.128+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_add(3083) > text_input_manager : 0x10b20f8
+01-01 09:00:59.128+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_add(3092) > app id : org.tizen.example.TdaoSample
+01-01 09:00:59.128+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_client_window_set(3432) > client window set (Ecore_Window: 0x1)
+01-01 09:00:59.128+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_client_window_set(3439) > client Ecore_Wl2_Window : 0xf83f18
+01-01 09:00:59.129+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_new(4222) > new context created
+01-01 09:00:59.129+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_add(3062) > ctx : 0x10bfc08
+01-01 09:00:59.129+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_add(3083) > text_input_manager : 0x10b20f8
+01-01 09:00:59.129+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_add(3092) > app id : org.tizen.example.TdaoSample
+01-01 09:00:59.129+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_client_window_set(3432) > client window set (Ecore_Window: 0x1)
+01-01 09:00:59.129+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_client_window_set(3439) > client Ecore_Wl2_Window : 0xf83f18
+01-01 09:00:59.129+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_new(4222) > new context created
+01-01 09:00:59.129+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_add(3062) > ctx : 0x10ca840
+01-01 09:00:59.129+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_add(3083) > text_input_manager : 0x10b20f8
+01-01 09:00:59.129+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_add(3092) > app id : org.tizen.example.TdaoSample
+01-01 09:00:59.129+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_client_window_set(3432) > client window set (Ecore_Window: 0x1)
+01-01 09:00:59.130+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_client_window_set(3439) > client Ecore_Wl2_Window : 0xf83f18
+01-01 09:00:59.134+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_reset(3203) > ctx : 0x10b2128
+01-01 09:00:59.135+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_reset(3203) > ctx : 0x10b2128
+01-01 09:00:59.135+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_reset(3203) > ctx : 0x10d8690
+01-01 09:00:59.136+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_reset(3203) > ctx : 0x10d8690
+01-01 09:00:59.137+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_reset(3203) > ctx : 0x10bfc08
+01-01 09:00:59.137+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_reset(3203) > ctx : 0x10bfc08
+01-01 09:00:59.138+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_reset(3203) > ctx : 0x10ca840
+01-01 09:00:59.139+0900 D/IMMODULE (P 1184, T 1184): wayland_imcontext.c: wayland_im_context_reset(3203) > ctx : 0x10ca840
+
+
+
