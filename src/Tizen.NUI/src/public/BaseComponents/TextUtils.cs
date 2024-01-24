@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2020 Samsung Electronics Co., Ltd.
+ * Copyright(c) 2023 Samsung Electronics Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1122,6 +1122,40 @@ namespace Tizen.NUI.BaseComponents
             return fontList;
         }
 
+        /// <summary>
+        /// This method converts a TextFitArray property map to a TextFitArray and returns it.
+        /// <param name="textFitArrayMap">The TextFitArray PropertyMap.</param>
+        /// <returns> A TextFitArray struct. </returns>
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static TextFitArray GetMapToTextFitArray(PropertyMap textFitArrayMap)
+        {
+            var textFitArray = new TextFitArray();
+            if (textFitArrayMap != null)
+            {
+                textFitArray.Enable = TextMapHelper.GetBoolFromMap(textFitArrayMap, "enable", false);
+                textFitArray.OptionList = new List<TextFitArrayOption>();
+
+                var pointSizeArray = TextMapHelper.GetArrayFromMap(textFitArrayMap, "pointSizeArray");
+                var minLineSizeArray = TextMapHelper.GetArrayFromMap(textFitArrayMap, "minLineSizeArray");
+
+                if (pointSizeArray != null && minLineSizeArray != null && pointSizeArray.Count() == minLineSizeArray.Count())
+                {
+                    for (uint i = 0 ; i < pointSizeArray.Count() ; i ++)
+                    {
+                        using (var pointSizeValue = pointSizeArray[i])
+                        using (var minLineSizeValue = minLineSizeArray[i])
+                        {
+                            minLineSizeValue.Get(out float minLineSize);
+                            pointSizeValue.Get(out float pointSize);
+                            textFitArray.OptionList.Add(new TextFitArrayOption(pointSize, minLineSize));
+                        }
+                    }
+                }
+            }
+            return textFitArray;
+        }
+
 #if PROFILE_TV
         private const float FontSizeScaleSmall = 0.8f;
         private const float FontSizeScaleNormal = 1.0f;
@@ -1137,11 +1171,11 @@ namespace Tizen.NUI.BaseComponents
         private const float FontSizeScaleGiant = 2.5f;
 #else   // PROFILE_MOBILE and etc
         // The following values from 'system-settings/libutil/sstu.c'
-        private const float FontSizeScaleSmall = 0.8f;
+        private const float FontSizeScaleSmall = 0.87f;
         private const float FontSizeScaleNormal = 1.0f;
-        private const float FontSizeScaleLarge = 1.5f;
-        private const float FontSizeScaleHuge = 1.9f;
-        private const float FontSizeScaleGiant = 2.5f;
+        private const float FontSizeScaleLarge = 1.13f;
+        private const float FontSizeScaleHuge = 1.26f;
+        private const float FontSizeScaleGiant = 1.4f;
 #endif
 
         /// <summary>

@@ -49,15 +49,29 @@ namespace Tizen.NUI
         public TapGestureDetector(uint tapsRequired) : this(Interop.TapGestureDetector.New(tapsRequired), true)
         {
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
-
         }
 
-        internal TapGestureDetector(global::System.IntPtr cPtr, bool cMemoryOwn) : base(cPtr, cMemoryOwn)
+        /// <summary>
+        /// The copy constructor.
+        /// </summary>
+        /// <param name="handle">A reference to the copied handle</param>
+        /// This will be public opened in tizen_5.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public TapGestureDetector(TapGestureDetector handle) : this(Interop.TapGestureDetector.NewTapGestureDetector(TapGestureDetector.getCPtr(handle)), true, false)
+        {
+            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+        }
+
+        internal TapGestureDetector(global::System.IntPtr cPtr, bool cMemoryOwn) : this(cPtr, cMemoryOwn, cMemoryOwn)
+        {
+        }
+
+        internal TapGestureDetector(global::System.IntPtr cPtr, bool cMemoryOwn, bool cRegister) : base(cPtr, cMemoryOwn, cRegister)
         {
         }
 
         private DaliEventHandler<object, DetectedEventArgs> _detectedEventHandler;
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void DetectedCallbackType(IntPtr actor, IntPtr TapGesture);
         private DetectedCallbackType _detectedCallback;
 
@@ -88,17 +102,6 @@ namespace Tizen.NUI
                     DetectedSignal().Disconnect(_detectedCallback);
                 }
             }
-        }
-
-        /// <summary>
-        /// The copy constructor.
-        /// </summary>
-        /// <param name="handle">A reference to the copied handle</param>
-        /// This will be public opened in tizen_5.0 after ACR done. Before ACR, need to be hidden as inhouse API.
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public TapGestureDetector(TapGestureDetector handle) : this(Interop.TapGestureDetector.NewTapGestureDetector(TapGestureDetector.getCPtr(handle)), true)
-        {
-            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
         }
 
         /// <summary>

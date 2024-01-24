@@ -35,6 +35,7 @@ namespace Tizen.NUI
         private IBorderInterface borderInterface = null;
         private Layer borderWindowRootLayer = null;
         private Layer borderWindowBottomLayer = null;
+        private WindowOrientation currentOrientation;
 
         // for border area
         private View rootView = null;
@@ -51,6 +52,7 @@ namespace Tizen.NUI
         private bool hasBottomView = false;
         private bool isEnabledOverlayMode = false;
         private bool isMaximized = false;
+
 
         // for config
         private Size2D minSize = null;
@@ -186,14 +188,14 @@ namespace Tizen.NUI
                     SetMimimumSize(mimimumSize);
                     minSize = borderInterface.MinSize;
                 }
-                
+
                 if (maxSize != borderInterface.MaxSize || (borderInterface.MaxSize != null && isNeedResizeByLine == true))
                 {
                     using Size2D maximumSize = new Size2D((borderInterface.MaxSize?.Width + (int)borderLineThickness * 2 ?? 0), (borderInterface.MaxSize?.Height ?? 0) + (int)(borderHeight + borderLineThickness * 2));
                     SetMaximumSize(maximumSize);
                     maxSize = borderInterface.MaxSize;
                 }
-                
+
                 if (borderResizePolicy != borderInterface.ResizePolicy)
                 {
                     AddAuxiliaryHint("wm.policy.win.resize_aspect_ratio", "0");
@@ -203,7 +205,7 @@ namespace Tizen.NUI
                         AddAuxiliaryHint("wm.policy.win.resize_aspect_ratio", "1");
                     }
                 }
-                
+
             }
         }
         /// <summary>
@@ -261,6 +263,10 @@ namespace Tizen.NUI
 
             if (CreateBorder() == true)
             {
+                Tizen.Log.Info("NUI", $"currentOrientation {currentOrientation}\n");
+                currentOrientation = GetCurrentOrientation();
+                currentOrientation = (currentOrientation == WindowOrientation.Portrait || currentOrientation == WindowOrientation.PortraitInverse) ? WindowOrientation.Portrait : WindowOrientation.Landscape;
+
                 using var realWindowSize = new Size2D(WindowSize.Width, WindowSize.Height);
 
                 isBorderWindow = true;
@@ -268,6 +274,12 @@ namespace Tizen.NUI
                 Resized += OnBorderWindowResized;
 
                 Moved += OnBorderWindowMoved;
+
+                MoveCompleted += OnBorderWindowMoveCompleted;
+
+                ResizeCompleted += OnBorderWindowResizeCompleted;
+
+                OrientationChanged += OnBorderWindowOrientationChanged;
 
                 borderInterface.OnCreated(borderView);
 
@@ -533,9 +545,37 @@ namespace Tizen.NUI
         private void OnBorderWindowMoved(object sender, WindowMovedEventArgs e)
         {
             Tizen.Log.Info("NUI", $"OnBorderWindowMoved {e.WindowPosition.X}, {e.WindowPosition.Y}\n");
-            borderInterface.OnMoved(e.WindowPosition.X, e.WindowPosition.X);
+            borderInterface.OnMoved(e.WindowPosition.X, e.WindowPosition.Y);
         }
 
+        private void OnBorderWindowMoveCompleted(object sender, WindowMoveCompletedEventArgs e)
+        {
+            Tizen.Log.Info("NUI", $"OnBorderWindowMoveCompleted {e.WindowCompletedPosition.X}, {e.WindowCompletedPosition.Y}\n");
+            borderInterface.OnMoveCompleted(e.WindowCompletedPosition.X, e.WindowCompletedPosition.Y);
+        }
+
+        private void OnBorderWindowResizeCompleted(object sender, WindowResizeCompletedEventArgs e)
+        {
+            Tizen.Log.Info("NUI", $"OnBorderWindowResizeCompleted {e.WindowCompletedSize.Width}, {e.WindowCompletedSize.Height}\n");
+            borderInterface.OnResizeCompleted(e.WindowCompletedSize.Width, e.WindowCompletedSize.Height);
+        }
+
+        private void OnBorderWindowOrientationChanged(object sender, WindowOrientationChangedEventArgs e)
+        {
+            WindowOrientation orientation = e.WindowOrientation;
+            orientation = (orientation == WindowOrientation.Portrait || orientation == WindowOrientation.PortraitInverse) ? WindowOrientation.Portrait : WindowOrientation.Landscape;
+            if (currentOrientation != orientation)
+            {
+                if (isEnabledOverlayMode == false && IsFloatingModeEnabled() == false)
+                {
+                    using var val = new Uint16Pair(Interop.Window.GetSize(SwigCPtr), true);
+                    Tizen.Log.Info("NUI", $"OnBorderWindowOrientationChanged {e.WindowOrientation} {val.GetWidth()},{val.GetHeight()}\n");
+                    uint borderLine = borderLineThickness * 2;
+                    WindowSize = new Size2D((int)(val.GetWidth() - borderHeight - borderLine), (int)(val.GetHeight() - borderLine));
+                }
+            }
+            currentOrientation = orientation;
+        }
 
         // Called when the window size has changed.
         private void OnBorderWindowResized(object sender, Window.ResizedEventArgs e)
@@ -625,6 +665,10 @@ namespace Tizen.NUI
         {
             Resized -= OnBorderWindowResized;
             FocusChanged -= OnWindowFocusChanged;
+            Moved -= OnBorderWindowMoved;
+            MoveCompleted -= OnBorderWindowMoveCompleted;
+            ResizeCompleted -= OnBorderWindowResizeCompleted;
+            OrientationChanged -= OnBorderWindowOrientationChanged;
             borderInterface.Dispose();
             GetBorderWindowBottomLayer().Dispose();
         }

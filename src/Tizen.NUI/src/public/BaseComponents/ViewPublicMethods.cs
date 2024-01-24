@@ -617,7 +617,7 @@ namespace Tizen.NUI.BaseComponents
             IntPtr cPtr = Interop.Actor.GetRendererAt(SwigCPtr, index);
             HandleRef CPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
             Renderer ret = Registry.GetManagedBaseHandleFromNativePtr(CPtr.Handle) as Renderer;
-            if (cPtr != null && ret == null)
+            if (cPtr != IntPtr.Zero && ret == null)
             {
                 ret = new Renderer(cPtr, false);
                 if (NDalicPINVOKE.SWIGPendingException.Pending)
@@ -975,6 +975,39 @@ namespace Tizen.NUI.BaseComponents
                 NDalicPINVOKE.ThrowExceptionIfExistsDebug();
                 hitTestResultDataCallback = null;
             }
+        }
+
+        /// <summary>
+        /// Calculate the screen position of the view.<br />
+        /// </summary>
+        /// <remarks>
+        /// This is a hidden API(inhouse API) only for internal purpose.
+        /// </remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public Vector2 CalculateScreenPosition()
+        {
+            Vector2 ret = new Vector2(Interop.Actor.CalculateScreenPosition(SwigCPtr), true);
+            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+            return ret;
+        }
+
+        /// <summary>
+        /// Calculate the screen position and size of the view.<br />
+        /// </summary>
+        /// <remarks>
+        /// The float type Rectangle class is not ready yet.
+        /// Therefore, it transmits data in Vector4 class.
+        /// This type should later be changed to the appropriate data type.
+        /// </remarks>
+        /// <remarks>
+        /// This is a hidden API(inhouse API) only for internal purpose.
+        /// </remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public Vector4 CalculateScreenPositionSize()
+        {
+            Vector4 ret = new Vector4(Interop.Actor.CalculateScreenExtents(SwigCPtr), true);
+            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+            return ret;
         }
     }
 }

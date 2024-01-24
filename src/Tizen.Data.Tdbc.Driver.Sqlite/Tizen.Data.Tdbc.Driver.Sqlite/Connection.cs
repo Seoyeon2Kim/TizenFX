@@ -28,7 +28,7 @@ namespace Tizen.Data.Tdbc.Driver.Sqlite
         private bool disposedValue;
         private readonly object _lock = new object();
         private EventHandler<RecordChangedEventArgs> _recordChanged;
-
+        private Interop.Sqlite.UpdateHookCallback _hook;
 
         static Connection()
         {
@@ -70,6 +70,7 @@ namespace Tizen.Data.Tdbc.Driver.Sqlite
                 Interop.Sqlite.UpdateHook(_db, null, IntPtr.Zero);
                 Interop.Sqlite.Close(_db);
                 _opened = false;
+                _hook = null;
             }
         }
 
@@ -91,10 +92,14 @@ namespace Tizen.Data.Tdbc.Driver.Sqlite
 
             Sql sql = new Sql(string.Format("SELECT * from {0} WHERE rowid = {1}", table_name, rowid));
             using (IStatement stmt = CreateStatement())
+            using (IResultSet resultSet = stmt.ExecuteQuery(sql))
             {
-                IRecord record = (operationType != OperationType.Delete ? stmt.ExecuteQuery(sql).FirstOrDefault() : null);
-                RecordChangedEventArgs ev = new RecordChangedEventArgs(operationType, db_name, table_name, record);
-                _recordChanged?.Invoke(this, ev);
+                IRecord record = resultSet?.FirstOrDefault();
+                lock (_lock)
+                {
+                    RecordChangedEventArgs ev = new RecordChangedEventArgs(operationType, db_name, table_name, record);
+                    _recordChanged?.Invoke(this, ev);
+                }
             }
         }
 
@@ -150,7 +155,12 @@ namespace Tizen.Data.Tdbc.Driver.Sqlite
             if (ret != (int)Interop.Sqlite.ResultCode.SQLITE_OK)
                 throw new InvalidOperationException("code:" + ret);
 
-            Interop.Sqlite.UpdateHook(_db, UpdateHookCallback, IntPtr.Zero);
+            if (_hook == null)
+            {
+                _hook = new Interop.Sqlite.UpdateHookCallback(UpdateHookCallback);
+            }
+
+            Interop.Sqlite.UpdateHook(_db, _hook, IntPtr.Zero);
             _opened = true;
         }
 

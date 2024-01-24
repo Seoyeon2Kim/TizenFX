@@ -112,8 +112,10 @@ namespace Tizen.NUI
             }
 
             Interop.FrameBroker.ErrorCode err;
-            err = Interop.FrameBroker.SendLaunchRequest(handle, appControl.SafeAppControlHandle, resultCallbackMaps[requestId], null, (IntPtr)requestId);
-
+            lock (resultCallbackMaps)
+            {
+                err = Interop.FrameBroker.SendLaunchRequest(handle, appControl.SafeAppControlHandle, resultCallbackMaps[requestId], null, (IntPtr)requestId);
+            }
             if (err != Interop.FrameBroker.ErrorCode.None)
             {
                 throw FrameBrokerBaseErrorFactory.GetException(err, "Failed to send launch request");
@@ -346,7 +348,7 @@ namespace Tizen.NUI
             switch (data.Type)
             {
                 case FrameData.FrameType.RemoteSurfaceTbmSurface:
-                    if (data.TbmSurface == null)
+                    if (data.TbmSurface == IntPtr.Zero)
                     {
                         geometry.Dispose();
                         shader.Dispose();

@@ -969,6 +969,35 @@ namespace Tizen.NUI
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static readonly int MaskingMode = NDalic.ImageVisualOrientationCorrection + 12;
+
+        /// <summary>
+        /// @brief Whether to uploading texture before ResourceReady signal emit or after texture load completed time.
+        /// @details Name "fastTrackUploading", type Property::BOOLEAN.
+        /// @note It is used in the ImageVisual. The default is false.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static readonly int FastTrackUploading = NDalic.ImageVisualOrientationCorrection + 13;
+
+        /// <summary>
+        /// @brief The marker information the AnimatedVectorImageVisual will use.
+        /// @details Type Property::MAP.
+        /// The map contains the marker name as a key and Property::Array as a value.
+        /// And the array contains 2 integer values which are the frame numbers, the start frame number and the end frame number of the marker.
+        /// @note This property is read-only.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static readonly int MarkerInfo = NDalic.ImageVisualOrientationCorrection + 15;
+
+        /// <summary>
+        /// @brief Whether to animated image visual uses fixed cache or not.
+        /// @details type Property::BOOLEAN.
+        /// If this property is true, animated image visual uses fixed cache for loading and keeps loaded frame
+        /// until the visual is removed. It reduces CPU cost when the animated image will be looping.
+        /// But it can spend a lot of memory if the resource has high resolution image or many frame count.
+        /// @note It is used in the AnimatedImageVisual. The default is false
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static readonly int EnableFrameCache = NDalic.ImageVisualOrientationCorrection + 16;
     }
 
     /// <summary>

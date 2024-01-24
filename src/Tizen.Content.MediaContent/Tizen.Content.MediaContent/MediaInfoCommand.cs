@@ -145,6 +145,7 @@ namespace Tizen.Content.MediaContent
         /// <exception cref="ArgumentNullException"><paramref name="mediaId"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="mediaId"/> is a zero-length string, contains only white space.</exception>
         /// <since_tizen> 4 </since_tizen>
+        [Obsolete("Deprecated since API11; Will be removed in API13.")]
         public int CountFaceInfo(string mediaId, CountArguments arguments)
         {
             ValidateDatabase();
@@ -165,6 +166,7 @@ namespace Tizen.Content.MediaContent
         /// <exception cref="ArgumentNullException"><paramref name="mediaId"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="mediaId"/> is a zero-length string, contains only white space.</exception>
         /// <since_tizen> 4 </since_tizen>
+        [Obsolete("Deprecated since API11; Will be removed in API13.")]
         public MediaDataReader<FaceInfo> SelectFaceInfo(string mediaId)
         {
             return SelectFaceInfo(mediaId, null);
@@ -182,6 +184,7 @@ namespace Tizen.Content.MediaContent
         /// <exception cref="ArgumentNullException"><paramref name="mediaId"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="mediaId"/> is a zero-length string, contains only white space.</exception>
         /// <since_tizen> 4 </since_tizen>
+        [Obsolete("Deprecated since API11; Will be removed in API13.")]
         public MediaDataReader<FaceInfo> SelectFaceInfo(string mediaId, SelectArguments arguments)
         {
             ValidateDatabase();
@@ -220,6 +223,7 @@ namespace Tizen.Content.MediaContent
         /// <exception cref="ArgumentNullException"><paramref name="mediaId"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="mediaId"/> is a zero-length string, contains only white space.</exception>
         /// <since_tizen> 4 </since_tizen>
+        [Obsolete("Deprecated since API12; Will be removed in API14.")]
         public int CountTag(string mediaId, CountArguments arguments)
         {
             ValidateDatabase();
@@ -240,6 +244,7 @@ namespace Tizen.Content.MediaContent
         /// <exception cref="ArgumentNullException"><paramref name="mediaId"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="mediaId"/> is a zero-length string, contains only white space.</exception>
         /// <since_tizen> 4 </since_tizen>
+        [Obsolete("Deprecated since API12; Will be removed in API14.")]
         public MediaDataReader<Tag> SelectTag(string mediaId)
         {
             return SelectTag(mediaId, null);
@@ -257,6 +262,7 @@ namespace Tizen.Content.MediaContent
         /// <exception cref="ArgumentNullException"><paramref name="mediaId"/> is null.</exception>
         /// <exception cref="ArgumentException"><paramref name="mediaId"/> is a zero-length string, contains only white space.</exception>
         /// <since_tizen> 4 </since_tizen>
+        [Obsolete("Deprecated since API12; Will be removed in API14.")]
         public MediaDataReader<Tag> SelectTag(string mediaId, SelectArguments filter)
         {
             ValidateDatabase();
@@ -514,7 +520,7 @@ namespace Tizen.Content.MediaContent
                 var current = path;
                 for (int i = 0; i < length; i++)
                 {
-                    Interop.Libc.Free(Marshal.ReadIntPtr(current));
+                    Marshal.FreeHGlobal(current);
                     current = (IntPtr)((long)current + Marshal.SizeOf(typeof(IntPtr)));
                 }
             }
@@ -742,6 +748,7 @@ namespace Tizen.Content.MediaContent
         /// <exception cref="ArgumentException"><paramref name="mediaId"/> is a zero-length string, contains only white space.</exception>
         /// <exception cref="UnauthorizedAccessException">The caller has no required privilege.</exception>
         /// <since_tizen> 4 </since_tizen>
+        [Obsolete("Deprecated since API12; Will be removed in API14.")]
         public bool UpdateFavorite(string mediaId, bool value)
         {
             ValidateDatabase();
@@ -1068,6 +1075,7 @@ namespace Tizen.Content.MediaContent
         /// <exception cref="NotSupportedException">The required feature is not supported.</exception>
         /// <exception cref="UnauthorizedAccessException">The caller has no required privilege.</exception>
         /// <since_tizen> 4 </since_tizen>
+        [Obsolete("Deprecated since API11; Will be removed in API13.")]
         public Task<int> DetectFaceAsync(string mediaId)
         {
             return DetectFaceAsync(mediaId, CancellationToken.None);
@@ -1106,6 +1114,7 @@ namespace Tizen.Content.MediaContent
         /// </exception>
         /// <exception cref="NotSupportedException">The required feature is not supported.</exception>
         /// <since_tizen> 4 </since_tizen>
+        [Obsolete("Deprecated since API11; Will be removed in API13.")]
         public Task<int> DetectFaceAsync(string mediaId, CancellationToken cancellationToken)
         {
             if (Features.IsSupported(Features.FaceRecognition) == false)

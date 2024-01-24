@@ -42,11 +42,8 @@ namespace Tizen.NUI.BaseComponents
         defaultValueCreator: (BindableProperty.CreateDefaultValueDelegate)((bindable) =>
         {
             var imageView = (ImageView)bindable;
-            string ret = "";
 
-            imageView.GetCachedImageVisualProperty(ImageVisualProperty.URL)?.Get(out ret);
-
-            return ret;
+            return imageView?._resourceUrl ?? "";
         }));
 
         /// Intenal used, will never be opened.
@@ -77,7 +74,7 @@ namespace Tizen.NUI.BaseComponents
                     if (ret && alphaMaskURL.StartsWith("*Resource*"))
                     {
                         alphaMaskURL = alphaMaskURL.Replace("*Resource*", resource);
-                        mmap.Insert(NDalic.ImageVisualUrl, new PropertyValue(alphaMaskURL));
+                        mmap.Insert(NDalic.ImageVisualAlphaMaskUrl, new PropertyValue(alphaMaskURL));
                     }
 
                     ret = false;
@@ -93,13 +90,7 @@ namespace Tizen.NUI.BaseComponents
                 }
                 if (imageView._border == null)
                 {
-                    // Image properties are changed hardly. We should ignore lazy UpdateImage
-                    imageView.imagePropertyUpdatedFlag = false;
-                    imageView.cachedImagePropertyMap?.Dispose();
-                    imageView.cachedImagePropertyMap = null;
-                    imageView.MergeCachedImageVisualProperty(map);
-
-                    Tizen.NUI.Object.SetProperty((HandleRef)imageView.SwigCPtr, ImageView.Property.IMAGE, new Tizen.NUI.PropertyValue(map));
+                    imageView.SetImageByPropertyMap(map);
                 }
             }
         }),
@@ -256,7 +247,8 @@ namespace Tizen.NUI.BaseComponents
                         return;
                     }
                 }
-                imageView.UpdateImage(ImageVisualProperty.SynchronousLoading, new PropertyValue((bool)newValue));
+                // Note : We need to create new visual if previous visual was async, and now we set value as sync.
+                imageView.UpdateImage(ImageVisualProperty.SynchronousLoading, new PropertyValue((bool)newValue), (bool)newValue);
             }
         },
         defaultValueCreator: (bindable) =>
@@ -285,7 +277,8 @@ namespace Tizen.NUI.BaseComponents
                         return;
                     }
                 }
-                imageView.UpdateImage(ImageVisualProperty.SynchronousLoading, new PropertyValue((bool)newValue));
+                // Note : We need to create new visual if previous visual was async, and now we set value as sync.
+                imageView.UpdateImage(ImageVisualProperty.SynchronousLoading, new PropertyValue((bool)newValue), (bool)newValue);
             }
         },
         defaultValueCreator: (bindable) =>
@@ -344,6 +337,24 @@ namespace Tizen.NUI.BaseComponents
         {
             var instance = (Tizen.NUI.BaseComponents.ImageView)bindable;
             return instance.InternalMaskingMode;
+        });
+
+        /// <summary>
+        /// FastTrackUploadingProperty
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static readonly BindableProperty FastTrackUploadingProperty = BindableProperty.Create(nameof(FastTrackUploading), typeof(bool), typeof(ImageView), false, propertyChanged: (bindable, oldValue, newValue) =>
+        {
+            var instance = (Tizen.NUI.BaseComponents.ImageView)bindable;
+            if (newValue != null)
+            {
+                instance.InternalFastTrackUploading = (bool)newValue;
+            }
+        },
+        defaultValueCreator: (bindable) =>
+        {
+            var instance = (Tizen.NUI.BaseComponents.ImageView)bindable;
+            return instance.InternalFastTrackUploading;
         });
 
         /// <summary>
@@ -535,7 +546,7 @@ namespace Tizen.NUI.BaseComponents
             var imageView = (Tizen.NUI.BaseComponents.ImageView)bindable;
             if (newValue != null)
             {
-                Object.InternalSetPropertyString(imageView.SwigCPtr, ImageView.Property.PlaceHolderUrl, (string)newValue );
+                Object.InternalSetPropertyString(imageView.SwigCPtr, ImageView.Property.PlaceHolderUrl, (string)newValue);
             }
         },
         defaultValueCreator: (bindable) =>
@@ -559,5 +570,31 @@ namespace Tizen.NUI.BaseComponents
             var imageView = (ImageView)bindable;
             return Object.InternalGetPropertyBool(imageView.SwigCPtr, ImageView.Property.TransitionEffect);
         }));
+
+        /// <summary>
+        /// ImageColorProperty
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static readonly BindableProperty ImageColorProperty = BindableProperty.Create(nameof(ImageColor), typeof(Color), typeof(ImageView), null, propertyChanged: (bindable, oldValue, newValue) =>
+        {
+            var imageView = (ImageView)bindable;
+            if (newValue != null)
+            {
+                imageView.UpdateImage(Visual.Property.Opacity, new PropertyValue(((Color)newValue).A), false);
+                imageView.UpdateImage(Visual.Property.MixColor, new PropertyValue((Color)newValue), false);
+
+                // Update property
+                Interop.View.InternalUpdateVisualPropertyVector4(imageView.SwigCPtr, ImageView.Property.IMAGE, Visual.Property.MixColor, Vector4.getCPtr((Color)newValue));
+            }
+        },
+        defaultValueCreator: (bindable) =>
+        {
+            var imageView = (ImageView)bindable;
+            Color ret = new Color();
+
+            imageView.GetCachedImageVisualProperty(Visual.Property.MixColor)?.Get(ret);
+
+            return ret;
+        });
     }
 }

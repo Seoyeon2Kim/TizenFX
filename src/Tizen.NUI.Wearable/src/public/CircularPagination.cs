@@ -27,7 +27,7 @@ namespace Tizen.NUI.Wearable
     /// Especially, CircularPagination provides indicators specific to wearable device.
     /// </summary>
     /// <since_tizen> 8 </since_tizen>
-    /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+    [Obsolete("This has been deprecated in API12")]
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class CircularPagination : Control
     {
@@ -47,8 +47,6 @@ namespace Tizen.NUI.Wearable
         private bool isCurrentIndicatorCentered = false; // When the current indicator is the center one, this variable becomes true.
         private bool isOddNumber = true;
         private bool uninitializedLeftIndicator = true; // Need it when the indicators are asymmetry and the right indicator count is set earlier than left one.
-        private Animation selectAnimation = null;
-        private bool isNeedAnimation = false; // TODO : Animation will support using override function later.
 
         Position2D[] oddArray = new Position2D[] { new Position2D(36, 74), new Position2D(47, 60), new Position2D(60, 47), new Position2D(74, 36),
                                                    new Position2D(89, 26), new Position2D(105, 18), new Position2D(122, 11), new Position2D(139, 7),
@@ -71,7 +69,7 @@ namespace Tizen.NUI.Wearable
         /// Creates a new instance of a CircularPagination.
         /// </summary>
         /// <since_tizen> 8 </since_tizen>
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [Obsolete("This has been deprecated in API12")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public CircularPagination() : base()
         {
@@ -82,7 +80,7 @@ namespace Tizen.NUI.Wearable
         /// Creates a new instance of a CircularPagination using style.
         /// </summary>
         /// <since_tizen> 8 </since_tizen>
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [Obsolete("This has been deprecated in API12")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public CircularPagination(CircularPaginationStyle style) : base(style)
         {
@@ -93,7 +91,7 @@ namespace Tizen.NUI.Wearable
         /// Gets or sets the size of the indicator.
         /// </summary>
         /// <since_tizen> 8 </since_tizen>
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [Obsolete("This has been deprecated in API12")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public Size IndicatorSize
         {
@@ -116,7 +114,7 @@ namespace Tizen.NUI.Wearable
         /// Gets or sets the background resource of indicator.
         /// </summary>
         /// <since_tizen> 8 </since_tizen>
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [Obsolete("This has been deprecated in API12")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public Selector<string> IndicatorImageURL
         {
@@ -139,7 +137,7 @@ namespace Tizen.NUI.Wearable
         /// Gets or sets the background resource of the center indicator.
         /// </summary>
         /// <since_tizen> 8 </since_tizen>
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [Obsolete("This has been deprecated in API12")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public Selector<string> CenterIndicatorImageURL
         {
@@ -177,7 +175,7 @@ namespace Tizen.NUI.Wearable
         /// Please refer to LeftIndicatorCount and RightIndicatorCount.
         /// </summary>
         /// <since_tizen> 8 </since_tizen>
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [Obsolete("This has been deprecated in API12")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public bool IsSymmetrical
         {
@@ -203,14 +201,13 @@ namespace Tizen.NUI.Wearable
             }
         }
 
-
         /// <summary>
         /// Gets or sets the number of the pages/indicators.
         ///
         /// This value is for symmetrical indicators.
         /// </summary>
         /// <since_tizen> 8 </since_tizen>
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [Obsolete("This has been deprecated in API12")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public int IndicatorCount
         {
@@ -293,7 +290,7 @@ namespace Tizen.NUI.Wearable
         /// This value can be set when IsSymmetrical API is false.
         /// </summary>
         /// <since_tizen> 8 </since_tizen>
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [Obsolete("This has been deprecated in API12")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public int LeftIndicatorCount
         {
@@ -365,7 +362,7 @@ namespace Tizen.NUI.Wearable
         /// This value can be set when IsSymmetrical API is false.
         /// </summary>
         /// <since_tizen> 8 </since_tizen>
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [Obsolete("This has been deprecated in API12")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public int RightIndicatorCount
         {
@@ -424,7 +421,7 @@ namespace Tizen.NUI.Wearable
         /// If no value is set, the default value is the center indicator.
         /// </summary>
         /// <since_tizen> 8 </since_tizen>
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [Obsolete("This has been deprecated in API12")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public int SelectedIndex
         {
@@ -469,7 +466,7 @@ namespace Tizen.NUI.Wearable
         /// <param name="index">Indicator index</param>
         /// <returns>The position of a indicator by index</returns>
         /// <since_tizen> 8 </since_tizen>
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [Obsolete("This has been deprecated in API12")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public Position GetIndicatorPosition(int index)
         {
@@ -487,7 +484,7 @@ namespace Tizen.NUI.Wearable
         /// <param name="position">The position of a indicator by index</param>
         /// <exception cref="ArgumentNullException">This exception can occur by the position is null.</exception>
         /// <since_tizen> 8 </since_tizen>
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [Obsolete("This has been deprecated in API12")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public virtual void SetIndicatorPosition(int index, Position position)
         {
@@ -516,20 +513,12 @@ namespace Tizen.NUI.Wearable
             UpdateVisual();
         }
 
-        private void CreateSelectAnimation()
-        {
-            if (selectAnimation == null)
-            {
-                selectAnimation = new Animation(250);
-            }
-        }
-
         /// <summary>
         /// You can override it to do your select out operation.
         /// </summary>
         /// <param name="selectOutIndicator">The indicator will be selected out</param>
         /// <since_tizen> 8 </since_tizen>
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [Obsolete("This has been deprecated in API12")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected virtual void SelectOut(VisualMap selectOutIndicator)
         {
@@ -550,7 +539,7 @@ namespace Tizen.NUI.Wearable
         /// </summary>
         /// <param name="selectInIndicator">The indicator will be selected in</param>
         /// <since_tizen> 8 </since_tizen>
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [Obsolete("This has been deprecated in API12")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected virtual void SelectIn(VisualMap selectInIndicator)
         {
@@ -570,7 +559,7 @@ namespace Tizen.NUI.Wearable
         /// you can override it to create your own default style.
         /// </summary>
         /// <since_tizen> 8 </since_tizen>
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [Obsolete("This has been deprecated in API12")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override ViewStyle CreateViewStyle()
         {
@@ -582,7 +571,7 @@ namespace Tizen.NUI.Wearable
         /// </summary>
         /// <param name="type">DisposeTypes</param>
         /// <since_tizen> 8 </since_tizen>
-        /// This will be public opened in tizen_6.0 after ACR done. Before ACR, need to be hidden as inhouse API.
+        [Obsolete("This has been deprecated in API12")]
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected override void Dispose(DisposeTypes type)
         {
@@ -593,16 +582,6 @@ namespace Tizen.NUI.Wearable
 
             if (type == DisposeTypes.Explicit)
             {
-                if (selectAnimation != null)
-                {
-                    if (selectAnimation.State == Animation.States.Playing)
-                    {
-                        selectAnimation.Stop();
-                    }
-                    selectAnimation.Dispose();
-                    selectAnimation = null;
-                }
-
                 container.RemoveAll();
                 indicatorList.Clear();
 
@@ -694,7 +673,8 @@ namespace Tizen.NUI.Wearable
         private void UpdateVisual()
         {
             if (null == circularPaginationStyle.IndicatorSize) return;
-            if (null == circularPaginationStyle.IndicatorImageURL) return;
+            var indicatorImageURL = circularPaginationStyle.IndicatorImageURL;
+            if (null == indicatorImageURL) return;
             if (indicatorCount <= 0) return;
 
             for (int i = 0; i < indicatorList.Count; i++)
@@ -713,7 +693,7 @@ namespace Tizen.NUI.Wearable
                     }
                     else
                     {
-                        indicator.URL = circularPaginationStyle.IndicatorImageURL.Selected;
+                        indicator.URL = indicatorImageURL.Selected;
                     }
                     indicator.Opacity = 1.0f;
                 }
@@ -726,7 +706,7 @@ namespace Tizen.NUI.Wearable
                     }
                     else
                     {
-                        indicator.URL = circularPaginationStyle.IndicatorImageURL.Normal;
+                        indicator.URL = indicatorImageURL.Normal;
                     }
                     indicator.Opacity = 0.5f;
                 }
@@ -753,7 +733,8 @@ namespace Tizen.NUI.Wearable
         private void UpdateAsymmetry()
         {
             if (null == circularPaginationStyle.IndicatorSize) return;
-            if (null == circularPaginationStyle.IndicatorImageURL) return;
+            var indicatorImageURL = circularPaginationStyle.IndicatorImageURL;
+            if (null == indicatorImageURL) return;
 
             int listCount = indicatorList.Count;
 
@@ -778,7 +759,7 @@ namespace Tizen.NUI.Wearable
                 }
                 else
                 {
-                    newOne.URL = circularPaginationStyle.IndicatorImageURL.Normal;
+                    newOne.URL = indicatorImageURL.Normal;
                 }
                 newOne.Opacity = 0.5f;
                 container.AddVisual("Indicator" + i, newOne);
@@ -798,7 +779,7 @@ namespace Tizen.NUI.Wearable
             }
             else
             {
-                indicatorList[selectedIndex].URL = circularPaginationStyle.IndicatorImageURL.Selected;
+                indicatorList[selectedIndex].URL = indicatorImageURL.Selected;
                 indicatorList[selectedIndex].Opacity = 1.0f;
             }
         }

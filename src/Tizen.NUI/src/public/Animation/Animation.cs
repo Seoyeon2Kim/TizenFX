@@ -75,10 +75,10 @@ namespace Tizen.NUI
             finishedCallbackOfNative = System.Runtime.InteropServices.Marshal.GetFunctionPointerForDelegate<System.Delegate>(animationFinishedEventCallback);
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void AnimationFinishedEventCallbackType(IntPtr data);
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void AnimationProgressReachedEventCallbackType(IntPtr data);
 
         private event EventHandler animationFinishedEventHandler;
@@ -500,6 +500,35 @@ namespace Tizen.NUI
         }
 
         /// <summary>
+        /// Sets and Gets the blend point to interpolate animate property
+        ///
+        /// BlendPoint is a value between [0,1], If the value of the keyframe whose progress is 0 is different from the current value,
+        /// the property is animated as it smoothly blends until the progress reaches the blendPoint.
+        /// </summary>
+        /// <remarks>
+        /// The blend point only affects animation registered with AnimateBetween. Other animations operate the same as when Play() is called.
+        /// And the blend point needs to be set before this animation plays. If the blend point changes after playback, animation continuity cannot be guaranteed.
+        /// </remarks>
+        /// <remarks>
+        /// In the case of a looping animation, the animation is blended only in the first loop.
+        /// </remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public float BlendPoint
+        {
+            set
+            {
+                Interop.Animation.SetBlendPoint(SwigCPtr, value);
+                if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+            }
+            get
+            {
+                float ret = Interop.Animation.GetBlendPoint(SwigCPtr);
+                if (NDalicPINVOKE.SWIGPendingException.Pending) throw new InvalidOperationException("FATAL: get Exception", NDalicPINVOKE.SWIGPendingException.Retrieve());
+                return ret;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the properties of the animation.
         /// </summary>
         //ToDo : will raise deprecated-ACR, [Obsolete("Deprecated in API9, will be removed in API11, Use PropertyList instead")]
@@ -673,12 +702,16 @@ namespace Tizen.NUI
         /// <summary>
         /// Stops the animation. It will change this animation's EndAction property.
         /// </summary>
-        /// <remark>
-        /// Change the value from EndActions.Discard, or to EndActions.Discard during animation is playing / paused will not works well.<br />
-        /// If you want to stop by EndActions.Discard, EndAction property also should be EndActions.Discard before Play API called.
-        /// </remark>
+        /// <remarks>
+        /// Change the value from EndActions.Discard, or to EndActions.Discard during animation is playing / paused will not works well.<br/>
+        /// If you want to stop by EndActions.Discard, EndAction property also should be EndActions.Discard before Play API called. <br/>
+        /// <br/>
+        /// This method is deprecated since API11 because EndActions property concept is not matched with Stop(). <br/>
+        /// Use <see cref="EndAction"/> property instead.
+        /// </remarks>
         /// <param name="action">The end action can be set.</param>
         /// <since_tizen> 3 </since_tizen>
+        [Obsolete("Deprecated in API11, will be removed in API13. Use EndAction property instead.")]
         public void Stop(EndActions action)
         {
             SetEndAction(action);

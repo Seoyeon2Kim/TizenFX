@@ -178,22 +178,28 @@ namespace Tizen.NUI.BaseComponents
         /// You can get the bind IDs in RenderCallbackInput in the glRenderFrame callback.
         /// </summary>
         /// <param name="textures">List of Textures</param>
+        /// <exception cref="OverflowException"> Thrown when length of textures list is overflow. </exception>
         public void BindTextureResources(List<Texture> textures)
         {
             unsafe
             {
                 if (textures != null)
                 {
-                    IntPtr unmanagedPointer = Marshal.AllocHGlobal(sizeof(IntPtr) * textures.Count);
-                    IntPtr[] texturesArray = new IntPtr[textures.Count];
-                    for (int i = 0; i < textures.Count; i++)
+                    int count = textures.Count;
+                    int intptrBytes = checked(Marshal.SizeOf(typeof(IntPtr)) * count);
+                    if (intptrBytes > 0)
                     {
-                        texturesArray[i] = HandleRef.ToIntPtr(Texture.getCPtr(textures[i]));
-                    }
-                    System.Runtime.InteropServices.Marshal.Copy(texturesArray, 0, unmanagedPointer, textures.Count);
+                        IntPtr[] texturesArray = new IntPtr[count];
+                        for (int i = 0; i < count; i++)
+                        {
+                            texturesArray[i] = HandleRef.ToIntPtr(Texture.getCPtr(textures[i]));
+                        }
+                        IntPtr unmanagedPointer = Marshal.AllocHGlobal(intptrBytes);
+                        Marshal.Copy(texturesArray, 0, unmanagedPointer, texturesArray.Length);
 
-                    Interop.GLView.GlViewBindTextureResources(SwigCPtr, unmanagedPointer, textures.Count);
-                    Marshal.FreeHGlobal(unmanagedPointer);
+                        Interop.GLView.GlViewBindTextureResources(SwigCPtr, unmanagedPointer, texturesArray.Length);
+                        Marshal.FreeHGlobal(unmanagedPointer);
+                    }
                 }
             }
         }

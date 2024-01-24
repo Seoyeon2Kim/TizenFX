@@ -34,6 +34,7 @@ namespace Tizen.NUI
         private RootLayerTouchDataCallbackType rootLayerTouchDataCallback;
         private RootLayerTouchDataCallbackType rootLayerInterceptTouchDataCallback;
         private WheelEventCallbackType wheelEventCallback;
+        private WheelEventCallbackType interceptWheelCallback;
         private EventCallbackDelegateType1 stageKeyCallbackDelegate;
         private InterceptKeyEventDelegateType stageInterceptKeyCallbackDelegate;
         private EventCallbackDelegateType0 stageEventProcessingFinishedEventCallbackDelegate;
@@ -50,28 +51,50 @@ namespace Tizen.NUI
         private OrientationChangedEventCallbackType orientationChangedEventCallback;
         private KeyboardRepeatSettingsChangedEventCallbackType keyboardRepeatSettingsChangedEventCallback;
         private AuxiliaryMessageEventCallbackType auxiliaryMessageEventCallback;
+        private WindowMouseInOutEventCallbackType windowMouseInOutEventCallback;
+        private WindowMouseRelativeEventCallbackType windowMouseRelativeEventCallback;
+        private MoveCompletedEventCallbackType moveCompletedEventCallback;
+        private ResizeCompletedEventCallbackType resizeCompletedEventCallback;
+        private InsetsChangedEventCallbackType insetsChangedEventCallback;
+        private WindowPointerConstraintsEventCallback windowPointerConstraintsEventCallback;
+        private RootLayerHoverDataCallbackType rootLayerHoverDataCallback;
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void WindowFocusChangedEventCallbackType(IntPtr window, bool focusGained);
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate bool RootLayerTouchDataCallbackType(IntPtr view, IntPtr touchData);
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate bool WheelEventCallbackType(IntPtr view, IntPtr wheelEvent);
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void WindowResizeEventCallbackType(IntPtr window, IntPtr windowSize);
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void WindowFocusChangedEventCallbackType2(IntPtr window, bool focusGained);
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void TransitionEffectEventCallbackType(IntPtr window, int state, int type);
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void MovedEventCallbackType(IntPtr window, IntPtr position);
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void OrientationChangedEventCallbackType(IntPtr window, int orientation);
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void KeyboardRepeatSettingsChangedEventCallbackType();
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void AuxiliaryMessageEventCallbackType(IntPtr kData, IntPtr vData, IntPtr optionsArray);
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate bool InterceptKeyEventDelegateType(IntPtr arg1);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void WindowMouseInOutEventCallbackType(IntPtr window, IntPtr mouseEvent);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void WindowMouseRelativeEventCallbackType(IntPtr window, IntPtr mouseEvent);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void MoveCompletedEventCallbackType(IntPtr window, IntPtr position);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void ResizeCompletedEventCallbackType(IntPtr window, IntPtr size);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void InsetsChangedEventCallbackType(int partType, int partState, IntPtr extents);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void WindowPointerConstraintsEventCallback(IntPtr window, IntPtr constraintsEvent);
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate bool RootLayerHoverDataCallbackType(IntPtr view, IntPtr hoverData);
+
 
         /// <summary>
         /// FocusChanged event.
@@ -131,6 +154,7 @@ namespace Tizen.NUI
                 }
             }
         }
+
 
         /// <summary>
         /// An event for the touched signal which can be used to subscribe or unsubscribe the event handler provided by the user.<br />
@@ -208,6 +232,37 @@ namespace Tizen.NUI
         }
 
         /// <summary>
+        /// An event for the wheel event signal which can be used to subscribe or unsubscribe the event handler provided by the user.<br />
+        /// The wheel event signal is emitted when the wheel input is received.<br />
+        /// This can receive wheel events before child. <br />
+        /// If it returns false, the child can receive the wheel event. If it returns true, the wheel event is intercepted. So child cannot receive wheel event.<br />
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public event ReturnTypeEventHandler<object, WheelEventArgs, bool> InterceptWheelEvent
+        {
+            add
+            {
+                if (interceptWheelHandler == null)
+                {
+                    interceptWheelCallback = OnWindowInterceptWheel;
+                    Interop.ActorSignal.InterceptWheelConnect(Layer.getCPtr(GetRootLayer()), interceptWheelCallback.ToHandleRef(this));
+                    NDalicPINVOKE.ThrowExceptionIfExists();
+                }
+                interceptWheelHandler += value;
+            }
+            remove
+            {
+                interceptWheelHandler -= value;
+                if (interceptWheelHandler == null && interceptWheelCallback != null)
+                {
+                    Interop.ActorSignal.InterceptWheelDisconnect(Layer.getCPtr(GetRootLayer()), interceptWheelCallback.ToHandleRef(this));
+                    NDalicPINVOKE.ThrowExceptionIfExists();
+                    interceptWheelCallback = null;
+                }
+            }
+        }
+
+        /// <summary>
         /// Emits the event when the key event is received.
         /// </summary>
         /// <since_tizen> 3 </since_tizen>
@@ -265,7 +320,7 @@ namespace Tizen.NUI
         }
 
         /// <summary>
-        /// Emits the event when the window resized.
+        /// Emits the event when window is resized by user or the display server.<br />
         /// </summary>
         /// <since_tizen> 3 </since_tizen>
         public event EventHandler<ResizedEventArgs> Resized
@@ -289,6 +344,35 @@ namespace Tizen.NUI
                     using ResizeSignal signal = new ResizeSignal(Interop.Window.ResizeSignal(SwigCPtr), false);
                     signal.Ensure()?.Disconnect(windowResizeEventCallback);
                     windowResizeEventCallback = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// An event for the hovered signal which can be used to subscribe or unsubscribe the event handler provided by the user.<br />
+        /// The hovered signal is emitted when the hover input is received.<br />
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public event EventHandler<HoverEventArgs> HoverEvent
+        {
+            add
+            {
+                if (rootLayerHoverDataEventHandler == null)
+                {
+                    rootLayerHoverDataCallback = OnWindowHover;
+                    Interop.ActorSignal.HoveredConnect(Layer.getCPtr(GetRootLayer()), rootLayerHoverDataCallback.ToHandleRef(this));
+                    NDalicPINVOKE.ThrowExceptionIfExists();
+                }
+                rootLayerHoverDataEventHandler += value;
+            }
+            remove
+            {
+                rootLayerHoverDataEventHandler -= value;
+                if (rootLayerHoverDataEventHandler == null && rootLayerHoverDataCallback != null)
+                {
+                    Interop.ActorSignal.HoveredDisconnect(Layer.getCPtr(GetRootLayer()), rootLayerHoverDataCallback.ToHandleRef(this));
+                    NDalicPINVOKE.ThrowExceptionIfExists();
+                    rootLayerHoverDataCallback = null;
                 }
             }
         }
@@ -357,7 +441,7 @@ namespace Tizen.NUI
         }
 
         /// <summary>
-        /// MovedEvent
+        /// Emits the event when window is moved by user or the display server.<br />
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public event EventHandler<WindowMovedEventArgs> Moved
@@ -441,10 +525,191 @@ namespace Tizen.NUI
             }
         }
 
+        /// <summary>
+        /// MouseInOutEvent event.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public event EventHandler<MouseInOutEventArgs> MouseInOutEvent
+        {
+            add
+            {
+                if (windowMouseInOutEventHandler == null)
+                {
+                    windowMouseInOutEventCallback = OnWindowMouseInOutEvent;
+                    using WindowMouseInOutEventSignal signal = new WindowMouseInOutEventSignal(Interop.WindowMouseInOutEventSignal.GetSignal(SwigCPtr), false);
+                    signal.Ensure()?.Connect(windowMouseInOutEventCallback);
+                }
+                windowMouseInOutEventHandler += value;
+            }
+            remove
+            {
+                windowMouseInOutEventHandler -= value;
+                if (windowMouseInOutEventHandler == null && windowMouseInOutEventCallback != null)
+                {
+                    using WindowMouseInOutEventSignal signal = new WindowMouseInOutEventSignal(Interop.WindowMouseInOutEventSignal.GetSignal(SwigCPtr), false);
+                    signal.Ensure()?.Disconnect(windowMouseInOutEventCallback);
+                    windowMouseInOutEventCallback = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Emits the event when window has been moved by the display server.<br />
+        /// To make the window move by display server, RequestMoveToServer() should be called.<br />
+        /// After the moving job is completed, this signal will be emitted.<br />
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public event EventHandler<WindowMoveCompletedEventArgs> MoveCompleted
+        {
+            add
+            {
+                if (moveCompletedHandler == null)
+                {
+                    moveCompletedEventCallback = OnMoveCompleted;
+                    using WindowMoveCompletedSignal signal = new WindowMoveCompletedSignal(Interop.WindowMoveCompletedSignal.GetSignal(SwigCPtr), false);
+                    signal.Ensure()?.Connect(moveCompletedEventCallback);
+                }
+                moveCompletedHandler += value;
+            }
+            remove
+            {
+                moveCompletedHandler -= value;
+                if (moveCompletedHandler == null && moveCompletedEventCallback != null)
+                {
+                    using WindowMoveCompletedSignal signal = new WindowMoveCompletedSignal(Interop.WindowMoveCompletedSignal.GetSignal(SwigCPtr), false);
+                    signal.Ensure()?.Disconnect(moveCompletedEventCallback);
+                    moveCompletedEventCallback = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Emits the event when window has been resized by the display server.<br />
+        /// To make the window resize by display server, RequestResizeToServer() should be called.<br />
+        /// After the resizing job is completed, this signal will be emitted.<br />
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public event EventHandler<WindowResizeCompletedEventArgs> ResizeCompleted
+        {
+            add
+            {
+                if (resizeCompletedHandler == null)
+                {
+                    resizeCompletedEventCallback = OnResizeCompleted;
+                    using WindowResizeCompletedSignal signal = new WindowResizeCompletedSignal(Interop.WindowResizeCompletedSignal.GetSignal(SwigCPtr), false);
+                    signal.Ensure()?.Connect(resizeCompletedEventCallback);
+                }
+                resizeCompletedHandler += value;
+            }
+            remove
+            {
+                resizeCompletedHandler -= value;
+                if (resizeCompletedHandler == null && resizeCompletedEventCallback != null)
+                {
+                    using WindowResizeCompletedSignal signal = new WindowResizeCompletedSignal(Interop.WindowResizeCompletedSignal.GetSignal(SwigCPtr), false);
+                    signal.Ensure()?.Disconnect(resizeCompletedEventCallback);
+                    resizeCompletedEventCallback = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Emits the event when relative mouse movement occurs in the window.<br />
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public event EventHandler<MouseRelativeEventArgs> MouseRelativeEvent
+        {
+            add
+            {
+                if (windowMouseRelativeEventHandler == null)
+                {
+                    windowMouseRelativeEventCallback = OnWindowMouseRelativeEvent;
+                    using WindowMouseRelativeEventSignal signal = new WindowMouseRelativeEventSignal(Interop.WindowMouseRelativeEventSignal.GetSignal(SwigCPtr), false);
+                    signal?.Connect(windowMouseRelativeEventCallback);
+                }
+                windowMouseRelativeEventHandler += value;
+            }
+            remove
+            {
+                windowMouseRelativeEventHandler -= value;
+                if (windowMouseRelativeEventHandler == null && windowMouseRelativeEventCallback != null)
+                {
+                    using WindowMouseRelativeEventSignal signal = new WindowMouseRelativeEventSignal(Interop.WindowMouseRelativeEventSignal.GetSignal(SwigCPtr), false);
+                    signal?.Disconnect(windowMouseRelativeEventCallback);
+                    windowMouseRelativeEventCallback = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Emits the event when pointer is locked/unlocked<br />
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public event EventHandler<PointerConstraintsEventArgs> PointerConstraintsEvent
+        {
+            add
+            {
+                if (windowPointerConstraintsEventHandler == null)
+                {
+                    windowPointerConstraintsEventCallback = OnWindowPointerConstraintsEvent;
+                    using WindowPointerConstraintsSignal signal = new WindowPointerConstraintsSignal(Interop.WindowPointerConstraintsSignal.GetSignal(SwigCPtr), false);
+                    signal?.Connect(windowPointerConstraintsEventCallback);
+                }
+                windowPointerConstraintsEventHandler += value;
+            }
+            remove
+            {
+                windowPointerConstraintsEventHandler -= value;
+                if (windowPointerConstraintsEventHandler == null && windowPointerConstraintsEventCallback != null)
+                {
+                    using WindowPointerConstraintsSignal signal = new WindowPointerConstraintsSignal(Interop.WindowPointerConstraintsSignal.GetSignal(SwigCPtr), false);
+                    signal?.Disconnect(windowPointerConstraintsEventCallback);
+                    windowPointerConstraintsEventCallback = null;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the status of whether motion event of Touch can be dispatched.
+        /// If a Window's DispatchTouchMotion is set to false, then it's can not will receive motion event of TouchEvent.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool DispatchTouchMotion
+        {
+            get
+            {
+                return Object.InternalGetPropertyBool(Layer.getCPtr(GetRootLayer()), View.Property.DispatchTouchMotion);
+            }
+            set
+            {
+                Object.InternalSetPropertyBool(Layer.getCPtr(GetRootLayer()), View.Property.DispatchTouchMotion, value);
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the status of whether motion event of Hover can be dispatched.
+        /// If a Window's DispatchHoverMotion is set to false, then it's can not will receive motion event of HoverEvent.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool DispatchHoverMotion
+        {
+            get
+            {
+                return Object.InternalGetPropertyBool(Layer.getCPtr(GetRootLayer()), View.Property.DispatchHoverMotion);
+            }
+            set
+            {
+                Object.InternalSetPropertyBool(Layer.getCPtr(GetRootLayer()), View.Property.DispatchHoverMotion, value);
+                NotifyPropertyChanged();
+            }
+        }
+
         private event EventHandler<FocusChangedEventArgs> windowFocusChangedEventHandler;
         private event EventHandler<TouchEventArgs> rootLayerTouchDataEventHandler;
         private ReturnTypeEventHandler<object, TouchEventArgs, bool> rootLayerInterceptTouchDataEventHandler;
         private event EventHandler<WheelEventArgs> stageWheelHandler;
+        private ReturnTypeEventHandler<object, WheelEventArgs, bool> interceptWheelHandler;
         private event EventHandler<KeyEventArgs> stageKeyHandler;
         private ReturnTypeEventHandler<object, KeyEventArgs, bool> stageInterceptKeyHandler;
         private event EventHandler stageEventProcessingFinishedEventHandler;
@@ -455,6 +720,13 @@ namespace Tizen.NUI
         private event EventHandler<WindowOrientationChangedEventArgs> orientationChangedHandler;
         private event EventHandler keyboardRepeatSettingsChangedHandler;
         private event EventHandler<AuxiliaryMessageEventArgs> auxiliaryMessageEventHandler;
+        private event EventHandler<MouseInOutEventArgs> windowMouseInOutEventHandler;
+        private event EventHandler<MouseRelativeEventArgs> windowMouseRelativeEventHandler;
+        private event EventHandler<WindowMoveCompletedEventArgs> moveCompletedHandler;
+        private event EventHandler<WindowResizeCompletedEventArgs> resizeCompletedHandler;
+        private event EventHandler<InsetsChangedEventArgs> insetsChangedEventHandler;
+        private event EventHandler<PointerConstraintsEventArgs> windowPointerConstraintsEventHandler;
+        private event EventHandler<HoverEventArgs> rootLayerHoverDataEventHandler;
 
 
         internal event EventHandler EventProcessingFinished
@@ -607,6 +879,13 @@ namespace Tizen.NUI
                 DetentEventCallback = null;
             }
 
+            if (interceptWheelCallback != null)
+            {
+                Interop.ActorSignal.InterceptWheelDisconnect(Layer.getCPtr(GetRootLayer()), interceptWheelCallback.ToHandleRef(this));
+                NDalicPINVOKE.ThrowExceptionIfExists();
+                interceptWheelCallback = null;
+            }
+
             if (stageKeyCallbackDelegate != null)
             {
                 using KeyEventSignal signal = new KeyEventSignal(Interop.Window.KeyEventSignal(GetBaseHandleCPtrHandleRef), false);
@@ -704,6 +983,55 @@ namespace Tizen.NUI
                 signal?.Disconnect(AccessibilityHighlightEventCallback);
                 AccessibilityHighlightEventCallback = null;
             }
+
+            if (windowMouseInOutEventCallback != null)
+            {
+                using WindowMouseInOutEventSignal signal = new WindowMouseInOutEventSignal(Interop.WindowMouseInOutEventSignal.GetSignal(GetBaseHandleCPtrHandleRef), false);
+                signal?.Disconnect(windowMouseInOutEventCallback);
+                windowMouseInOutEventCallback = null;
+            }
+
+            if (windowMouseRelativeEventCallback != null)
+            {
+                using WindowMouseRelativeEventSignal signal = new WindowMouseRelativeEventSignal(Interop.WindowMouseRelativeEventSignal.GetSignal(GetBaseHandleCPtrHandleRef), false);
+                signal?.Disconnect(windowMouseRelativeEventCallback);
+                windowMouseRelativeEventCallback = null;
+            }
+
+            if (moveCompletedEventCallback != null)
+            {
+                using WindowMoveCompletedSignal signal = new WindowMoveCompletedSignal(Interop.WindowMoveCompletedSignal.GetSignal(GetBaseHandleCPtrHandleRef), false);
+                signal?.Disconnect(moveCompletedEventCallback);
+                moveCompletedEventCallback = null;
+            }
+
+            if (resizeCompletedEventCallback != null)
+            {
+                using WindowResizeCompletedSignal signal = new WindowResizeCompletedSignal(Interop.WindowResizeCompletedSignal.GetSignal(GetBaseHandleCPtrHandleRef), false);
+                signal?.Disconnect(resizeCompletedEventCallback);
+                resizeCompletedEventCallback = null;
+            }
+
+            if (insetsChangedEventCallback != null)
+            {
+                using WindowInsetsChangedSignal signal = new WindowInsetsChangedSignal(Interop.WindowInsetsChangedSignalType.Get(GetBaseHandleCPtrHandleRef), false);
+                signal?.Disconnect(insetsChangedEventCallback);
+                insetsChangedEventCallback = null;
+            }
+
+            if (windowPointerConstraintsEventCallback != null)
+            {
+                using WindowPointerConstraintsSignal signal = new WindowPointerConstraintsSignal(Interop.WindowPointerConstraintsSignal.GetSignal(GetBaseHandleCPtrHandleRef), false);
+                signal?.Disconnect(windowPointerConstraintsEventCallback);
+                windowPointerConstraintsEventCallback = null;
+            }
+
+            if (rootLayerHoverDataCallback != null)
+            {
+                Interop.ActorSignal.HoveredDisconnect(Layer.getCPtr(GetRootLayer()), rootLayerHoverDataCallback.ToHandleRef(this));
+                NDalicPINVOKE.ThrowExceptionIfExists();
+                rootLayerHoverDataCallback = null;
+            }
         }
 
         private void OnWindowFocusedChanged(IntPtr window, bool focusGained)
@@ -772,6 +1100,24 @@ namespace Tizen.NUI
                 stageWheelHandler(this, e);
             }
             return true;
+        }
+
+        private bool OnWindowInterceptWheel(IntPtr view, IntPtr wheelEvent)
+        {
+            if (wheelEvent == global::System.IntPtr.Zero)
+            {
+                NUILog.Error("wheelEvent should not be null!");
+                return true;
+            }
+
+            bool consumed = false;
+            if (interceptWheelHandler != null)
+            {
+                WheelEventArgs e = new WheelEventArgs();
+                e.Wheel = Tizen.NUI.Wheel.GetWheelFromPtr(wheelEvent);
+                consumed = interceptWheelHandler(this, e);
+            }
+            return consumed;
         }
 
         // Callback for Stage KeyEventsignal
@@ -918,6 +1264,101 @@ namespace Tizen.NUI
             return;
         }
 
+        private void OnWindowMouseInOutEvent(IntPtr view, IntPtr mouseEvent)
+        {
+            if (mouseEvent == global::System.IntPtr.Zero)
+            {
+                NUILog.Error("mouseEvent should not be null!");
+                return;
+            }
+
+            if (windowMouseInOutEventHandler != null)
+            {
+                MouseInOutEventArgs e = new MouseInOutEventArgs();
+                e.MouseInOut = Tizen.NUI.MouseInOut.GetMouseInOutFromPtr(mouseEvent);
+                windowMouseInOutEventHandler(this, e);
+            }
+        }
+
+        private void OnMoveCompleted(IntPtr window, IntPtr position)
+        {
+            if (window == global::System.IntPtr.Zero)
+            {
+                return;
+            }
+
+            if (moveCompletedHandler != null)
+            {
+                WindowMoveCompletedEventArgs e = new WindowMoveCompletedEventArgs(this.WindowPosition);
+                moveCompletedHandler(this, e);
+            }
+            return;
+        }
+
+        private void OnResizeCompleted(IntPtr window, IntPtr size)
+        {
+            if (window == global::System.IntPtr.Zero)
+            {
+                return;
+            }
+
+            if (resizeCompletedHandler != null)
+            {
+                WindowResizeCompletedEventArgs e = new WindowResizeCompletedEventArgs(this.WindowSize);
+                resizeCompletedHandler(this, e);
+            }
+            return;
+        }
+
+        private void OnWindowMouseRelativeEvent(IntPtr view, IntPtr mouseEvent)
+        {
+            if (mouseEvent == global::System.IntPtr.Zero)
+            {
+                NUILog.Error("mouseEvent should not be null!");
+                return;
+            }
+
+            if (windowMouseRelativeEventHandler != null)
+            {
+                MouseRelativeEventArgs e = new MouseRelativeEventArgs();
+                e.MouseRelative = Tizen.NUI.MouseRelative.GetMouseRelativeFromPtr(mouseEvent);
+                windowMouseRelativeEventHandler(this, e);
+            }
+        }
+
+        private void OnWindowPointerConstraintsEvent(IntPtr view, IntPtr constraintsEvent)
+        {
+            if (constraintsEvent == global::System.IntPtr.Zero)
+            {
+                NUILog.Error("constraintsEvent should not be null!");
+                return;
+            }
+
+            if (windowPointerConstraintsEventHandler != null)
+            {
+                PointerConstraintsEventArgs e = new PointerConstraintsEventArgs();
+                e.PointerConstraints = Tizen.NUI.PointerConstraints.GetPointerConstraintsFromPtr(constraintsEvent);
+                windowPointerConstraintsEventHandler(this, e);
+            }
+        }
+
+        private bool OnWindowHover(IntPtr view, IntPtr hoverData)
+        {
+            if (hoverData == global::System.IntPtr.Zero)
+            {
+                NUILog.Error("hoverData should not be null!");
+                return false;
+            }
+
+            if (rootLayerHoverDataEventHandler != null)
+            {
+                HoverEventArgs e = new HoverEventArgs();
+                e.Hover = Tizen.NUI.Hover.GetHoverFromPtr(hoverData);
+                rootLayerHoverDataEventHandler(this, e);
+            }
+            return false;
+        }
+
         /// <summary>
         /// The focus changed event argument.
         /// </summary>
@@ -1037,6 +1478,107 @@ namespace Tizen.NUI
         }
 
         /// <summary>
+        /// MouseInOut evnet arguments.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public class MouseInOutEventArgs : EventArgs
+        {
+            private MouseInOut mouseEvent;
+
+            /// <summary>
+            /// MouseInOut event.
+            /// </summary>
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            public MouseInOut MouseInOut
+            {
+                get
+                {
+                    return mouseEvent;
+                }
+                set
+                {
+                    mouseEvent = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// MouseRelative evnet arguments.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public class MouseRelativeEventArgs : EventArgs
+        {
+            private MouseRelative mouseEvent;
+
+            /// <summary>
+            /// MouseRelative event.
+            /// </summary>
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            public MouseRelative MouseRelative
+            {
+                get
+                {
+                    return mouseEvent;
+                }
+                set
+                {
+                    mouseEvent = value;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// PointerConstraints evnet arguments.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public class PointerConstraintsEventArgs : EventArgs
+        {
+            private PointerConstraints constraintsEvent;
+
+            /// <summary>
+            /// PointerConstraints event.
+            /// </summary>
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            public PointerConstraints PointerConstraints
+            {
+                get
+                {
+                    return constraintsEvent;
+                }
+                set
+                {
+                    constraintsEvent = value;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Event arguments that passed via the hover signal.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public class HoverEventArgs : EventArgs
+        {
+            private Hover hover;
+
+            /// <summary>
+            /// Hover - contains touch points that represent the points that are currently being hovered or the points where a hover has stopped.
+            /// </summary>
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            public Hover Hover
+            {
+                get
+                {
+                    return hover;
+                }
+                set
+                {
+                    hover = value;
+                }
+            }
+        }
+
+        /// <summary>
         /// Do not use this, that will be deprecated.
         /// </summary>
         /// <since_tizen> 3 </since_tizen>
@@ -1139,7 +1681,7 @@ namespace Tizen.NUI
 
         private EventHandler<WheelEventArgs> DetentEventHandler;
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void DetentEventCallbackType(IntPtr arg1);
 
         private DetentEventCallbackType DetentEventCallback;
@@ -1193,7 +1735,7 @@ namespace Tizen.NUI
             }
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void VisibilityChangedEventCallbackType(IntPtr window, bool visibility);
         private VisibilityChangedEventCallbackType VisibilityChangedEventCallback;
         private event EventHandler<VisibilityChangedEventArgs> VisibilityChangedEventHandler;
@@ -1301,6 +1843,120 @@ namespace Tizen.NUI
         }
 
         /// <summary>
+        /// The type of insets part.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public enum InsetsPartType
+        {
+            StatusBar = 0,
+            Keyboard = 1,
+            Clipboard = 2
+        }
+
+        /// <summary>
+        /// The state of insets part.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public enum InsetsPartState
+        {
+            Invisible = 0,
+            Visible = 1
+        }
+
+        /// <summary>
+        /// InsetsChangedEventArgs
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public class InsetsChangedEventArgs : EventArgs
+        {
+            private InsetsPartType partType;
+            private InsetsPartState partState;
+            private Extents insets;
+
+            /// <summary>
+            /// The type of insets part.
+            /// e.g. StatusBar, Keyboard, or Clipboard
+            /// </summary>
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            public InsetsPartType PartType
+            {
+                get => partType;
+                internal set
+                {
+                    partType = value;
+                }
+            }
+
+            /// <summary>
+            /// The state of insets part.
+            /// e.g. Invisible or Visible
+            /// </summary>
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            public InsetsPartState PartState
+            {
+                get => partState;
+                internal set
+                {
+                    partState = value;
+                }
+            }
+
+            /// <summary>
+            /// The extents value of window insets
+            /// </summary>
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            public Extents Insets
+            {
+                get => insets;
+                internal set
+                {
+                    insets = value;
+                }
+            }
+        }
+
+        private void OnInsetsChanged(int partType, int partState, IntPtr extents)
+        {
+            if (insetsChangedEventHandler != null)
+            {
+                InsetsChangedEventArgs e = new InsetsChangedEventArgs();
+                e.PartType = (InsetsPartType)partType;
+                e.PartState = (InsetsPartState)partState;
+                e.Insets = new Extents(extents, false);
+
+                insetsChangedEventHandler.Invoke(this, e);
+            }
+        }
+
+        /// <summary>
+        /// Emits the event when the window insets changes by status bar, virtual keyboard, or clipboard appears and disappears.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public event EventHandler<InsetsChangedEventArgs> InsetsChanged
+        {
+            add
+            {
+                if (insetsChangedEventHandler == null)
+                {
+                    insetsChangedEventCallback = OnInsetsChanged;
+                    using WindowInsetsChangedSignal signal = new WindowInsetsChangedSignal(Interop.WindowInsetsChangedSignalType.Get(SwigCPtr), false);
+                    signal.Ensure()?.Connect(insetsChangedEventCallback);
+                }
+                insetsChangedEventHandler += value;
+            }
+            remove
+            {
+                insetsChangedEventHandler -= value;
+                if (insetsChangedEventHandler == null && insetsChangedEventCallback != null)
+                {
+                    using WindowInsetsChangedSignal signal = new WindowInsetsChangedSignal(Interop.WindowInsetsChangedSignalType.Get(SwigCPtr), false);
+                    signal.Ensure()?.Disconnect(insetsChangedEventCallback);
+                    insetsChangedEventCallback = null;
+                }
+            }
+        }
+
+        /// <summary>
         /// AccessibilityHighlightArgs
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -1337,7 +1993,7 @@ namespace Tizen.NUI
             }
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void AccessibilityHighlightEventCallbackType(IntPtr window, bool highlight);
         private AccessibilityHighlightEventCallbackType AccessibilityHighlightEventCallback;
         private event EventHandler<AccessibilityHighlightEventArgs> AccessibilityHighlightEventHandler;
@@ -1372,7 +2028,7 @@ namespace Tizen.NUI
     }
 
     /// <summary>
-    /// MovedArgs
+    /// Move event is sent when window is resized by user or the display server.
     /// </summary>
     [EditorBrowsable(EditorBrowsableState.Never)]
     public class WindowMovedEventArgs : EventArgs
@@ -1414,4 +2070,43 @@ namespace Tizen.NUI
             }
         }
     }
+
+    /// <summary>
+    /// Move Completed event is sent when window has been moved the display server.
+    /// It is triggered by calling RequestMoveToServer().
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public class WindowMoveCompletedEventArgs : EventArgs
+    {
+        public WindowMoveCompletedEventArgs(Position2D completedPosition)
+        {
+            WindowCompletedPosition = completedPosition;
+        }
+
+        public Position2D WindowCompletedPosition
+        {
+            get;
+            private set;
+        }
+    }
+
+    /// <summary>
+    /// Resize Completed event is sent when window has been resized the display server.
+    /// It is triggered by calling RequestResizeToServer().
+    /// </summary>
+    [EditorBrowsable(EditorBrowsableState.Never)]
+    public class WindowResizeCompletedEventArgs : EventArgs
+    {
+        public WindowResizeCompletedEventArgs(Size2D completedSize)
+        {
+            WindowCompletedSize = completedSize;
+        }
+
+        public Size2D WindowCompletedSize
+        {
+            get;
+            private set;
+        }
+    }
+
 }

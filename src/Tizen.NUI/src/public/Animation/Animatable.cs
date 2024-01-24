@@ -26,6 +26,11 @@ namespace Tizen.NUI
     /// <since_tizen> 3 </since_tizen>
     public class Animatable : BaseHandle
     {
+        static internal new void Preload()
+        {
+            BaseHandle.Preload();
+            // Do nothing. Just call for load static values.
+        }
 
         /// <summary>
         /// Create an instance of animatable.
@@ -34,10 +39,13 @@ namespace Tizen.NUI
         public Animatable() : this(Interop.Handle.New(), true)
         {
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
-
         }
 
-        internal Animatable(global::System.IntPtr cPtr, bool cMemoryOwn) : base(cPtr, cMemoryOwn)
+        internal Animatable(global::System.IntPtr cPtr, bool cMemoryOwn) : this(cPtr, cMemoryOwn, cMemoryOwn)
+        {
+        }
+
+        internal Animatable(global::System.IntPtr cPtr, bool cMemoryOwn, bool cRegister) : base(cPtr, cMemoryOwn, cRegister)
         {
         }
 
@@ -196,6 +204,18 @@ namespace Tizen.NUI
         public PropertyValue GetProperty(int index)
         {
             PropertyValue ret = Tizen.NUI.Object.GetProperty(SwigCPtr, index);
+            return ret;
+        }
+
+        /// <summary>
+        /// Retrieves the latest rendered frame value of the property.
+        /// </summary>
+        /// <param name="index">The index of the property.</param>
+        /// <returns>The property value.</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public PropertyValue GetCurrentProperty(int index)
+        {
+            PropertyValue ret = Tizen.NUI.Object.GetCurrentProperty(SwigCPtr, index);
             return ret;
         }
 

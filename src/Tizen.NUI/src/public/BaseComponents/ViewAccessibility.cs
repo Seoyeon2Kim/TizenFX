@@ -61,6 +61,12 @@ namespace Tizen.NUI.BaseComponents
         [EditorBrowsable(EditorBrowsableState.Never)]
         public Dictionary<string, string> AccessibilityAttributes { get; } = new Dictionary<string, string>();
 
+        /// <summary>
+        /// Dictionary of dynamically-evaluated accessibility attributes (key-value pairs of strings).
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public Dictionary<string, Func<string>> AccessibilityDynamicAttributes { get; } = new Dictionary<string, Func<string>>();
+
         ///////////////////////////////////////////////////////////////////
         // ************************** Highlight ************************ //
         ///////////////////////////////////////////////////////////////////
@@ -250,7 +256,7 @@ namespace Tizen.NUI.BaseComponents
         [EditorBrowsable(EditorBrowsableState.Never)]
         public AccessibilityStates GetAccessibilityStates()
         {
-            var result = new AccessibilityStates {BitMask = Interop.ControlDevel.DaliToolkitDevelControlGetAccessibilityStates(SwigCPtr)};
+            var result = new AccessibilityStates { BitMask = Interop.ControlDevel.DaliToolkitDevelControlGetAccessibilityStates(SwigCPtr) };
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
             return result;
         }
@@ -347,7 +353,7 @@ namespace Tizen.NUI.BaseComponents
         {
             get
             {
-                return new AccessibilityEvents {Owner = this};
+                return new AccessibilityEvents { Owner = this };
             }
         }
 
@@ -397,6 +403,7 @@ namespace Tizen.NUI.BaseComponents
                 {
                     // at this case, implicit nor explicit dispose is not required. No native object is made.
                     disposed = true;
+                    aliveCount--;
                     return;
                 }
             }
@@ -576,7 +583,7 @@ namespace Tizen.NUI.BaseComponents
         [EditorBrowsable(EditorBrowsableState.Never)]
         protected virtual bool OnAccessibilityActivated()
         {
-            return false;
+            return FocusManager.Instance.SetCurrentFocusView(this);
         }
 
         /// <summary>

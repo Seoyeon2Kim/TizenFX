@@ -28,6 +28,11 @@ namespace Tizen.NUI
     /// <since_tizen> 3 </since_tizen>
     public class BaseHandle : Element, global::System.IDisposable
     {
+        static internal void Preload()
+        {
+            // Do nothing. Just call for load static values.
+        }
+
         /// <summary>
         /// swigCMemOwn
         /// </summary>
@@ -54,8 +59,9 @@ namespace Tizen.NUI
         /// Create an instance of BaseHandle.
         /// </summary>
         /// <since_tizen> 3 </since_tizen>
-        public BaseHandle() : this(Interop.BaseHandle.NewBaseHandle())
+        public BaseHandle() : this(Interop.BaseHandle.NewBaseHandle(), true, false)
         {
+            // Note : Empty BaseHandle instance don't need to be register in Registry.
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
         }
 
@@ -64,9 +70,36 @@ namespace Tizen.NUI
         /// </summary>
         /// <param name="handle">The BaseHandle instance.</param>
         /// <since_tizen> 3 </since_tizen>
-        public BaseHandle(BaseHandle handle) : this(Interop.BaseHandle.NewBaseHandle(BaseHandle.getCPtr(handle)))
+        public BaseHandle(BaseHandle handle) : this(Interop.BaseHandle.NewBaseHandle(BaseHandle.getCPtr(handle)), true, false)
         {
+            // Note : Copyed BaseHandle instance don't need to be register in Registry.
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+        }
+
+        internal BaseHandle(global::System.IntPtr cPtr, bool cMemoryOwn, bool cRegister)
+        {
+            //to catch derived classes dali native exceptions
+            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+
+            DebugFileLogging.Instance.WriteLog($"BaseHandle.contructor with cMemeryOwn:{cMemoryOwn} and cRegister:{cRegister} START");
+
+            registerMe = cRegister;
+            swigCMemOwn = cMemoryOwn;
+            swigCPtr = new global::System.Runtime.InteropServices.HandleRef(this, cPtr);
+            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+
+            if (registerMe)
+            {
+                // Register this instance of BaseHandle in the registry.
+                if (!Registry.Register(this))
+                {
+                    registerMe = false;
+                }
+            }
+
+            disposeDebuggingCtor();
+            DebugFileLogging.Instance.WriteLog($" BaseHandle.contructor with cMemeryOwn and cRegister END");
+            DebugFileLogging.Instance.WriteLog($"=============================");
         }
 
         internal BaseHandle(global::System.IntPtr cPtr, bool cMemoryOwn)
@@ -83,7 +116,10 @@ namespace Tizen.NUI
             if (registerMe)
             {
                 // Register this instance of BaseHandle in the registry.
-                Registry.Register(this);
+                if (!Registry.Register(this))
+                {
+                    registerMe = false;
+                }
             }
 
             disposeDebuggingCtor();
@@ -103,7 +139,10 @@ namespace Tizen.NUI
             if (registerMe)
             {
                 // Register this instance of BaseHandle in the registry.
-                Registry.Register(this);
+                if (!Registry.Register(this))
+                {
+                    registerMe = false;
+                }
             }
 
             disposeDebuggingCtor();
@@ -336,15 +375,16 @@ namespace Tizen.NUI
                 //Throw exception if Dispose() is called in separate thread.
                 if (!Window.IsInstalled())
                 {
-                    var process = global::System.Diagnostics.Process.GetCurrentProcess().Id;
+                    using var process = global::System.Diagnostics.Process.GetCurrentProcess();
+                    var processId = process.Id;
                     var thread = global::System.Threading.Thread.CurrentThread.ManagedThreadId;
                     var me = this.GetType().FullName;
 
                     DebugFileLogging.Instance.WriteLog("[NUI][BaseHandle] This API called from separate thread. This API must be called from MainThread. \n" +
-                        $" process:{process} thread:{thread}, disposing:{disposing}, isDisposed:{this.disposed}, isDisposeQueued:{this.isDisposeQueued}, me:{me}\n");
+                        $" process:{processId} thread:{thread}, disposing:{disposing}, isDisposed:{this.disposed}, isDisposeQueued:{this.isDisposeQueued}, me:{me}\n");
 
                     Tizen.Log.Fatal("NUI", $"[NUI][BaseHandle] This API called from separate thread. This API must be called from MainThread. \n" +
-                        $" process:{process} thread:{thread}, disposing:{disposing}, isDisposed:{this.disposed}, isDisposeQueued:{this.isDisposeQueued}, me:{me}\n");
+                        $" process:{processId} thread:{thread}, disposing:{disposing}, isDisposed:{this.disposed}, isDisposeQueued:{this.isDisposeQueued}, me:{me}\n");
 
                     //to fix ArtApp black screen issue. this will be enabled after talking with ArtApp team and fixing it.
                     // throw new global::System.InvalidOperationException("[NUI][BaseHandle] This API called from separate thread. This API must be called from MainThread. \n" +
@@ -510,6 +550,15 @@ namespace Tizen.NUI
             PropertySet?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        internal void UnregisterFromRegistry()
+        {
+            if (registerMe)
+            {
+                Registry.Unregister(this);
+                registerMe = false;
+            }
+        }
+
         /// <summary>
         /// Dispose.
         /// </summary>
@@ -536,10 +585,7 @@ namespace Tizen.NUI
             //because the execution order of Finalizes is non-deterministic.
 
             //Unreference this instance from Registry.
-            if (registerMe)
-            {
-                Registry.Unregister(this);
-            }
+            UnregisterFromRegistry();
 
             disposeDebuggingDispose(type);
 
@@ -602,20 +648,21 @@ namespace Tizen.NUI
             {
                 if (swigCPtr.Handle == IntPtr.Zero)
                 {
-                    var process = global::System.Diagnostics.Process.GetCurrentProcess().Id;
+                    using var process = global::System.Diagnostics.Process.GetCurrentProcess();
+                    var processId = process.Id;
                     var thread = global::System.Threading.Thread.CurrentThread.ManagedThreadId;
                     var me = this.GetType().FullName;
 
                     Tizen.Log.Fatal("NUI", $"SwigCPtr Error! NUI's native dali object is already disposed. " +
                         $"OR the native dali object handle of NUI becomes null! \n" +
-                        $" process:{process} thread:{thread}, isDisposed:{this.disposed}, isDisposeQueued:{this.isDisposeQueued}, me:{me}\n");
+                        $" process:{processId} thread:{thread}, isDisposed:{this.disposed}, isDisposeQueued:{this.isDisposeQueued}, me:{me}\n");
 
                     Tizen.Log.Fatal("NUI", $"[ERROR] back trace!");
                     global::System.Diagnostics.StackTrace st = new global::System.Diagnostics.StackTrace(true);
                     for (int i = 0; i < st.FrameCount; i++)
                     {
                         global::System.Diagnostics.StackFrame sf = st.GetFrame(i);
-                        Tizen.Log.Fatal("NUI", " Method " + sf.GetMethod());
+                        Tizen.Log.Fatal("NUI", " Method " + sf.GetMethod() + ":" + sf.GetFileName() + ":" + sf.GetFileLineNumber());
                     }
                     Tizen.Log.Fatal("NUI", "Error! just return here with null swigCPtr! this can cause unknown error or crash in next step");
 
@@ -663,7 +710,7 @@ namespace Tizen.NUI
                 for (int i = 0; i < st.FrameCount; i++)
                 {
                     global::System.Diagnostics.StackFrame sf = st.GetFrame(i);
-                    DebugFileLogging.Instance.WriteLog($"[{i}] {sf.GetMethod()}");
+                    DebugFileLogging.Instance.WriteLog($"[{i}] {sf.GetMethod()}:{sf.GetFileName()}:{sf.GetFileLineNumber()}");
                 }
             }
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2021 Samsung Electronics Co., Ltd.
+ * Copyright(c) 2023 Samsung Electronics Co., Ltd.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ namespace Tizen.NUI.BaseComponents
     /// <since_tizen> 3 </since_tizen>
     public partial class TextLabel : View
     {
-        private class TextLayout : LayoutItem
+        internal class TextLabelLayout : LayoutItem
         {
             protected override void OnMeasure(MeasureSpecification widthMeasureSpec, MeasureSpecification heightMeasureSpec)
             {
@@ -58,13 +58,16 @@ namespace Tizen.NUI.BaseComponents
                     if (heightMeasureSpec.Mode == MeasureSpecification.ModeType.Exactly)
                     {
                         // GetWidthForHeight is not implemented.
-                        totalWidth = Math.Min(Math.Max(naturalSize.Width, minSize.Width), (maxSize.Width < 0 ? Int32.MaxValue : maxSize.Width));
+                        float width = naturalSize != null ? naturalSize.Width : 0;
+                        totalWidth = Math.Min(Math.Max(width, minSize.Width), (maxSize.Width < 0 ? Int32.MaxValue : maxSize.Width));
                         widthMeasureSpec = new MeasureSpecification(new LayoutLength(totalWidth), MeasureSpecification.ModeType.Exactly);
                     }
                     else
                     {
-                        totalWidth = Math.Min(Math.Max(naturalSize.Width, minSize.Width), (maxSize.Width < 0 ? Int32.MaxValue : maxSize.Width));
-                        totalHeight = Math.Min(Math.Max(naturalSize.Height, minSize.Height), (maxSize.Height < 0 ? Int32.MaxValue : maxSize.Height));
+                        float width = naturalSize != null ? naturalSize.Width : 0;
+                        float height = naturalSize != null ? naturalSize.Height : 0;
+                        totalWidth = Math.Min(Math.Max(width, minSize.Width), (maxSize.Width < 0 ? Int32.MaxValue : maxSize.Width));
+                        totalHeight = Math.Min(Math.Max(height, minSize.Height), (maxSize.Height < 0 ? Int32.MaxValue : maxSize.Height));
 
                         heightMeasureSpec = new MeasureSpecification(new LayoutLength(totalHeight), MeasureSpecification.ModeType.Exactly);
                         widthMeasureSpec = new MeasureSpecification(new LayoutLength(totalWidth), MeasureSpecification.ModeType.Exactly);
@@ -81,17 +84,32 @@ namespace Tizen.NUI.BaseComponents
 
         static TextLabel() { }
 
+        static internal new void Preload()
+        {
+            // Do not call View.Preload(), since we already call it
+
+            Property.Preload();
+            // Do nothing. Just call for load static values.
+        }
+
+        private static SystemFontTypeChanged systemFontTypeChanged = new SystemFontTypeChanged();
+        private static SystemLocaleLanguageChanged systemLocaleLanguageChanged = new SystemLocaleLanguageChanged();
         static private string defaultStyleName = "Tizen.NUI.BaseComponents.TextLabel";
         static private string defaultFontFamily = "BreezeSans";
         private string textLabelSid = null;
         private TextLabelSelectorData selectorData;
         private string fontFamily = defaultFontFamily;
         private float fontSizeScale = 1.0f;
+
+        private bool textIsEmpty = true;
+
         private bool hasSystemLanguageChanged = false;
         private bool hasSystemFontSizeChanged = false;
         private bool hasSystemFontTypeChanged = false;
 
         private Color internalTextColor;
+        private Color internalAnchorColor;
+        private Color internalAnchorClickedColor;
 
         /// <summary>
         /// Creates the TextLabel control.
@@ -128,6 +146,7 @@ namespace Tizen.NUI.BaseComponents
         public TextLabel(string text) : this(Interop.TextLabel.New(text, ThemeManager.GetStyle(defaultStyleName) == null ? false : true), true)
         {
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+            textIsEmpty = string.IsNullOrEmpty(text);
         }
 
         /// <summary>
@@ -140,17 +159,8 @@ namespace Tizen.NUI.BaseComponents
         public TextLabel(string text, bool shown) : this(Interop.TextLabel.New(text, ThemeManager.GetStyle(defaultStyleName) == null ? false : true), true)
         {
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+            textIsEmpty = string.IsNullOrEmpty(text);
             SetVisible(shown);
-        }
-
-        internal TextLabel(TextLabel handle, bool shown = true) : this(Interop.TextLabel.NewTextLabel(TextLabel.getCPtr(handle)), true)
-        {
-            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
-
-            if (!shown)
-            {
-                SetVisible(false);
-            }
         }
 
         internal TextLabel(global::System.IntPtr cPtr, bool cMemoryOwn, ViewStyle viewStyle, bool shown = true) : base(cPtr, cMemoryOwn, viewStyle)
@@ -213,7 +223,7 @@ namespace Tizen.NUI.BaseComponents
                     Text = translatableText;
                     if (hasSystemLanguageChanged == false)
                     {
-                        SystemSettings.LocaleLanguageChanged += SystemSettingsLocaleLanguageChanged;
+                        systemLocaleLanguageChanged.Add(SystemSettingsLocaleLanguageChanged);
                         hasSystemLanguageChanged = true;
                     }
                 }
@@ -1400,6 +1410,105 @@ namespace Tizen.NUI.BaseComponents
         }
 
         /// <summary>
+        /// Set TextFitArray to TextLabel. <br />
+        /// TextFitArray finds and applies the largest PointSize that fits among OptionList.
+        /// </summary>
+        /// <param name="textFitArray">The TextFitArray</param>
+        /// <remarks>
+        /// TextFitArray tries binary search by default. <br />
+        /// The precondition for TextFitArray to perform binary search is sorting in ascending order of MinLineSize. <br />
+        /// Because if MinLineSize is not sorted in ascending order, <br />
+        /// binary search cannot guarantee that it will always find the best value. <br />
+        /// In this case, the search sequentially starts from the largest PointSize. <br />
+        /// If TextFitArrayOption's MinLineSize is set to null or 0, <br />
+        /// TextFitArray is calculated without applying MinLineSize. <br />
+        /// If TextFitArray is enabled, TextLabel's MinLineSize property is ignored. <br />
+        /// See <see cref="Tizen.NUI.Text.TextFitArray"/> and <see cref="Tizen.NUI.Text.TextFitArrayOption"/>.
+        /// </remarks>
+        /// <example>
+        /// The following example demonstrates how to use the SetTextFitArray method. <br />
+        /// <code>
+        /// var textFitArray = new Tizen.NUI.Text.TextFitArray();
+        /// textFitArray.Enable = true;
+        /// textFitArray.OptionList = new List&lt;Tizen.NUI.Text.TextFitArrayOption&gt;()
+        /// {
+        ///     new Tizen.NUI.Text.TextFitArrayOption(12, 18),
+        ///     new Tizen.NUI.Text.TextFitArrayOption(24, 40),
+        ///     new Tizen.NUI.Text.TextFitArrayOption(28, 48),
+        ///     new Tizen.NUI.Text.TextFitArrayOption(32, 56),
+        ///     new Tizen.NUI.Text.TextFitArrayOption(50, 72),
+        /// };
+        /// label.SetTextFitArray(textFitArray);
+        /// </code>
+        /// <br />
+        /// The table below shows cases where binary search is possible and where it is not possible. <br />
+        /// <code>
+        /// [Binary search possible]
+        /// |            | List index  |  0 |  1 |  2 |  3 |
+        /// | OptionList | PointSize   | 24 | 28 | 32 | 48 |
+        /// |            | MinLineSize | 40 | 48 | 48 | 62 | &lt;&lt; MinLineSize sorted in ascending order
+        ///                                    ^    ^
+        ///                                    same values ​are not a problem
+        ///
+        /// [Binary search not possible]
+        /// |            | List index  |  0 |  1 |  2 |  3 |
+        /// | OptionList | PointSize   | 24 | 28 | 32 | 48 |
+        /// |            | MinLineSize | 40 | 48 | 38 | 62 | &lt;&lt; MinLineSize is not sorted in ascending order
+        ///                                         ^
+        /// </code>
+        /// </example>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void SetTextFitArray(TextFitArray textFitArray)
+        {
+            bool enable = textFitArray.Enable;
+            int optionListSize = textFitArray.OptionList?.Count ?? 0;
+
+            float[] pointSizeArray = new float[optionListSize];
+            float[] minLineSizeArray = new float[optionListSize];
+
+            for (int i = 0 ; i < optionListSize ; i ++)
+            {
+                TextFitArrayOption option = textFitArray.OptionList[i];
+                pointSizeArray[i] = option.PointSize;
+                minLineSizeArray[i] = option.MinLineSize ?? 0;
+            }
+
+            Interop.TextLabel.SetTextFitArray(SwigCPtr, enable, (uint)optionListSize, pointSizeArray, minLineSizeArray);
+            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+        }
+
+        /// <summary>
+        /// Get TextFitArray from TextLabel.
+        /// </summary>
+        /// <returns>The TextFitArray</returns>
+        /// <remarks>
+        /// See <see cref="Tizen.NUI.Text.TextFitArray"/> and <see cref="Tizen.NUI.Text.TextFitArrayOption"/>.
+        /// </remarks>
+        /// <example>
+        /// The following example demonstrates how to use the GetTextFitArray method. <br />
+        /// <code>
+        /// Tizen.NUI.Text.TextFitArray textFitArray = label.GetTextFitArray();
+        /// bool enable = textFitArray.Enable;
+        /// var optionList = textFitArray.OptionList;
+        /// foreach(Tizen.NUI.Text.TextFitArrayOption option in optionList)
+        /// {
+        ///     float pointSize = option.PointSize;
+        ///     float minLinesize = option.MinLineSize;
+        /// }
+        /// </code>
+        /// </example>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public TextFitArray GetTextFitArray()
+        {
+            using PropertyMap textFitArrayMap = new PropertyMap(Interop.TextLabel.GetTextFitArray(SwigCPtr), true);
+            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+
+            TextFitArray textFitArray;
+            textFitArray = TextUtils.GetMapToTextFitArray(textFitArrayMap);
+            return textFitArray;
+        }
+
+        /// <summary>
         /// The MinLineSize property.<br />
         /// The height of the line in points. <br />
         /// If the font size is larger than the line size, it works with the font size. <br />
@@ -1436,6 +1545,54 @@ namespace Tizen.NUI.BaseComponents
             set
             {
                 SetValue(CharacterSpacingProperty, value);
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// The AnchorColor property.<br />
+        /// The color of the anchor.<br />
+        /// This property is used as the default color of the markup anchor tag.<br />
+        /// If there is a color attribute in the markup anchor tag, the markup attribute takes precedence.
+        /// </summary>
+        /// <remarks>
+        /// The property cascade chaining set is possible. For example, this (textLabel.AnchorColor.X = 0.1f;) is possible.
+        /// </remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public Color AnchorColor
+        {
+            get
+            {
+                Color color = (Color)GetValue(AnchorColorProperty);
+                return new Color(OnAnchorColorChanged, color.R, color.G, color.B, color.A);
+            }
+            set
+            {
+                SetValue(AnchorColorProperty, value);
+                NotifyPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        /// The AnchorClickedColor property.<br />
+        /// The color of the clicked anchor.<br />
+        /// This property is used as the default clicked color of the markup anchor tag.<br />
+        /// If there is a color attribute in the markup anchor tag, the markup attribute takes precedence.
+        /// </summary>
+        /// <remarks>
+        /// The property cascade chaining set is possible. For example, this (textLabel.AnchorClickedColor.X = 0.1f;) is possible.
+        /// </remarks>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public Color AnchorClickedColor
+        {
+            get
+            {
+                Color color = (Color)GetValue(AnchorClickedColorProperty);
+                return new Color(OnAnchorClickedColorChanged, color.R, color.G, color.B, color.A);
+            }
+            set
+            {
+                SetValue(AnchorClickedColorProperty, value);
                 NotifyPropertyChanged();
             }
         }
@@ -1560,10 +1717,12 @@ namespace Tizen.NUI.BaseComponents
             }
 
             internalTextColor?.Dispose();
+            internalAnchorColor?.Dispose();
+            internalAnchorClickedColor?.Dispose();
 
             if (hasSystemLanguageChanged)
             {
-                SystemSettings.LocaleLanguageChanged -= SystemSettingsLocaleLanguageChanged;
+                systemLocaleLanguageChanged.Remove(SystemSettingsLocaleLanguageChanged);
             }
 
             RemoveSystemSettingsFontTypeChanged();
@@ -1606,7 +1765,7 @@ namespace Tizen.NUI.BaseComponents
 
         internal override LayoutItem CreateDefaultLayout()
         {
-            return new TextLayout();
+            return new TextLabelLayout();
         }
 
         /// <summary>
@@ -1634,7 +1793,7 @@ namespace Tizen.NUI.BaseComponents
             {
                 try
                 {
-                    SystemSettings.FontSizeChanged += SystemSettingsFontSizeChanged;
+                    SystemFontSizeChangedManager.Add(SystemSettingsFontSizeChanged);
                     hasSystemFontSizeChanged = true;
                 }
                 catch (Exception e)
@@ -1651,7 +1810,7 @@ namespace Tizen.NUI.BaseComponents
             {
                 try
                 {
-                    SystemSettings.FontSizeChanged -= SystemSettingsFontSizeChanged;
+                    SystemFontSizeChangedManager.Remove(SystemSettingsFontSizeChanged);
                     hasSystemFontSizeChanged = false;
                 }
                 catch (Exception e)
@@ -1673,7 +1832,7 @@ namespace Tizen.NUI.BaseComponents
             {
                 try
                 {
-                    SystemSettings.FontTypeChanged += SystemSettingsFontTypeChanged;
+                    systemFontTypeChanged.Add(SystemSettingsFontTypeChanged);
                     hasSystemFontTypeChanged = true;
                 }
                 catch (Exception e)
@@ -1690,7 +1849,7 @@ namespace Tizen.NUI.BaseComponents
             {
                 try
                 {
-                    SystemSettings.FontTypeChanged -= SystemSettingsFontTypeChanged;
+                    systemFontTypeChanged.Remove(SystemSettingsFontTypeChanged);
                     hasSystemFontTypeChanged = false;
                 }
                 catch (Exception e)
@@ -1743,6 +1902,14 @@ namespace Tizen.NUI.BaseComponents
             internal static readonly int EllipsisPosition = Interop.TextLabel.EllipsisPositionGet();
             internal static readonly int Strikethrough = Interop.TextLabel.StrikethroughGet();
             internal static readonly int CharacterSpacing = Interop.TextLabel.CharacterSpacingGet();
+            internal static readonly int AnchorColor = Interop.TextLabel.AnchorColorGet();
+            internal static readonly int AnchorClickedColor = Interop.TextLabel.AnchorClickedColorGet();
+
+
+            internal static void Preload()
+            {
+                // Do nothing. Just call for load static values.
+            }
         }
 
         private void OnShadowColorChanged(float x, float y, float z, float w)
@@ -1760,6 +1927,14 @@ namespace Tizen.NUI.BaseComponents
         private void OnUnderlineColorChanged(float x, float y, float z, float w)
         {
             UnderlineColor = new Vector4(x, y, z, w);
+        }
+        private void OnAnchorColorChanged(float r, float g, float b, float a)
+        {
+            AnchorColor = new Color(r, g, b, a);
+        }
+        private void OnAnchorClickedColorChanged(float r, float g, float b, float a)
+        {
+            AnchorClickedColor = new Color(r, g, b, a);
         }
     }
 }

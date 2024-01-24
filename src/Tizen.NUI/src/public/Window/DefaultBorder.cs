@@ -46,8 +46,8 @@ namespace Tizen.NUI
         private const float DefaultHeight = 50;
         private const uint DefaultLineThickness = 5;
         private const uint DefaultTouchThickness = 0;
-        private static readonly Color DefaultBackgroundColor = new Color(1, 1, 1, 0.3f);
-        private static readonly Color DefaultClickedBackgroundColor = new Color(1, 1, 1, 0.4f);
+        private static readonly Color DefaultBackgroundColor = new Color(0.7f, 0.7f, 0.7f, 0.6f);
+        private static readonly Color DefaultClickedBackgroundColor = new Color(0.7f, 0.7f, 0.7f, 0.7f);
         private static readonly Size2D DefaultMinSize = new Size2D(100, 0);
         #endregion //Constant Fields
 
@@ -67,11 +67,7 @@ namespace Tizen.NUI
         private float preScale = 0;
 
         private View windowView = null;
-        private bool isWinGestures = false;
-        private Timer timer;
         private Timer overlayTimer;
-
-        private CurrentGesture currentGesture = CurrentGesture.None;
 
         private uint borderLineThickness;
         private Size2D minSize;
@@ -85,13 +81,6 @@ namespace Tizen.NUI
         #endregion //Events
 
         #region Enums
-        private enum CurrentGesture
-        {
-          None = 0,
-          TapGesture = 1,
-          PanGesture = 2,
-          PinchGesture = 3,
-        }
         #endregion //Enums
 
         #region Methods
@@ -159,13 +148,13 @@ namespace Tizen.NUI
             var instance = (DefaultBorder)bindable;
             return instance.resizePolicy;
         });
-        
+
 
         /// <summary>
         /// The thickness of the border.
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public uint BorderLineThickness 
+        public uint BorderLineThickness
         {
             get
             {
@@ -800,6 +789,22 @@ namespace Tizen.NUI
         public virtual void OnMoved(int x, int y) {}
 
         /// <summary>
+        /// Called when window has been moved the display server.
+        /// </summary>
+        /// <param name="x">The x of the has been moved window</param>
+        /// <param name="y">The y of the has been moved window</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public virtual void OnMoveCompleted(int x, int y) {}
+
+        /// <summary>
+        /// Called when window has been resized the display server.
+        /// </summary>
+        /// <param name="width">The width of the resized window</param>
+        /// <param name="height">The height of the resized window</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public virtual void OnResizeCompleted(int width, int height) {}
+
+        /// <summary>
         /// Called when the window is maximized.
         /// </summary>
         /// <param name="isMaximized">If window is maximized or unmaximized.</param>
@@ -934,7 +939,6 @@ namespace Tizen.NUI
                 closeIcon?.Dispose();
                 leftCornerIcon?.Dispose();
                 rightCornerIcon?.Dispose();
-                timer?.Dispose();
                 overlayTimer?.Dispose();
             }
             disposed = true;

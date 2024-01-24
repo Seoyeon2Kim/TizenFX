@@ -32,12 +32,16 @@ namespace Tizen.NUI
         /// </summary>
         /// <param name="rhs">A reference to the copied handle</param>
         /// <since_tizen> 3 </since_tizen>
-        public Gesture(Gesture rhs) : this(Interop.Gesture.NewGesture(Gesture.getCPtr(rhs)), true)
+        public Gesture(Gesture rhs) : this(Interop.Gesture.NewGesture(Gesture.getCPtr(rhs)), true, false)
         {
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
         }
 
-        internal Gesture(global::System.IntPtr cPtr, bool cMemoryOwn) : base(cPtr, cMemoryOwn)
+        internal Gesture(global::System.IntPtr cPtr, bool cMemoryOwn) : this(cPtr, cMemoryOwn, cMemoryOwn)
+        {
+        }
+
+        internal Gesture(global::System.IntPtr cPtr, bool cMemoryOwn, bool cRegister) : base(cPtr, cMemoryOwn, cRegister)
         {
         }
 
@@ -123,6 +127,11 @@ namespace Tizen.NUI
             /// </summary>
             [EditorBrowsable(EditorBrowsableState.Never)]
             Mouse,
+            /// <summary>
+            /// Touch.
+            /// </summary>
+            [EditorBrowsable(EditorBrowsableState.Never)]
+            Touch,
         }
 
         /// <summary>
@@ -151,7 +160,7 @@ namespace Tizen.NUI
             /// </summary>
             [EditorBrowsable(EditorBrowsableState.Never)]
             MouseTertiary = 2,
-        }        
+        }
 
         /// <summary>
         /// The gesture type.

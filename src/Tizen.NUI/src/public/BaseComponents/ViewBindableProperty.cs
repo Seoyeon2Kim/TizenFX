@@ -215,6 +215,12 @@ namespace Tizen.NUI.BaseComponents
         public static readonly BindableProperty BackgroundImageProperty = BindableProperty.Create(nameof(BackgroundImage), typeof(string), typeof(View), default(string),
             propertyChanged: (bindable, oldValue, newValue) =>
             {
+                if (String.Equals(oldValue, newValue))
+                {
+                    NUILog.Debug($"oldValue={oldValue} newValue={newValue} are same. just return here");
+                    return;
+                }
+
                 var view = (View)bindable;
 
                 if (view.themeData?.selectorData != null)
@@ -285,6 +291,14 @@ namespace Tizen.NUI.BaseComponents
 
                     view.backgroundExtraData = null;
 
+                    // Background extra data is not valid anymore. We should ignore lazy UpdateBackgroundExtraData
+                    view.backgroundExtraDataUpdatedFlag = BackgroundExtraDataUpdatedFlag.None;
+                    if (view.backgroundExtraDataUpdateProcessAttachedFlag)
+                    {
+                        ProcessorController.Instance.ProcessorOnceEvent -= view.UpdateBackgroundExtraData;
+                        view.backgroundExtraDataUpdateProcessAttachedFlag = false;
+                    }
+
                     propertyValue.Dispose();
                     propertyValue = null;
                 }
@@ -292,6 +306,10 @@ namespace Tizen.NUI.BaseComponents
             defaultValueCreator: (bindable) =>
             {
                 var view = (View)bindable;
+
+                // Sync as current properties
+                view.UpdateBackgroundExtraData();
+
                 PropertyMap tmp = new PropertyMap();
                 var propertyValue = Object.GetProperty(view.SwigCPtr, Property.BACKGROUND);
                 propertyValue.Get(tmp);
@@ -1870,6 +1888,9 @@ namespace Tizen.NUI.BaseComponents
         {
             var view = (View)bindable;
 
+            // Sync as current properties
+            view.UpdateBackgroundExtraData();
+
             PropertyMap map = new PropertyMap();
             Tizen.NUI.Object.GetProperty((System.Runtime.InteropServices.HandleRef)view.SwigCPtr, View.Property.SHADOW).Get(map);
 
@@ -1901,6 +1922,9 @@ namespace Tizen.NUI.BaseComponents
         {
             var view = (View)bindable;
 
+            // Sync as current properties
+            view.UpdateBackgroundExtraData();
+
             PropertyMap map = new PropertyMap();
             Tizen.NUI.Object.GetProperty((System.Runtime.InteropServices.HandleRef)view.SwigCPtr, View.Property.SHADOW).Get(map);
 
@@ -1916,7 +1940,7 @@ namespace Tizen.NUI.BaseComponents
         {
             var view = (View)bindable;
             (view.backgroundExtraData ?? (view.backgroundExtraData = new BackgroundExtraData())).CornerRadius = (Vector4)newValue;
-            view.ApplyCornerRadius();
+            view.UpdateBackgroundExtraData(BackgroundExtraDataUpdatedFlag.CornerRadius);
         },
         defaultValueCreator: (bindable) =>
         {
@@ -1935,7 +1959,7 @@ namespace Tizen.NUI.BaseComponents
 
             if (view.backgroundExtraData.CornerRadius != null)
             {
-                view.ApplyCornerRadius();
+                view.UpdateBackgroundExtraData(BackgroundExtraDataUpdatedFlag.CornerRadius);
             }
         },
         defaultValueCreator: (bindable) =>
@@ -1952,7 +1976,7 @@ namespace Tizen.NUI.BaseComponents
         {
             var view = (View)bindable;
             (view.backgroundExtraData ?? (view.backgroundExtraData = new BackgroundExtraData())).BorderlineWidth = (float)newValue;
-            view.ApplyBorderline();
+            view.UpdateBackgroundExtraData(BackgroundExtraDataUpdatedFlag.Borderline);
         },
         defaultValueCreator: (bindable) =>
         {
@@ -2026,7 +2050,7 @@ namespace Tizen.NUI.BaseComponents
         {
             var view = (View)bindable;
             (view.backgroundExtraData ?? (view.backgroundExtraData = new BackgroundExtraData())).BorderlineOffset = (float)newValue;
-            view.ApplyBorderline();
+            view.UpdateBackgroundExtraData(BackgroundExtraDataUpdatedFlag.Borderline);
         },
         defaultValueCreator: (bindable) =>
         {
@@ -2559,6 +2583,42 @@ namespace Tizen.NUI.BaseComponents
         });
 
         /// <summary>
+        /// DispatchTouchMotionProperty
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static readonly BindableProperty DispatchTouchMotionProperty = BindableProperty.Create(nameof(DispatchTouchMotion), typeof(bool), typeof(View), false, propertyChanged: (bindable, oldValue, newValue) =>
+        {
+            var instance = (Tizen.NUI.BaseComponents.View)bindable;
+            if (newValue != null)
+            {
+                instance.InternalDispatchTouchMotion = (bool)newValue;
+            }
+        },
+        defaultValueCreator: (bindable) =>
+        {
+            var instance = (Tizen.NUI.BaseComponents.View)bindable;
+            return instance.InternalDispatchTouchMotion;
+        });
+
+        /// <summary>
+        /// DispatchHoverMotionProperty
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static readonly BindableProperty DispatchHoverMotionProperty = BindableProperty.Create(nameof(DispatchHoverMotion), typeof(bool), typeof(View), false, propertyChanged: (bindable, oldValue, newValue) =>
+        {
+            var instance = (Tizen.NUI.BaseComponents.View)bindable;
+            if (newValue != null)
+            {
+                instance.InternalDispatchHoverMotion = (bool)newValue;
+            }
+        },
+        defaultValueCreator: (bindable) =>
+        {
+            var instance = (Tizen.NUI.BaseComponents.View)bindable;
+            return instance.InternalDispatchHoverMotion;
+        });
+
+        /// <summary>
         /// Gets View's Size2D set by user.
         /// </summary>
         internal Size2D GetUserSize2D()
@@ -2570,6 +2630,8 @@ namespace Tizen.NUI.BaseComponents
         {
             if (string.IsNullOrEmpty(value))
             {
+                backgroundExtraDataUpdatedFlag &= ~BackgroundExtraDataUpdatedFlag.Background;
+
                 var empty = new PropertyValue();
                 // Clear background
                 Object.SetProperty(SwigCPtr, Property.BACKGROUND, empty);
@@ -2623,6 +2685,8 @@ namespace Tizen.NUI.BaseComponents
                 map.Add(Visual.Property.Type, imageType);
             }
 
+            backgroundExtraDataUpdatedFlag &= ~BackgroundExtraDataUpdatedFlag.Background;
+
             var mapValue = new PropertyValue(map);
             Object.SetProperty(SwigCPtr, Property.BACKGROUND, mapValue);
 
@@ -2673,6 +2737,9 @@ namespace Tizen.NUI.BaseComponents
                 map[Visual.Property.Type] = new PropertyValue((int)Visual.Type.NPatch);
             }
 
+            // Background extra data flag is not meanful anymore.
+            backgroundExtraDataUpdatedFlag &= ~BackgroundExtraDataUpdatedFlag.Background;
+
             Tizen.NUI.Object.SetProperty((System.Runtime.InteropServices.HandleRef)SwigCPtr, View.Property.BACKGROUND, new PropertyValue(map));
         }
 
@@ -2685,7 +2752,7 @@ namespace Tizen.NUI.BaseComponents
 
             (backgroundExtraData ?? (backgroundExtraData = new BackgroundExtraData())).BorderlineColor = value;
 
-            ApplyBorderline();
+            UpdateBackgroundExtraData(BackgroundExtraDataUpdatedFlag.Borderline);
         }
 
         private void SetBackgroundColor(Color value)
@@ -2720,6 +2787,8 @@ namespace Tizen.NUI.BaseComponents
                .Add(Visual.Property.BorderlineWidth, borderlineWidth)
                .Add(Visual.Property.BorderlineColor, borderlineColor)
                .Add(Visual.Property.BorderlineOffset, borderlineOffset);
+
+            backgroundExtraDataUpdatedFlag &= ~BackgroundExtraDataUpdatedFlag.Background;
 
             var mapValue = new PropertyValue(map);
             Object.SetProperty(SwigCPtr, Property.BACKGROUND, mapValue);
@@ -2797,6 +2866,7 @@ namespace Tizen.NUI.BaseComponents
 
         private void SetShadow(ShadowBase value)
         {
+            backgroundExtraDataUpdatedFlag &= ~BackgroundExtraDataUpdatedFlag.Shadow;
             Tizen.NUI.Object.SetProperty((System.Runtime.InteropServices.HandleRef)SwigCPtr, View.Property.SHADOW, value == null ? new PropertyValue() : value.ToPropertyValue(this));
         }
     }

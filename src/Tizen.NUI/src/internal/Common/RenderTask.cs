@@ -15,7 +15,9 @@
  *
  */
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Tizen.NUI.BaseComponents;
 
 namespace Tizen.NUI
@@ -39,6 +41,21 @@ namespace Tizen.NUI
             RenderTask ret = new RenderTask(cPtr, false);
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
             return ret;
+        }
+
+        protected override void Dispose(DisposeTypes type)
+        {
+            if (Disposed)
+            {
+                return;
+            }
+
+            foreach (var window in Application.GetWindowList() ?? Enumerable.Empty<Window>())
+            {
+                window.GetRenderTaskList().RemoveTask(this);
+            }
+
+            base.Dispose(type);
         }
 
         internal class Property

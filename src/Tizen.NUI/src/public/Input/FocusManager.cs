@@ -60,19 +60,19 @@ namespace Tizen.NUI
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         internal delegate IntPtr PreFocusChangeEventCallback(IntPtr current, IntPtr proposed, View.FocusDirection direction);
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         internal delegate void FocusChangedEventCallback(IntPtr current, IntPtr next);
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void FocusGroupChangedEventCallback(IntPtr current, bool forwardDirection);
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void FocusedViewEnterKeyEventCallback(IntPtr view);
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void FocusedViewEnterKeyEventCallback2(IntPtr view);
 
         private View internalFocusIndicator = null;
@@ -540,6 +540,29 @@ namespace Tizen.NUI
         {
             Interop.FocusManager.ResetFocusFinderRootView(SwigCPtr);
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+        }
+
+        /// <summary>
+        /// Decide using focus indicator or not
+        /// </summary>
+        /// <param name="enable">Whether using focus indicator or not</param>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public void EnableFocusIndicator(bool enable)
+        {
+            Interop.FocusManager.EnableFocusIndicator(SwigCPtr, enable);
+            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+        }
+
+        /// <summary>
+        /// Check focus indicator is enabled or not
+        /// </summary>
+        /// <returns>Whether focus indicator is enabled</returns>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public bool IsFocusIndicatorEnabled()
+        {
+            bool ret = Interop.FocusManager.IsFocusIndicatorEnabled(SwigCPtr);
+            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+            return ret;
         }
 
         /// <summary>

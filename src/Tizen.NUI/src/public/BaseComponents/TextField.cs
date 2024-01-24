@@ -33,6 +33,8 @@ namespace Tizen.NUI.BaseComponents
     {
         static private string defaultStyleName = "Tizen.NUI.BaseComponents.TextField";
         static private string defaultFontFamily = "TizenSans";
+        private static SystemFontTypeChanged systemFontTypeChanged = new SystemFontTypeChanged();
+        private static SystemLocaleLanguageChanged systemLocaleLanguageChanged = new SystemLocaleLanguageChanged();
         private string textFieldTextSid = null;
         private string textFieldPlaceHolderTextSid = null;
         private string textFieldPlaceHolderTextFocusedSid = null;
@@ -54,6 +56,14 @@ namespace Tizen.NUI.BaseComponents
 
 
         static TextField() { }
+
+        static internal new void Preload()
+        {
+            // Do not call View.Preload(), since we already call it
+
+            Property.Preload();
+            // Do nothing. Just call for load static values.
+        }
 
         /// <summary>
         /// Creates the TextField control.
@@ -103,11 +113,6 @@ namespace Tizen.NUI.BaseComponents
             }
             Focusable = true;
             TextChanged += TextFieldTextChanged;
-        }
-
-        internal TextField(TextField handle, bool shown = true) : this(Interop.TextField.NewTextField(TextField.getCPtr(handle)), true)
-        {
-            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
         }
 
         internal enum ExceedPolicyType
@@ -2498,7 +2503,7 @@ namespace Tizen.NUI.BaseComponents
 
             if (hasSystemLanguageChanged)
             {
-                SystemSettings.LocaleLanguageChanged -= SystemSettingsLocaleLanguageChanged;
+                systemLocaleLanguageChanged.Remove(SystemSettingsLocaleLanguageChanged);
             }
 
             RemoveSystemSettingsFontTypeChanged();
@@ -2580,7 +2585,7 @@ namespace Tizen.NUI.BaseComponents
             {
                 if (hasSystemLanguageChanged == false)
                 {
-                    SystemSettings.LocaleLanguageChanged += SystemSettingsLocaleLanguageChanged;
+                    systemLocaleLanguageChanged.Add(SystemSettingsLocaleLanguageChanged);
                     hasSystemLanguageChanged = true;
                 }
                 return translatableText;
@@ -2620,7 +2625,7 @@ namespace Tizen.NUI.BaseComponents
             {
                 try
                 {
-                    SystemSettings.FontSizeChanged += SystemSettingsFontSizeChanged;
+                    SystemFontSizeChangedManager.Add(SystemSettingsFontSizeChanged);
                     hasSystemFontSizeChanged = true;
                 }
                 catch (Exception e)
@@ -2637,7 +2642,7 @@ namespace Tizen.NUI.BaseComponents
             {
                 try
                 {
-                    SystemSettings.FontSizeChanged -= SystemSettingsFontSizeChanged;
+                    SystemFontSizeChangedManager.Remove(SystemSettingsFontSizeChanged);
                     hasSystemFontSizeChanged = false;
                 }
                 catch (Exception e)
@@ -2659,7 +2664,7 @@ namespace Tizen.NUI.BaseComponents
             {
                 try
                 {
-                    SystemSettings.FontTypeChanged += SystemSettingsFontTypeChanged;
+                    systemFontTypeChanged.Add(SystemSettingsFontTypeChanged);
                     hasSystemFontTypeChanged = true;
                 }
                 catch (Exception e)
@@ -2676,7 +2681,7 @@ namespace Tizen.NUI.BaseComponents
             {
                 try
                 {
-                    SystemSettings.FontTypeChanged -= SystemSettingsFontTypeChanged;
+                    systemFontTypeChanged.Remove(SystemSettingsFontTypeChanged);
                     hasSystemFontTypeChanged = false;
                 }
                 catch (Exception e)
@@ -2763,6 +2768,11 @@ namespace Tizen.NUI.BaseComponents
             internal static readonly int InputFilter = Interop.TextField.InputFilterGet();
             internal static readonly int Strikethrough = Interop.TextField.StrikethroughGet();
             internal static readonly int CharacterSpacing = Interop.TextField.CharacterSpacingGet();
+
+            internal static void Preload()
+            {
+                // Do nothing. Just call for load static values.
+            }
         }
 
         internal class InputStyle
@@ -2822,7 +2832,7 @@ namespace Tizen.NUI.BaseComponents
             GrabHandleColor = new Color(r, g, b, a);
         }
 
-        private class TextFieldLayout : LayoutItem
+        internal class TextFieldLayout : LayoutItem
         {
             protected override void OnMeasure(MeasureSpecification widthMeasureSpec, MeasureSpecification heightMeasureSpec)
             {
@@ -2863,12 +2873,14 @@ namespace Tizen.NUI.BaseComponents
 
                 if (widthMeasureSpec.Mode != MeasureSpecification.ModeType.Exactly)
                 {
-                    totalWidth = Math.Min(Math.Max(naturalSize.Width, minSize.Width), maxSize.Width);
+                    float width = naturalSize != null ? naturalSize.Width : 0;
+                    totalWidth = Math.Min(Math.Max(width, minSize.Width), maxSize.Width);
                 }
 
                 if (heightMeasureSpec.Mode != MeasureSpecification.ModeType.Exactly)
                 {
-                    totalHeight = Math.Min(Math.Max(naturalSize.Height, minSize.Height), maxSize.Height);
+                    float height = naturalSize != null ? naturalSize.Height : 0;
+                    totalHeight = Math.Min(Math.Max(height, minSize.Height), maxSize.Height);
                 }
 
                 widthMeasureSpec = new MeasureSpecification(new LayoutLength(totalWidth), MeasureSpecification.ModeType.Exactly);

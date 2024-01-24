@@ -72,16 +72,6 @@ namespace Tizen.NUI.BaseComponents
         private int layoutCount = 0;
         private ControlState propagatableControlStates = ControlState.All;
 
-        // List of dispatch Event
-        private PanGestureDetector panGestureDetector = null;
-        private LongPressGestureDetector longGestureDetector = null;
-        private PinchGestureDetector pinchGestureDetector = null;
-        private TapGestureDetector tapGestureDetector = null;
-        private RotationGestureDetector rotationGestureDetector = null;
-        private int configGestureCount = 0;
-        private bool dispatchTouchEvents = true;
-        private bool dispatchGestureEvents = true;
-        private bool dispatchParentGestureEvents = true;
         private string internalName = string.Empty;
         private Position internalCurrentParentOrigin = null;
         private Position internalCurrentAnchorPoint = null;
@@ -94,6 +84,8 @@ namespace Tizen.NUI.BaseComponents
         private Vector4 internalCurrentColor = null;
         private Vector4 internalCurrentWorldColor = null;
         private Vector2 internalCurrentScreenPosition = null;
+
+        private static int aliveCount = 0;
 
         static View()
         {
@@ -113,6 +105,16 @@ namespace Tizen.NUI.BaseComponents
             RegisterPropertyGroup(ScaleZProperty, scalePropertyGroup);
 
             RegisterAccessibilityDelegate();
+        }
+
+        static internal new void Preload()
+        {
+            Container.Preload();
+
+            // Do nothing. Just call for load static values.
+            var temporalPositionPropertyGroup = positionPropertyGroup;
+            var temporalSizePropertyGroup = sizePropertyGroup;
+            var temporalScalePropertyGroup = scalePropertyGroup;
         }
 
         /// <summary>
@@ -186,23 +188,16 @@ namespace Tizen.NUI.BaseComponents
             SetVisible(shown);
         }
 
-        internal View(View uiControl, bool shown = true) : this(Interop.View.NewView(View.getCPtr(uiControl)), true)
-        {
-            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
-            if (!shown)
-            {
-                SetVisible(false);
-            }
-
-            backgroundExtraData = uiControl.backgroundExtraData == null ? null : new BackgroundExtraData(uiControl.backgroundExtraData);
-        }
-
         internal View(global::System.IntPtr cPtr, bool cMemoryOwn, ViewStyle viewStyle, bool shown = true) : this(cPtr, cMemoryOwn, shown)
         {
             InitializeStyle(viewStyle);
         }
 
-        internal View(global::System.IntPtr cPtr, bool cMemoryOwn, bool shown = true) : base(cPtr, cMemoryOwn)
+        internal View(global::System.IntPtr cPtr, bool cMemoryOwn, bool shown = true) : this(cPtr, cMemoryOwn, shown, cMemoryOwn)
+        {
+        }
+
+        internal View(global::System.IntPtr cPtr, bool cMemoryOwn, bool shown, bool cRegister) : base(cPtr, cMemoryOwn, cRegister)
         {
             if (HasBody())
             {
@@ -215,6 +210,8 @@ namespace Tizen.NUI.BaseComponents
             {
                 SetVisible(false);
             }
+
+            aliveCount++;
         }
 
         internal View(ViewImpl implementation, bool shown = true) : this(Interop.View.NewViewInternal(ViewImpl.getCPtr(implementation)), true)
@@ -866,12 +863,24 @@ namespace Tizen.NUI.BaseComponents
             {
                 using (var propertyValue = GetProperty(Property.TOOLTIP))
                 {
-                    if (propertyValue != null && propertyValue.Get(out string retrivedValue))
+                    using var propertyMap = new PropertyMap();
+                    if (propertyValue != null && propertyValue.Get(propertyMap))
                     {
-                        return retrivedValue;
+                        using var retrivedContentValue = propertyMap?.Find(NDalic.TooltipContent);
+                        if (retrivedContentValue != null)
+                        {
+                            using var contextPropertyMap = new PropertyMap();
+                            if (retrivedContentValue.Get(contextPropertyMap))
+                            {
+                                using var retrivedTextValue = contextPropertyMap?.Find(NDalic.TextVisualText);
+                                if (retrivedTextValue != null && retrivedTextValue.Get(out string retrivedValue))
+                                {
+                                    return retrivedValue;
+                                }
+                            }
+                        }
                     }
-                    NUILog.Error($"[ERROR] Fail to get TooltipText! Return error MSG (error to get TooltipText)!");
-                    return "error to get TooltipText";
+                    return "";
                 }
             }
             set
@@ -2999,7 +3008,13 @@ namespace Tizen.NUI.BaseComponents
                             setMargin = true;
                         }
 
-                        if (padding.Top != 0 || padding.Bottom != 0 || padding.Start != 0 || padding.End != 0)
+                        // The calculation of the native size of the text component requires padding.
+                        // Don't overwrite the zero padding.
+                        bool isTextLayout = (value is Tizen.NUI.BaseComponents.TextLabel.TextLabelLayout) ||
+                                            (value is Tizen.NUI.BaseComponents.TextField.TextFieldLayout) ||
+                                            (value is Tizen.NUI.BaseComponents.TextEditor.TextEditorLayout);
+
+                        if (!isTextLayout && (padding.Top != 0 || padding.Bottom != 0 || padding.Start != 0 || padding.End != 0))
                         {
                             // If View already has a padding set then store it in Layout instead.
                             value.Padding = padding;
@@ -3453,162 +3468,6 @@ namespace Tizen.NUI.BaseComponents
         }
 
         /// <summary>
-        /// Gets or sets the status of whether the view should emit key event signals.
-        /// If a View's DispatchKeyEvents is set to false, then itself and parents will not receive key event signals.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool DispatchKeyEvents
-        {
-            get
-            {
-                return (bool)GetValue(DispatchKeyEventsProperty);
-            }
-            set
-            {
-                SetValue(DispatchKeyEventsProperty, value);
-                NotifyPropertyChanged();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the status of whether touch events can be dispatched.
-        /// If a View's DispatchTouchEvents is set to false, then it's can not will receive touch and parents will not receive a touch event signal either.
-        /// This works without adding a TouchEvent callback in the View.
-        /// <note>
-        /// If the <see cref="Tizen.NUI.BaseComponents.View.Sensitive"/> is a property that determines whether or not to be hittable, then this property prevents the propagation of the hit touch event.
-        /// </note>
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool DispatchTouchEvents
-        {
-            get
-            {
-                return dispatchTouchEvents;
-            }
-            set
-            {
-                if (dispatchTouchEvents != value)
-                {
-                    dispatchTouchEvents = value;
-                    if (dispatchTouchEvents == false)
-                    {
-                        TouchEvent += OnDispatchTouchEvent;
-                    }
-                    else
-                    {
-                        TouchEvent -= OnDispatchTouchEvent;
-                    }
-                }
-            }
-        }
-
-        private bool OnDispatchTouchEvent(object source, View.TouchEventArgs e)
-        {
-            return true;
-        }
-
-        /// <summary>
-        /// Gets or sets the status of whether the view should emit Gesture event signals.
-        /// If a View's DispatchGestureEvents is set to false, then itself and parents will not receive all gesture event signals.
-        /// The itself and parents does not receive tap, pinch, pan, rotation, or longpress gestures.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool DispatchGestureEvents
-        {
-            get
-            {
-                return dispatchGestureEvents;
-            }
-            set
-            {
-                if (dispatchGestureEvents != value)
-                {
-                    dispatchGestureEvents = value;
-                    ConfigGestureDetector(dispatchGestureEvents);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the status of whether the view should emit Gesture event signals.
-        /// If a View's DispatchParentGestureEvents is set to false, then parents will not receive all gesture event signals.
-        /// The parents does not receive tap, pinch, pan, rotation, or longpress gestures.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool DispatchParentGestureEvents
-        {
-            get
-            {
-                return dispatchParentGestureEvents;
-            }
-            set
-            {
-                if (dispatchParentGestureEvents != value)
-                {
-                    dispatchParentGestureEvents = value;
-                    ConfigGestureDetector(dispatchParentGestureEvents);
-                }
-            }
-        }
-
-        private void ConfigGestureDetector(bool dispatch)
-        {
-            if (panGestureDetector == null) panGestureDetector = new PanGestureDetector();
-            if (longGestureDetector == null) longGestureDetector = new LongPressGestureDetector();
-            if (pinchGestureDetector == null) pinchGestureDetector = new PinchGestureDetector();
-            if (tapGestureDetector == null) tapGestureDetector = new TapGestureDetector();
-            if (rotationGestureDetector == null) rotationGestureDetector = new RotationGestureDetector();
-
-            if (dispatch == true)
-            {
-                configGestureCount = configGestureCount > 0 ? configGestureCount-- : 0;
-                if (configGestureCount == 0)
-                {
-                    panGestureDetector.Detach(this);
-                    longGestureDetector.Detach(this);
-                    pinchGestureDetector.Detach(this);
-                    tapGestureDetector.Detach(this);
-                    rotationGestureDetector.Detach(this);
-
-                    panGestureDetector.Detected -= OnGestureDetected;
-                    longGestureDetector.Detected -= OnGestureDetected;
-                    pinchGestureDetector.Detected -= OnGestureDetected;
-                    tapGestureDetector.Detected -= OnGestureDetected;
-                    rotationGestureDetector.Detected -= OnGestureDetected;
-
-                    panGestureDetector = null;
-                    longGestureDetector = null;
-                    pinchGestureDetector = null;
-                    tapGestureDetector = null;
-                    rotationGestureDetector = null;
-                }
-            }
-            else
-            {
-                if (configGestureCount == 0)
-                {
-                    panGestureDetector.Attach(this);
-                    longGestureDetector.Attach(this);
-                    pinchGestureDetector.Attach(this);
-                    tapGestureDetector.Attach(this);
-                    rotationGestureDetector.Attach(this);
-
-                    panGestureDetector.Detected += OnGestureDetected;
-                    longGestureDetector.Detected += OnGestureDetected;
-                    pinchGestureDetector.Detected += OnGestureDetected;
-                    tapGestureDetector.Detected += OnGestureDetected;
-                    rotationGestureDetector.Detected += OnGestureDetected;
-                }
-                configGestureCount++;
-            }
-        }
-
-        private void OnGestureDetected(object source, EventArgs e)
-        {
-            // Does notting. This is to consume the gesture.
-        }
-
-        /// <summary>
         /// Called when the view is hit through TouchEvent or GestureEvent.
         /// If it returns true, it means that it was hit, and the touch/gesture event is called from the view.
         /// If it returns false, it means that it will not be hit, and the hit-test continues to the next view.
@@ -3646,6 +3505,12 @@ namespace Tizen.NUI.BaseComponents
         /// </remarks>
         [EditorBrowsable(EditorBrowsableState.Never)]
         public Vector3 CurrentScale => GetCurrentScale();
+
+        /// <summary>
+        /// Gets the number of currently alived View object.
+        /// </summary>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        public static int AliveCount => aliveCount;
 
     }
 }

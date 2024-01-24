@@ -31,8 +31,6 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("Tizen.Multimedia.Recorder, " + PublicKey.Value)]
 
-[assembly: InternalsVisibleTo("Tizen.Multimedia.StreamRecorder, " + PublicKey.Value)]
-
 [assembly: InternalsVisibleTo("Tizen.Multimedia.Remoting, " + PublicKey.Value)]
 
 [assembly: InternalsVisibleTo("Tizen.Multimedia.Util, " + PublicKey.Value)]
@@ -40,6 +38,8 @@ using System.Runtime.CompilerServices;
 [assembly: InternalsVisibleTo("Tizen.Multimedia.Vision, " + PublicKey.Value)]
 
 [assembly: InternalsVisibleTo("Tizen.Multimedia.Radio, " + PublicKey.Value)]
+
+[assembly: InternalsVisibleTo("Tizen.Multimedia.Metadata, " + PublicKey.Value)]
 
 internal static class PublicKey
 {

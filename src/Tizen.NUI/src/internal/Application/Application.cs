@@ -684,6 +684,12 @@ namespace Tizen.NUI
             DisposeQueue.Instance.Initialize();
             Tizen.Tracer.End();
 
+            Log.Info("NUI", "[NUI] OnApplicationInit: ProcessorController Initialize");
+            Tizen.Tracer.Begin("[NUI] OnApplicationInit: ProcessorController Initialize");
+            // Initialize ProcessorController Singleton class. This is also required to create ProcessorController on main thread.
+            ProcessorController.Instance.Initialize();
+            Tizen.Tracer.End();
+
             Log.Info("NUI", "[NUI] OnApplicationInit: GetWindow");
             Tizen.Tracer.Begin("[NUI] OnApplicationInit: GetWindow");
             Window.Instance = GetWindow();
@@ -754,9 +760,12 @@ namespace Tizen.NUI
             }
 
             List<Window> windows = GetWindowList();
-            foreach (Window window in windows)
+            if (windows != null)
             {
-                window?.DisconnectNativeSignals();
+                foreach (Window window in windows)
+                {
+                    window?.DisconnectNativeSignals();
+                }
             }
         }
 
@@ -1550,13 +1559,13 @@ namespace Tizen.NUI
             return instance;
         }
 
-        public static Application NewApplication(string stylesheet, NUIApplication.WindowMode windowMode, WindowType type)
+        public static Application NewApplication(string[] args, string stylesheet, NUIApplication.WindowMode windowMode, WindowType type)
         {
             if (instance != null)
             {
                 return instance;
             }
-            Application ret = New(1, stylesheet, windowMode, type);
+            Application ret = New(args, stylesheet, windowMode, type);
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
 
             instance = ret;
@@ -1570,6 +1579,19 @@ namespace Tizen.NUI
                 return instance;
             }
             Application ret = New(args, stylesheet, windowMode, positionSize, useUIThread);
+            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+
+            instance = ret;
+            return instance;
+        }
+
+        public static Application NewApplication(string[] args, string stylesheet, bool useUIThread, WindowData windowData)
+        {
+            if (instance != null)
+            {
+                return instance;
+            }
+            Application ret = New(args, stylesheet, useUIThread, windowData);
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
 
             instance = ret;
@@ -1684,12 +1706,27 @@ namespace Tizen.NUI
             return ret;
         }
 
-        public static Application New(int argc, string stylesheet, NUIApplication.WindowMode windowMode, WindowType type)
+        public static Application New(string[] args, string stylesheet, NUIApplication.WindowMode windowMode, WindowType type)
         {
+            int argc = 0;
+            string argvStr = "";
+            try
+            {
+                argc = args.Length;
+                argvStr = string.Join(" ", args);
+            }
+            catch (Exception exception)
+            {
+                Tizen.Log.Fatal("NUI", "[Error] got exception during Application New(), this should not occur, message : " + exception.Message);
+                Tizen.Log.Fatal("NUI", "[Error] error line number : " + new StackTrace(exception, true).GetFrame(0).GetFileLineNumber());
+                Tizen.Log.Fatal("NUI", "[Error] Stack Trace : " + exception.StackTrace);
+                throw;
+            }
+
             // It will be removed until dali APIs are prepared.
             Rectangle initRectangle = new Rectangle(0, 0, 0, 0);
 
-            Application ret = new Application(Interop.Application.New(argc, stylesheet, (int)windowMode, Rectangle.getCPtr(initRectangle), (int)type), true);
+            Application ret = new Application(Interop.Application.New(argc, argvStr, stylesheet, (int)windowMode, Rectangle.getCPtr(initRectangle), (int)type), true);
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
             return ret;
         }
@@ -1704,7 +1741,31 @@ namespace Tizen.NUI
                 argc = args.Length;
                 argvStr = string.Join(" ", args);
 
-                ret = new Application(Interop.Application.New(argc, stylesheet, (int)windowMode, Rectangle.getCPtr(positionSize), useUIThread), true);
+                ret = new Application(Interop.Application.New(argc, argvStr, stylesheet, (int)windowMode, Rectangle.getCPtr(positionSize), useUIThread), true);
+                if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+            }
+            catch (Exception exception)
+            {
+                Tizen.Log.Fatal("NUI", "[Error] got exception during Application New(), this should not occur, message : " + exception.Message);
+                Tizen.Log.Fatal("NUI", "[Error] error line number : " + new StackTrace(exception, true).GetFrame(0).GetFileLineNumber());
+                Tizen.Log.Fatal("NUI", "[Error] Stack Trace : " + exception.StackTrace);
+                throw;
+            }
+
+            return ret;
+        }
+
+        public static Application New(string[] args, string stylesheet, bool useUIThread, WindowData windowData)
+        {
+            Application ret = null;
+            int argc = 0;
+            string argvStr = "";
+            try
+            {
+                argc = args.Length;
+                argvStr = string.Join(" ", args);
+
+                ret = new Application(Interop.Application.New(argc, argvStr, stylesheet, useUIThread, WindowData.getCPtr(windowData)), true);
                 if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
             }
             catch (Exception exception)
@@ -1805,9 +1866,21 @@ namespace Tizen.NUI
             return ret;
         }
 
+        public void FlushUpdateMessages()
+        {
+            Interop.Application.FlushUpdateMessages(SwigCPtr);
+            if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
+        }
+
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static List<Window> GetWindowList()
         {
+            if (Interop.Stage.IsInstalled() == false)
+            {
+                NUILog.ErrorBacktrace($"[ERROR] dali adaptor and dali window is not ready. just return NULL here");
+                return null;
+            }
+
             uint ListSize = Interop.Application.GetWindowsListSize();
             if (NDalicPINVOKE.SWIGPendingException.Pending) throw NDalicPINVOKE.SWIGPendingException.Retrieve();
 
