@@ -29,6 +29,9 @@ namespace Tizen.NUI
     {
         private const int minAlphaSearchMaxIterations = 10;
         private const int minAlphaSearchPrecision = 1;
+        private const double maximumValue = 255.0;
+        private const double threshold = 0.04045;
+        private const double slope = 12.92;
 
         /// <summary>
         /// Convert the ARGB color to its CIE XYZ representative components.
@@ -70,12 +73,12 @@ namespace Tizen.NUI
                 throw new ArgumentException("Array legnth must be 3", nameof(outXyz));
             }
 
-            double floatRed = red / 255.0;
-            floatRed = floatRed < 0.04045 ? floatRed / 12.92 : Math.Pow((floatRed + 0.055) / 1.055, 2.4);
-            double floatGreen = green / 255.0;
-            floatGreen = floatGreen < 0.04045 ? floatGreen / 12.92 : Math.Pow((floatGreen + 0.055) / 1.055, 2.4);
-            double floatBlue = blue / 255.0;
-            floatBlue = floatBlue < 0.04045 ? floatBlue / 12.92 : Math.Pow((floatBlue + 0.055) / 1.055, 2.4);
+            double floatRed = red / maximumValue;
+            floatRed = floatRed < threshold ? floatRed / slope : Math.Pow((floatRed + 0.055) / 1.055, 2.4);
+            double floatGreen = green / maximumValue;
+            floatGreen = floatGreen < threshold ? floatGreen / slope : Math.Pow((floatGreen + 0.055) / 1.055, 2.4);
+            double floatBlue = blue / maximumValue;
+            floatBlue = floatBlue < threshold ? floatBlue / slope : Math.Pow((floatBlue + 0.055) / 1.055, 2.4);
 
             outXyz[0] = 100 * (floatRed * 0.4124 + floatGreen * 0.3576 + floatBlue * 0.1805);
             outXyz[1] = 100 * (floatRed * 0.2126 + floatGreen * 0.7152 + floatBlue * 0.0722);
